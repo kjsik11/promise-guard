@@ -3,5 +3,5 @@
  */
 
 export default function IndexPage() {
-  return <div>COXWAVE</div>;
+  return <div>TAEYUN</div>;
 }
