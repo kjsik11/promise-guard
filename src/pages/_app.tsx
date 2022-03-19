@@ -1,6 +1,7 @@
 import '@assets/main.css';
 import 'nprogress/nprogress.css';
 
+import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
 import useNProgress from 'next-use-nprogress';
 import Script from 'next/script';
@@ -12,7 +13,7 @@ import { useNoti } from '@frontend/hooks/use-noti';
 
 import type { AppProps } from 'next/app';
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   useNProgress({
     minimum: 0.3,
     easing: 'ease',
@@ -71,10 +72,11 @@ export default function App({ Component, pageProps }: AppProps) {
           },
         ]}
       />
-      <CommonLayout>
-        <Component {...pageProps} />
-      </CommonLayout>
-
+      <SessionProvider session={session}>
+        <CommonLayout>
+          <Component {...pageProps} />
+        </CommonLayout>
+      </SessionProvider>
       <Modal {...modal} close={closeModal} />
       <Notification {...noti} close={closeNoti} />
     </>
