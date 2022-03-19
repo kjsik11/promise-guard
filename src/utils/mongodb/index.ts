@@ -21,7 +21,7 @@ if (isTest()) {
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
   if (!global._mongoClientPromise) {
-    client = new MongoClient(MONGODB_URI, options);
+    client = new MongoClient(MONGODB_URI, { ...options });
     global._mongoClientPromise = client.connect();
     console.log('created a new connection');
   }

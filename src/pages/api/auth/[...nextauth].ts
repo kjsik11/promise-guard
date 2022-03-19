@@ -1,13 +1,14 @@
 import NextAuth from 'next-auth';
 import KakaoProvider from 'next-auth/providers/kakao';
-import { v4 as uuid_v4 } from 'uuid';
+
+import { JWT_SECRET, KAKAO_CLIENT_ID, KAKAO_CLIENT_SECTET } from '@utils/env/internal';
 
 export default NextAuth({
-  secret: uuid_v4(),
+  secret: JWT_SECRET,
   providers: [
     KakaoProvider({
-      clientId: process.env.KAKAO_CLIENT_ID ?? '',
-      clientSecret: process.env.KAKAO_CLIENT_SECTET ?? '',
+      clientId: KAKAO_CLIENT_ID,
+      clientSecret: KAKAO_CLIENT_SECTET,
     }),
   ],
 });

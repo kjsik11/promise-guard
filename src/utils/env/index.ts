@@ -1,6 +1,17 @@
 import { ApiError } from '@utils/api-error';
 
-const ENV_LIST = ['JWT_SECRET', 'HASHIDS_KEY', 'MONGODB_URI', 'MONGODB_NAME'] as const;
+const ENV_LIST = [
+  'MONGODB_URI',
+  'MONGODB_NAME',
+  'NEXTAUTH_URL',
+  'KAKAO_CLIENT_ID',
+  'KAKAO_CLIENT_SECTET',
+  'KAKAO_REDIRECT_URI',
+  'KAKAO_HOST',
+  'HASHIDS_KEY',
+  'JWT_SECRET',
+  'KAKAO_USER_HOST',
+] as const;
 const PUBLIC_ENV_LIST = ['MY_PUBLIC_ENV'] as const;
 
 type EnvironmentVariable = typeof ENV_LIST[number];
