@@ -66,6 +66,7 @@ export type EncodeId<T> = T extends ObjectWithId
   : T extends Array<any>
   ? Array<EncodeId<Unpacked<T>>>
   : T;
-
 type ObjectWithId = { _id: any };
 type Unpacked<T> = T extends (infer U)[] ? U : T;
+
+export type MaybePromise<T> = T | Promise<T>;

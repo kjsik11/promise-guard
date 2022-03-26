@@ -1,9 +1,12 @@
 import { ApiError } from '@utils/api-error';
 
 const ENV_LIST = [
+  'AWS_KEY_ID',
+  'AWS_S3_REGION',
+  'AWS_SECRET',
+  'AWS_BUCKET_NAME',
   'MONGODB_URI',
   'MONGODB_NAME',
-  'NEXTAUTH_URL',
   'KAKAO_CLIENT_ID',
   'KAKAO_CLIENT_SECTET',
   'KAKAO_REDIRECT_URI',
