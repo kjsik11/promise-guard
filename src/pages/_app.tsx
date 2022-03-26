@@ -1,7 +1,6 @@
 import '@assets/main.css';
 import 'nprogress/nprogress.css';
 
-import { SessionProvider } from 'next-auth/react';
 import { DefaultSeo } from 'next-seo';
 import useNProgress from 'next-use-nprogress';
 import Script from 'next/script';
@@ -72,11 +71,10 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
           },
         ]}
       />
-      <SessionProvider session={session}>
-        <CommonLayout>
-          <Component {...pageProps} />
-        </CommonLayout>
-      </SessionProvider>
+
+      <CommonLayout>
+        <Component {...pageProps} />
+      </CommonLayout>
       <Modal {...modal} close={closeModal} />
       <Notification {...noti} close={closeNoti} />
     </>

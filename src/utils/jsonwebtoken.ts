@@ -3,13 +3,11 @@ import jwt from 'jsonwebtoken';
 import { ApiError } from '@utils/api-error';
 import { JWT_SECRET } from '@utils/env/internal';
 
-const JWT_ALGORITHM = 'ES512';
-
 interface SignTokenOption {
   expiresIn?: string | number;
 }
 export const signToken = (payload: object, options?: SignTokenOption) => {
-  return jwt.sign(payload, JWT_SECRET, { algorithm: JWT_ALGORITHM, ...options });
+  return jwt.sign(payload, JWT_SECRET, { ...options });
 };
 
 interface VerifyTokenOption {
