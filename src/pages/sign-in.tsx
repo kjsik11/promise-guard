@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 
 import { Button } from '@frontend/components/ui';
@@ -6,6 +7,7 @@ import useUser from '@frontend/hooks/use-user';
 import signout from '@frontend/lib/auth/signout';
 
 export default function SignIn() {
+  const router = useRouter();
   const { user, mutate } = useUser();
 
   const { showAlert } = useNoti();
@@ -26,9 +28,14 @@ export default function SignIn() {
 
   return (
     <div className="flex justify-center pt-20">
-      <a className="bg-black px-4 py-2 text-white" href="/api/oauth/provider/kakao">
+      <button
+        className="bg-black px-4 py-2 text-white"
+        onClick={() => {
+          router.push('/signin/kakao');
+        }}
+      >
         kakao login
-      </a>
+      </button>
     </div>
   );
 }
