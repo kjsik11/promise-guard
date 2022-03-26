@@ -4,11 +4,6 @@ import Joi from 'joi';
 import qs from 'qs';
 
 import { NextApiBuilder } from '@backend/api-wrapper';
-import {
-  COOKIE_KEY_ACCESS_TOKEN,
-  COOKIE_KEY_REDIRECT_URL,
-  defaultCookieOptions,
-} from '@backend/define/cookie';
 
 import {
   KAKAO_CLIENT_ID,
@@ -19,6 +14,12 @@ import {
 } from '@utils/env/internal';
 import { signToken } from '@utils/jsonwebtoken';
 import { connectMongo } from '@utils/mongodb/connect';
+
+import {
+  COOKIE_KEY_ACCESS_TOKEN,
+  COOKIE_KEY_REDIRECT_URL,
+  defaultCookieOptions,
+} from '$src/define/cookie';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
