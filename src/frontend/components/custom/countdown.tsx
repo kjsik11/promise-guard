@@ -21,7 +21,7 @@ const renderer = ({ days, hours, minutes, seconds, completed }: CountdownParams)
         <p>
           대통령 취임까지&nbsp;
           <span className="font-semibold">
-            {days}일 {hours}시 {minutes}분 {seconds}초
+            {days}일 {hours}시간 {minutes}분 {seconds}초
           </span>
         </p>
         <QuestionMarkCircleIcon className="h-5 w-5" />
