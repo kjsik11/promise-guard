@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { Button } from '@frontend/components/ui';
 import { useNoti } from '@frontend/hooks/use-noti';
@@ -18,6 +18,11 @@ export default function SignIn() {
       .catch(showAlert);
   }, [showAlert, mutate]);
 
+  useEffect(() => {
+    router.push('/404');
+  }, [router]);
+
+  return null;
   if (user)
     return (
       <div className="flex justify-center pt-20">
