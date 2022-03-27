@@ -18,7 +18,9 @@ export default function Header() {
   return (
     <header className="sticky inset-x-0 flex h-14 items-center justify-between p-4">
       <NextLink href="/">
-        <Logo className="text-black" />
+        <a>
+          <Logo className="text-black" />
+        </a>
       </NextLink>
       <div className="space-x-6">
         <button>
@@ -44,17 +46,18 @@ export default function Header() {
               <nav className="py-1">
                 {menuItems.map((item, idx) => (
                   <Menu.Item key={`nav-item-${item.label}-${idx}`}>
-                    <a
-                      href={item.href}
-                      className={clsx(
-                        'flex w-full items-center px-4 py-2 transition-colors hover:bg-violet-400',
-                        {
-                          'mt-1 border-t border-gray-200': item.label === '로그인',
-                        },
-                      )}
-                    >
-                      {item.label}
-                    </a>
+                    <NextLink href={item.href}>
+                      <a
+                        className={clsx(
+                          'flex w-full items-center px-4 py-2 transition-colors hover:bg-violet-400',
+                          {
+                            'mt-1 border-t border-gray-200': item.label === '로그인',
+                          },
+                        )}
+                      >
+                        {item.label}
+                      </a>
+                    </NextLink>
                   </Menu.Item>
                 ))}
               </nav>
