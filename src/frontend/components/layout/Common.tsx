@@ -1,6 +1,6 @@
 import Footer from '@frontend/components/core/Footer';
 import Header from '@frontend/components/core/Header';
-import Countdown from '@frontend/components/custom/countdown';
+import Countdown from '@frontend/components/custom/Countdown';
 
 export default function CommonLayout({ children }: { children: React.ReactNode }) {
   return (
