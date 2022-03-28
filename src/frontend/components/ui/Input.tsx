@@ -10,12 +10,14 @@ interface Props {
   placeholder: string;
   onChange: ChangeEventHandler<HTMLInputElement> | undefined;
   maxLength: number;
+  autofocus?: boolean;
 }
 
 export default function InputComponent({
   placeholder,
   className,
   onChange,
+  autofocus = false,
   value,
   label,
   inputClassName,
@@ -27,6 +29,7 @@ export default function InputComponent({
         <label className="text-xs text-gray-400">{label}</label>
       </div>
       <input
+        autoFocus={autofocus}
         maxLength={maxLength}
         placeholder={placeholder}
         onChange={onChange}
