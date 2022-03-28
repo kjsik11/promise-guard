@@ -15,10 +15,8 @@ const ENV_LIST = [
   'JWT_SECRET',
   'KAKAO_USER_HOST',
 ] as const;
-const PUBLIC_ENV_LIST = ['MY_PUBLIC_ENV'] as const;
 
 type EnvironmentVariable = typeof ENV_LIST[number];
-type PublicEnvironmentVariable = `NEXT_PUBLIC_${typeof PUBLIC_ENV_LIST[number]}`;
 
 export const isTest: () => boolean = () => {
   return process.env.NODE_ENV === 'test';
@@ -47,8 +45,4 @@ export const getEnv = (name: EnvironmentVariable) => {
   }
 
   return '';
-};
-
-export const getPublicEnv = (name: PublicEnvironmentVariable) => {
-  return getEnv(name as never);
 };
