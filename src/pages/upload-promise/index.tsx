@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 import type { PromiseTypeBSON } from '@backend/model/promise';
 
+import Loading from '@frontend/components/core/Loading';
 import PromiseListCard from '@frontend/components/custom/PromiseListCard';
 import { Button } from '@frontend/components/ui';
 import { useNoti } from '@frontend/hooks/use-noti';
@@ -10,11 +11,18 @@ import getPromiseList from '@frontend/lib/promise/get-promise-list';
 
 export default function PromiseList() {
   const [promiseList, setPromiseList] = useState<PromiseTypeBSON[]>([]);
+  const [pageLoading, setPageLoading] = useState(false);
   const { showNoti } = useNoti();
 
   useEffect(() => {
-    getPromiseList().then(setPromiseList).catch(showNoti);
+    setPageLoading(true);
+    getPromiseList()
+      .then(setPromiseList)
+      .catch(showNoti)
+      .finally(() => setPageLoading(false));
   }, [showNoti]);
+
+  if (pageLoading) return <Loading />;
 
   return (
     <div className="py-4">

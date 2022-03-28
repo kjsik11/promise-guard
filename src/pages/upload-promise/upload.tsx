@@ -10,6 +10,7 @@ import s from '@assets/markdown.module.css';
 
 import { initialPromise, PromiseType } from '@backend/model/promise';
 
+import Loading from '@frontend/components/core/Loading';
 import { Button } from '@frontend/components/ui';
 import InputComponent from '@frontend/components/ui/Input';
 import { useNoti } from '@frontend/hooks/use-noti';
@@ -26,13 +27,20 @@ export default function UploadPromise() {
   const [promiseInput, setPromiseInput] = useState<PromiseType>(initialPromise);
   const [loading, setLoading] = useState(false);
   const [tagInput, setTagInput] = useState('');
+  const [pageLoading, setPageLoading] = useState(false);
 
   const { showNoti, showAlert } = useNoti();
 
   useEffect(() => {
     const id = router.query['id'];
 
-    if (id && typeof id === 'string') getPromise(id).then(setPromiseInput).catch(showAlert);
+    if (id && typeof id === 'string') {
+      setPageLoading(true);
+      getPromise(id)
+        .then(setPromiseInput)
+        .catch(showAlert)
+        .finally(() => setPageLoading(false));
+    }
   }, [router, showAlert]);
 
   const save = async function* (data: ArrayBuffer) {
@@ -64,6 +72,8 @@ export default function UploadPromise() {
         .finally(() => setLoading(false));
     }
   }, [showAlert, showNoti, router, promiseInput]);
+
+  if (pageLoading) return <Loading />;
 
   return (
     <div className={clsx(s.root, 'p-4')}>
