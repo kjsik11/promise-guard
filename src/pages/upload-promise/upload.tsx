@@ -79,6 +79,7 @@ export default function UploadPromise() {
     <div className={clsx(s.root, 'p-4')}>
       <p className="text-4xl font-bold">공약 {router.query.id ? '수정' : '업로드'}</p>
       <InputComponent
+        inputClassName="w-full"
         autofocus
         className="py-4"
         placeholder="title"
