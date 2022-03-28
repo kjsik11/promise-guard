@@ -16,6 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const promiseList = await db
       .collection<PromiseTypeBSON>('promise')
       .find({ deletedAt: null })
+      .sort({ createdAt: -1 })
       .toArray();
 
     return res.status(StatusCodes.OK).json(promiseList);
