@@ -21,7 +21,7 @@ export default function PromiseListCard({ loading, setLoading, data, refetch }: 
 
   return (
     <div className="flex items-center justify-between rounded-md border border-gray-200 bg-gray-100 py-1 px-2">
-      <p className="text-lg font-semibold">Title: {data.title}</p>
+      <p className="font-semibold">{data.title}</p>
       <div className="mt-2">
         {/* {data.tag.map((tag, idx) => (
           <span className="rounded-md bg-sky-500 px-2 py-1 text-white" key={`${tag}-${idx}`}>
