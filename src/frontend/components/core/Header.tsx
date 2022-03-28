@@ -22,12 +22,12 @@ export default function Header() {
           <Logo className="text-black" />
         </a>
       </NextLink>
-      <div className="space-x-6">
+      <div className="flex items-center space-x-6">
         <button>
           <SearchIcon className="h-5 w-5" />
         </button>
 
-        <Menu as="div" className="relative inline-block text-left">
+        <Menu as="div" className="relative inline-block h-5 text-left">
           <div>
             <Menu.Button>
               <MenuIcon className="h-5 w-5" />
