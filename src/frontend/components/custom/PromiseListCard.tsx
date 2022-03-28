@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { useState } from 'react';
 
 import type { PromiseTypeBSON } from '@backend/model/promise';
 
@@ -11,10 +10,11 @@ import { fetcher } from '@frontend/lib/fetcher';
 interface Props {
   data: PromiseTypeBSON;
   refetch: () => void;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 }
 
-export default function PromiseListCard({ data, refetch }: Props) {
-  const [loading, setLoading] = useState(false);
+export default function PromiseListCard({ loading, setLoading, data, refetch }: Props) {
   const { showModal, closeModal } = useModal();
 
   const { showAlert } = useNoti();

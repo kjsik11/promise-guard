@@ -10,6 +10,7 @@ import { useNoti } from '@frontend/hooks/use-noti';
 import getPromiseList from '@frontend/lib/promise/get-promise-list';
 
 export default function PromiseList() {
+  const [loading, setLoading] = useState(false);
   const [promiseList, setPromiseList] = useState<PromiseTypeBSON[]>([]);
   const [pageLoading, setPageLoading] = useState(false);
   const { showNoti } = useNoti();
@@ -35,6 +36,8 @@ export default function PromiseList() {
         {promiseList.length > 0 &&
           promiseList.map((promise, idx) => (
             <PromiseListCard
+              loading={loading}
+              setLoading={setLoading}
               refetch={() => {
                 getPromiseList().then(setPromiseList).catch(showNoti);
               }}
