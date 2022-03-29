@@ -32,6 +32,7 @@ const ButtonWithRef = forwardRefWithAs(function Button<
     className,
     as: Component = DEFAULT_BUTTON_TAG,
     children,
+
     ...rest
   } = props;
 

@@ -5,6 +5,7 @@ import type { PromiseTypeBSON } from '@backend/model/promise';
 
 import Loading from '@frontend/components/core/Loading';
 import PromiseListCard from '@frontend/components/custom/PromiseListCard';
+import NoneLayout from '@frontend/components/layout/None';
 import { Button } from '@frontend/components/ui';
 import { useNoti } from '@frontend/hooks/use-noti';
 import getPromiseList from '@frontend/lib/promise/get-promise-list';
@@ -49,3 +50,5 @@ export default function PromiseList() {
     </div>
   );
 }
+
+PromiseList.Layout = NoneLayout;

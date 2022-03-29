@@ -13,6 +13,8 @@ import { useNoti } from '@frontend/hooks/use-noti';
 import type { AppProps } from 'next/app';
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  const Layout = (Component as any).Layout || CommonLayout;
+
   useNProgress({
     minimum: 0.3,
     easing: 'ease',
@@ -72,9 +74,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
         ]}
       />
 
-      <CommonLayout>
+      <Layout>
         <Component {...pageProps} />
-      </CommonLayout>
+      </Layout>
       <Modal {...modal} close={closeModal} />
       <Notification {...noti} close={closeNoti} />
     </>

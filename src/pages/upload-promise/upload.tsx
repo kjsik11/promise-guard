@@ -115,46 +115,25 @@ export default function UploadPromise() {
       />
       <form className="mt-8 flex items-end">
         <InputComponent
-          maxLength={20}
-          inputClassName="flex-1"
-          label="검색 태그 (20글자 제한, 최대 20개)"
+          maxLength={30}
+          inputClassName="flex-1 w-80"
+          label="검색 태그 (30글자 제한, 최대 20개)"
           placeholder="지역공약, 서울, 여성 등"
           value={tagInput}
           onChange={(e) => {
             setTagInput(e.target.value);
           }}
         />
+
         <Button
           type="submit"
           className="ml-4"
           color="white"
           disabled={!tagInput}
-          onClick={() => {
-            tagInput.split(',').map((tagItem, _, tagArray) => {
-              if (tagItem.replace(' ', '').length > 20) {
-                showNoti({
-                  title: '태그는 최대 20글자까지 입력 가능합니다',
-                  variant: 'alert',
-                });
-              } else if (promiseInput.tag.length + tagArray.length > 20) {
-                showNoti({
-                  title: '태그는 최대 20개까지 추가 가능합니다.',
-                  variant: 'alert',
-                });
-              } else if (promiseInput.tag.includes(tagItem.replace(' ', ''))) {
-                showNoti({
-                  title: '이미 등록되어있는 태그입니다.',
-                  variant: 'alert',
-                });
-                setTagInput('');
-              } else {
-                setPromiseInput((prev) => ({
-                  ...prev,
-                  tag: [...prev.tag, tagItem.replace(' ', '')],
-                }));
-                setTagInput('');
-              }
-            });
+          onClick={(e: any) => {
+            e.preventDefault();
+            setPromiseInput((prev) => ({ ...prev, tag: [...prev.tag, tagInput] }));
+            setTagInput('');
           }}
         >
           태그 추가
