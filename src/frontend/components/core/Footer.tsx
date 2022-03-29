@@ -9,7 +9,6 @@ export default function Footer() {
         <a href="#">민감정보 처리방침</a>
       </div>
       <div>
-        <p className="text-sm font-semibold text-gray-100">티와이랩</p>
         <div className="space-y-1 pt-2">
           <div className="flex space-x-1 text-sm text-gray-400">
             <p className="font-semibold">대표</p>
