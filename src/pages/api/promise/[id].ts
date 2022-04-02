@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     const promise = await promiseCol.findOne(
       { _id: new ObjectId(id), deletedAt: null },
-      { projection: { _id: 0, createdAt: 0, deletedAt: 0 } },
+      { projection: { _id: 0, title: 1, body: 1, categories: 1, tags: 1, coreFlag: 1 } },
     );
 
     return res.status(StatusCodes.OK).json(promise);
