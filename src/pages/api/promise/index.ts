@@ -1,5 +1,4 @@
 import { StatusCodes } from 'http-status-codes';
-import { ObjectId } from 'mongodb';
 
 import { NextApiBuilder } from '@backend/api-wrapper';
 import { collection } from '@backend/collection';
@@ -22,15 +21,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const body = await promiseValidator(req.body);
 
-    const _id = new ObjectId();
-
     await promiseCol.insertOne({
       ...body,
-      _id,
       recommendedIds: [],
       recommendedCount: 0,
       nonRecommendedIds: [],
       nonRecommendedCount: 0,
+      viewCount: 0,
       createdAt: new Date(),
       deletedAt: null,
     });
