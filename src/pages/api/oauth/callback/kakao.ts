@@ -1,9 +1,12 @@
 import { serialize } from 'cookie';
 import got from 'got';
+import { StatusCodes } from 'http-status-codes';
 import Joi from 'joi';
 import qs from 'qs';
 
 import { NextApiBuilder } from '@backend/api-wrapper';
+import { collection } from '@backend/collection';
+import type { KakaoUserResponse } from '@backend/model/user';
 
 import {
   KAKAO_CLIENT_ID,
@@ -13,7 +16,6 @@ import {
   KAKAO_USER_HOST,
 } from '@utils/env/internal';
 import { signToken } from '@utils/jsonwebtoken';
-import { connectMongo } from '@utils/mongodb/connect';
 
 import {
   COOKIE_KEY_ACCESS_TOKEN,
@@ -57,11 +59,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         Authorization: `Bearer ${kakaoAccount.access_token}`,
         'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
       },
-    }).json<{ id: string; connected_at: string; properties: { nickname: string } }>();
+    }).json<KakaoUserResponse>();
 
-    const { db } = await connectMongo();
+    if (!userInfo.properties['nickname']) {
+      await got
+        .post(`${KAKAO_USER_HOST}/v1/user/unlink`, {
+          headers: {
+            Authorization: `Bearer ${kakaoAccount.access_token}`,
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+          },
+        })
+        .json();
 
-    const existingUser = await db.collection('user').findOne(
+      res.status(StatusCodes.FORBIDDEN).redirect('/401');
+    }
+
+    const userCol = await collection.user();
+
+    const existingUser = await userCol.findOne(
       {
         user_id: userInfo.id,
       },
@@ -73,22 +88,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     let userId = '';
 
     if (existingUser) {
-      await db.collection('user').updateOne(
+      await userCol.updateOne(
         { _id: existingUser._id },
         {
           $set: {
-            connectedAt: new Date(),
+            lastLogin: new Date(),
             info: userInfo.properties,
           },
         },
       );
-
       userId = String(existingUser._id);
     } else {
-      const { insertedId } = await db.collection('user').insertOne({
+      const { insertedId } = await userCol.insertOne({
         user_id: userInfo.id,
-        connectedAt: new Date(),
         info: userInfo.properties,
+        recentView: [],
+        recommended: [],
+        notRecommended: [],
+        lastLogin: new Date(),
         createdAt: new Date(),
       });
 

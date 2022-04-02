@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 import { Button } from '@frontend/components/ui';
 import { useNoti } from '@frontend/hooks/use-noti';
@@ -18,11 +18,10 @@ export default function SignIn() {
       .catch(showAlert);
   }, [showAlert, mutate]);
 
-  useEffect(() => {
-    router.push('/404');
-  }, [router]);
+  // useEffect(() => {
+  //   router.push('/404');
+  // }, [router]);
 
-  return null;
   if (user)
     return (
       <div className="flex justify-center pt-20">
@@ -32,11 +31,11 @@ export default function SignIn() {
     );
 
   return (
-    <div className="flex justify-center pt-20">
+    <div className="flex justify-center py-20">
       <button
         className="bg-black px-4 py-2 text-white"
         onClick={() => {
-          router.push('/signin/kakao');
+          router.push('/signin/kakao').catch(showAlert);
         }}
       >
         kakao login

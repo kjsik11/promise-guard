@@ -3,11 +3,17 @@ import type { ObjectId } from 'mongodb';
 export interface PromiseType {
   title: string;
   body: string;
-  tag: string[];
+  categories: string[];
+  tags: string[];
+  coreFlag: boolean;
 }
 
 export interface PromiseTypeBSON extends PromiseType {
   _id: ObjectId | string;
+  recommendedIds: ObjectId[];
+  recommendedCount: number;
+  nonRecommendedIds: ObjectId[];
+  nonRecommendedCount: number;
   createdAt: OurDate;
   deletedAt: OurDate | null;
 }
@@ -15,5 +21,7 @@ export interface PromiseTypeBSON extends PromiseType {
 export const initialPromise: PromiseType = {
   title: '',
   body: '',
-  tag: [],
+  categories: [],
+  tags: [],
+  coreFlag: false,
 };

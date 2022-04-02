@@ -2,19 +2,16 @@ import { StatusCodes } from 'http-status-codes';
 import { ObjectId } from 'mongodb';
 
 import { NextApiBuilder } from '@backend/api-wrapper';
-import type { PromiseTypeBSON } from '@backend/model/promise';
+import { collection } from '@backend/collection';
 import { promiseValidator } from '@backend/model/promise/validator';
-
-import { connectMongo } from '@utils/mongodb/connect';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'GET') {
-    const { db } = await connectMongo();
+  const promiseCol = await collection.promise();
 
-    const promiseList = await db
-      .collection<PromiseTypeBSON>('promise')
+  if (req.method === 'GET') {
+    const promiseList = await promiseCol
       .find({ deletedAt: null })
       .sort({ createdAt: -1 })
       .toArray();
@@ -25,13 +22,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const body = await promiseValidator(req.body);
 
-    const { db } = await connectMongo();
-
     const _id = new ObjectId();
 
-    await db.collection<PromiseTypeBSON>('promise').insertOne({
+    await promiseCol.insertOne({
       ...body,
       _id,
+      recommendedIds: [],
+      recommendedCount: 0,
+      nonRecommendedIds: [],
+      nonRecommendedCount: 0,
       createdAt: new Date(),
       deletedAt: null,
     });

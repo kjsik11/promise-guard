@@ -26,6 +26,7 @@ export default function UploadPromise() {
   const [selectedTab, setSelectedTab] = useState<'write' | 'preview'>('write');
   const [promiseInput, setPromiseInput] = useState<PromiseType>(initialPromise);
   const [loading, setLoading] = useState(false);
+  const [categoryInput, setCategoryInput] = useState('');
   const [tagInput, setTagInput] = useState('');
   const [pageLoading, setPageLoading] = useState(false);
 
@@ -78,10 +79,20 @@ export default function UploadPromise() {
   return (
     <div className={clsx(s.root, 'p-4')}>
       <p className="text-4xl font-bold">공약 {router.query.id ? '수정' : '업로드'}</p>
+      <div className="-mb-4 flex items-center space-x-4 pt-4">
+        <p>핵심공약인가요? </p>
+        <input
+          checked={promiseInput.coreFlag}
+          onChange={() => {
+            setPromiseInput((prev) => ({ ...prev, coreFlag: !prev.coreFlag }));
+          }}
+          type="checkbox"
+        />
+      </div>
       <InputComponent
         inputClassName="w-full"
         autofocus
-        className="py-4"
+        className="flex-1 py-4"
         placeholder="title"
         label="title"
         value={promiseInput.title}
@@ -93,6 +104,7 @@ export default function UploadPromise() {
           }))
         }
       />
+
       <p className="-mt-4 mb-4 text-xs">{promiseInput.title.length}/50</p>
       <ReactMde
         initialEditorHeight={400}
@@ -117,8 +129,57 @@ export default function UploadPromise() {
         <InputComponent
           maxLength={30}
           inputClassName="flex-1 w-80"
-          label="검색 태그 (30글자 제한, 최대 20개)"
+          label="검색 카테고리 (30글자 제한, 최대 20개)"
           placeholder="지역공약, 서울, 여성 등"
+          value={categoryInput}
+          onChange={(e) => {
+            setCategoryInput(e.target.value);
+          }}
+        />
+
+        <Button
+          type="submit"
+          className="ml-4"
+          color="white"
+          disabled={!categoryInput}
+          onClick={(e: any) => {
+            e.preventDefault();
+            setPromiseInput((prev) => ({
+              ...prev,
+              categories: [...prev.categories, categoryInput],
+            }));
+            setTagInput('');
+          }}
+        >
+          카테고리 추가
+        </Button>
+      </form>
+      {promiseInput.categories.length !== 0 && (
+        <div className="mt-2 flex flex-wrap space-x-4">
+          {promiseInput.categories.map((val, idx) => (
+            <button
+              onClick={() => {
+                setPromiseInput((prev) => ({
+                  ...prev,
+                  categories: prev.categories.filter((categoryItem) => categoryItem !== val),
+                }));
+              }}
+              className="my-1 flex items-center gap-2 rounded bg-gray-200 px-2 py-1 text-sm leading-none text-gray-600 shadow-sm hover:opacity-80"
+              key={`${val}-${idx}`}
+            >
+              <p>#{val}</p>
+              <XIcon className="h-4 w-4" />
+            </button>
+          ))}
+        </div>
+      )}
+
+      <form className="mt-8 flex items-end">
+        <InputComponent
+          maxLength={30}
+          inputClassName="flex-1 w-80"
+          label="검색 태그 (30글자 제한, 최대 20개)"
+          placeholder="긴 태그들..."
           value={tagInput}
           onChange={(e) => {
             setTagInput(e.target.value);
@@ -132,21 +193,21 @@ export default function UploadPromise() {
           disabled={!tagInput}
           onClick={(e: any) => {
             e.preventDefault();
-            setPromiseInput((prev) => ({ ...prev, tag: [...prev.tag, tagInput] }));
+            setPromiseInput((prev) => ({ ...prev, tags: [...prev.tags, tagInput] }));
             setTagInput('');
           }}
         >
           태그 추가
         </Button>
       </form>
-      {promiseInput.tag.length !== 0 && (
+      {promiseInput.tags.length !== 0 && (
         <div className="mt-2 flex flex-wrap space-x-4">
-          {promiseInput.tag.map((val, idx) => (
+          {promiseInput.tags.map((val, idx) => (
             <button
               onClick={() => {
                 setPromiseInput((prev) => ({
                   ...prev,
-                  tag: prev.tag.filter((tagItem) => tagItem !== val),
+                  tags: prev.tags.filter((tagItem) => tagItem !== val),
                 }));
               }}
               className="my-1 flex items-center gap-2 rounded bg-gray-200 px-2 py-1 text-sm leading-none text-gray-600 shadow-sm hover:opacity-80"

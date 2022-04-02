@@ -2,10 +2,10 @@ import { serialize } from 'cookie';
 import { ObjectId } from 'mongodb';
 
 import { NextApiBuilder } from '@backend/api-wrapper';
-import type { UserBSON, UserInfo } from '@backend/model/user';
+import { collection } from '@backend/collection';
+import type { UserInfo } from '@backend/model/user';
 
 import { verifyToken } from '@utils/jsonwebtoken';
-import { connectMongo } from '@utils/mongodb/connect';
 
 import { COOKIE_KEY_ACCESS_TOKEN, defaultCookieOptions } from '$src/define/cookie';
 
@@ -17,11 +17,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const { userId } = verifyToken(user) as { userId: string };
 
-    const { db } = await connectMongo();
+    const userCol = await collection.user();
 
-    const { info } = (await db
-      .collection<UserBSON>('user')
-      .findOne({ _id: new ObjectId(userId) }, { projection: { _id: 0, info: 1 } })) as {
+    const { info } = (await userCol.findOne(
+      { _id: new ObjectId(userId) },
+      { projection: { _id: 0, info: 1 } },
+    )) as {
       info: UserInfo;
     };
 

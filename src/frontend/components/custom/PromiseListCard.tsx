@@ -22,14 +22,27 @@ export default function PromiseListCard({ loading, setLoading, data, refetch }: 
   return (
     <div className="flex items-center justify-between rounded-md border border-gray-200 bg-gray-100 py-1 px-2">
       <div>
-        <p className="font-semibold">{data.title}</p>
+        <p className="font-semibold">
+          {data.coreFlag && <span className="text-blue-400">*&nbsp;</span>}
+          {data.title}
+        </p>
         <div className="flex flex-wrap space-x-2">
-          {data.tag.map((tag, idx) => (
+          {data.categories.map((categories, idx) => (
+            <span
+              className="mt-1 shrink-0 rounded-md bg-red-500 p-1 text-sm text-white"
+              key={`${categories}-${idx}`}
+            >
+              {categories}
+            </span>
+          ))}
+        </div>
+        <div className="flex flex-wrap space-x-2">
+          {data.tags.map((tags, idx) => (
             <span
               className="mt-1 shrink-0 rounded-md bg-sky-500 p-1 text-sm text-white"
-              key={`${tag}-${idx}`}
+              key={`${tags}-${idx}`}
             >
-              {tag}
+              {tags}
             </span>
           ))}
         </div>
