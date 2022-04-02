@@ -11,7 +11,7 @@ export default function Unauthorized() {
       <div className="mx-auto flex max-w-[200px] justify-center">
         <NextImage draggable="false" src={NotFoundImage} loading="eager" placeholder="blur" />
       </div>
-      <p className="text-xl font-bold">인증되지 않은 유저로 접근을 시도했습니다.</p>
+      <p className="text-xl font-bold">해당 서비스는 카카오톡을 사용중인 유저만 사용 가능합니다.</p>
       <Link href="/sign-in" passHref>
         <Button>다시 로그인 시도하기</Button>
       </Link>

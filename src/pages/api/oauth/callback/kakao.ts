@@ -8,6 +8,7 @@ import { NextApiBuilder } from '@backend/api-wrapper';
 import { collection } from '@backend/collection';
 import type { KakaoUserResponse } from '@backend/model/user';
 
+import { ApiError } from '@utils/api-error';
 import {
   KAKAO_CLIENT_ID,
   KAKAO_CLIENT_SECTET,
@@ -53,28 +54,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       })
       .json<{ access_token: string }>();
 
-    // get userinfo
+    const userCol = await collection.user();
+
+    // Get user info
     const userInfo = await got(`${KAKAO_USER_HOST}/v2/user/me`, {
       headers: {
         Authorization: `Bearer ${kakaoAccount.access_token}`,
         'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
       },
     }).json<KakaoUserResponse>();
-
-    if (!userInfo.properties['nickname']) {
-      await got
-        .post(`${KAKAO_USER_HOST}/v1/user/unlink`, {
-          headers: {
-            Authorization: `Bearer ${kakaoAccount.access_token}`,
-            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-          },
-        })
-        .json();
-
-      res.status(StatusCodes.FORBIDDEN).redirect('/401');
-    }
-
-    const userCol = await collection.user();
 
     const existingUser = await userCol.findOne(
       {
@@ -99,6 +87,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
       userId = String(existingUser._id);
     } else {
+      // Check kakaotalk user
+      await got(`${KAKAO_USER_HOST}/v1/api/talk/profile`, {
+        headers: {
+          Authorization: `Bearer ${kakaoAccount.access_token}`,
+          'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+        },
+      }).catch(() => {
+        got
+          .post(`${KAKAO_USER_HOST}/v1/user/unlink`, {
+            headers: {
+              Authorization: `Bearer ${kakaoAccount.access_token}`,
+              'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+            },
+          })
+          .then(() => res.status(StatusCodes.FORBIDDEN).redirect('/401'))
+          .catch((err) => {
+            throw new ApiError(err);
+          });
+      });
+
       const { insertedId } = await userCol.insertOne({
         user_id: userInfo.id,
         info: userInfo.properties,
