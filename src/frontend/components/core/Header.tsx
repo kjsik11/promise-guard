@@ -5,16 +5,18 @@ import NextLink from 'next/link';
 import { Fragment } from 'react';
 
 import Logo from '@frontend/components/vector/Logo';
+import useUser from '@frontend/hooks/use-user';
 
 const menuItems = [
   { label: '프로젝트 소개', href: '#' },
   { label: '의견 제보', href: '#' },
   { label: '공약 출처', href: '#' },
   { label: '공약 정정·추가 요청', href: '#' },
-  { label: '로그인', href: '#' },
 ];
 
 export default function Header() {
+  const { user, handleSignout, handleSignin } = useUser();
+
   return (
     <header className="sticky inset-x-0 flex h-14 items-center justify-between p-4">
       <NextLink href="/">
@@ -61,6 +63,18 @@ export default function Header() {
                   </Menu.Item>
                 ))}
               </nav>
+
+              <Menu.Item>
+                <button
+                  onClick={() => {
+                    if (user) handleSignout();
+                    else handleSignin();
+                  }}
+                  className="flex w-full items-center px-4 py-2 transition-colors hover:bg-violet-400"
+                >
+                  {user ? '로그아웃' : '로그인'}
+                </button>
+              </Menu.Item>
             </Menu.Items>
           </Transition>
         </Menu>
