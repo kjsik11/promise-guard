@@ -1,5 +1,7 @@
 import { QuestionMarkCircleIcon } from '@heroicons/react/solid';
+import { useState } from 'react';
 import CountdownComponent from 'react-countdown';
+import { useEffectOnce } from 'react-use';
 
 type CountdownParams = {
   days: number;
@@ -31,6 +33,14 @@ const renderer = ({ days, hours, minutes, seconds, completed }: CountdownParams)
 };
 
 export default function Countdown() {
+  const [loading, setLoading] = useState(true);
+
+  useEffectOnce(() => {
+    setLoading(false);
+  });
+
+  if (loading) return null;
+
   return (
     <CountdownComponent
       date={new Date('2022-05-10').getTime() - 60 * 60 * 9 * 1000}
