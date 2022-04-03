@@ -4,11 +4,16 @@ import 'nprogress/nprogress.css';
 import { DefaultSeo } from 'next-seo';
 import useNProgress from 'next-use-nprogress';
 import Script from 'next/script';
+import { useEffect } from 'react';
 
 import { CommonLayout } from '@frontend/components/layout';
 import { Modal, Notification } from '@frontend/components/ui';
 import { useModal } from '@frontend/hooks/use-modal';
 import { useNoti } from '@frontend/hooks/use-noti';
+
+import { isProd } from '@utils/env';
+import { PUBLIC_ENV } from '@utils/env/public';
+import { GTM } from '@utils/tag-manager';
 
 import type { AppProps } from 'next/app';
 
@@ -24,6 +29,12 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   const { modal, closeModal } = useModal();
   const { noti, closeNoti } = useNoti();
+
+  useEffect(() => {
+    if (isProd()) {
+      GTM.initialize(PUBLIC_ENV.NEXT_PUBLIC_GTM_ID);
+    }
+  }, []);
 
   return (
     <>
