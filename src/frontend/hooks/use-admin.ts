@@ -14,8 +14,8 @@ export default function useAdmin() {
   const { data: adminFlag, error, mutate } = useSWRImmutable(SWR_KEY.ADMIN_CHECK, checkAdmin);
 
   const loading = useMemo(() => {
-    return adminFlag === undefined && error;
-  }, [adminFlag, error]);
+    return adminFlag === undefined;
+  }, [adminFlag]);
 
   const handleAdminSignin = useCallback(
     async (adminKey: string) => {
