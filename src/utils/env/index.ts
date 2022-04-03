@@ -14,6 +14,7 @@ const ENV_LIST = [
   'HASHIDS_KEY',
   'JWT_SECRET',
   'KAKAO_USER_HOST',
+  'ADMIN_KEY',
 ] as const;
 
 type EnvironmentVariable = typeof ENV_LIST[number];

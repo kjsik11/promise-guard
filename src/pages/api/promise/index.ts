@@ -4,9 +4,13 @@ import { NextApiBuilder } from '@backend/api-wrapper';
 import { collection } from '@backend/collection';
 import { promiseValidator } from '@backend/model/promise/validator';
 
+import checkAdmin from '@utils/check-admin';
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  checkAdmin(req);
+
   const promiseCol = await collection.promise();
 
   if (req.method === 'GET') {

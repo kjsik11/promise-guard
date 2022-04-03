@@ -13,3 +13,4 @@ export const KAKAO_REDIRECT_URI = getEnv('KAKAO_REDIRECT_URI');
 export const KAKAO_HOST = getEnv('KAKAO_HOST');
 export const KAKAO_USER_HOST = getEnv('KAKAO_USER_HOST');
 export const HASHIDS_KEY = getEnv('HASHIDS_KEY');
+export const ADMIN_KEY = getEnv('ADMIN_KEY');

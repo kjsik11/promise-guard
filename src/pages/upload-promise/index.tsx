@@ -5,26 +5,25 @@ import type { PromiseTypeBSON } from '@backend/model/promise';
 
 import Loading from '@frontend/components/core/Loading';
 import PromiseListCard from '@frontend/components/custom/PromiseListCard';
-import NoneLayout from '@frontend/components/layout/None';
+import AdminLayout from '@frontend/components/layout/Admin';
 import { Button } from '@frontend/components/ui';
+import useAdmin from '@frontend/hooks/use-admin';
 import { useNoti } from '@frontend/hooks/use-noti';
 import getPromiseList from '@frontend/lib/promise/get-promise-list';
 
 export default function PromiseList() {
   const [loading, setLoading] = useState(false);
-  const [promiseList, setPromiseList] = useState<PromiseTypeBSON[]>([]);
-  const [pageLoading, setPageLoading] = useState(false);
+  const [promiseList, setPromiseList] = useState<PromiseTypeBSON[] | null>(null);
   const { showNoti } = useNoti();
+  const { adminFlag } = useAdmin();
 
   useEffect(() => {
-    setPageLoading(true);
-    getPromiseList()
-      .then(setPromiseList)
-      .catch(showNoti)
-      .finally(() => setPageLoading(false));
-  }, [showNoti]);
+    if (adminFlag) {
+      getPromiseList().then(setPromiseList).catch(showNoti);
+    }
+  }, [showNoti, adminFlag]);
 
-  if (pageLoading) return <Loading />;
+  if (promiseList === null) return <Loading />;
 
   return (
     <div className="py-4">
@@ -51,4 +50,4 @@ export default function PromiseList() {
   );
 }
 
-PromiseList.Layout = NoneLayout;
+PromiseList.Layout = AdminLayout;

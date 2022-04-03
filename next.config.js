@@ -10,6 +10,10 @@ const nextConfig = {
         source: '/signin/:slug*',
         destination: '/api/oauth/provider/:slug*',
       },
+      {
+        source: '/admin/:slug*',
+        destination: '/api/admin-promise/:slug*',
+      },
     ];
   },
 };

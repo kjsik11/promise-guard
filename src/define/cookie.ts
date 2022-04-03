@@ -1,5 +1,6 @@
 import { isProd } from '@utils/env';
 
+export const COOKIE_ADMIN_ACESS_TOKEN = 'may10.admin-accessToken';
 export const COOKIE_KEY_ACCESS_TOKEN = 'may10.accessToken';
 export const COOKIE_KEY_REDIRECT_URL = 'may10.redirectUrl';
 export const defaultCookieOptions = {

@@ -7,10 +7,13 @@ import { collection } from '@backend/collection';
 import { promiseValidator } from '@backend/model/promise/validator';
 
 import { ApiError } from '@utils/api-error';
+import checkAdmin from '@utils/check-admin';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  checkAdmin(req);
+
   const queryValidator = Joi.object({
     id: Joi.string().required(),
   }).required();
@@ -20,10 +23,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const promiseCol = await collection.promise();
 
   if (req.method === 'GET') {
-    const promise = await promiseCol.findOne(
-      { _id: new ObjectId(id), deletedAt: null },
-      { projection: { _id: 0, title: 1, body: 1, categories: 1, tags: 1, coreFlag: 1 } },
-    );
+    const promise =
+      (await promiseCol.findOne(
+        { _id: new ObjectId(id), deletedAt: null },
+        { projection: { _id: 0, title: 1, body: 1, categories: 1, tags: 1, coreFlag: 1 } },
+      )) ?? [];
 
     return res.status(StatusCodes.OK).json(promise);
   }

@@ -11,8 +11,10 @@ import s from '@assets/markdown.module.css';
 import { initialPromise, PromiseType } from '@backend/model/promise';
 
 import Loading from '@frontend/components/core/Loading';
+import AdminLayout from '@frontend/components/layout/Admin';
 import { Button } from '@frontend/components/ui';
 import InputComponent from '@frontend/components/ui/Input';
+import useAdmin from '@frontend/hooks/use-admin';
 import { useNoti } from '@frontend/hooks/use-noti';
 import getPromise from '@frontend/lib/promise/get-promise';
 import updatePromise from '@frontend/lib/promise/update-promise';
@@ -29,10 +31,12 @@ export default function UploadPromise() {
   const [categoryInput, setCategoryInput] = useState('');
   const [tagInput, setTagInput] = useState('');
   const [pageLoading, setPageLoading] = useState(false);
+  const { adminFlag } = useAdmin();
 
   const { showNoti, showAlert } = useNoti();
 
   useEffect(() => {
+    if (!adminFlag) return;
     const id = router.query['id'];
 
     if (id && typeof id === 'string') {
@@ -42,7 +46,7 @@ export default function UploadPromise() {
         .catch(showAlert)
         .finally(() => setPageLoading(false));
     }
-  }, [router, showAlert]);
+  }, [router, showAlert, adminFlag]);
 
   const save = async function* (data: ArrayBuffer) {
     yield await uploadMarkdownImage(new File([new Blob([data])], String(Number(new Date()))));
@@ -227,3 +231,5 @@ export default function UploadPromise() {
     </div>
   );
 }
+
+UploadPromise.Layout = AdminLayout;
