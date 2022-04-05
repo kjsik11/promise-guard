@@ -17,7 +17,6 @@ export default function PromiseCard({ promiseItem, tagPrefix, isFlag }: Props) {
   return (
     <li className="relative rounded-lg bg-white py-3 px-2">
       <div className="space-x-[3px] text-sm font-semibold text-PC-600">
-        <span>#tag</span>
         {promiseItem.tags.map((tag, idx) => (
           <span key={`${tagPrefix}-${tag}-${idx}`}>#{tag}</span>
         ))}
@@ -43,7 +42,7 @@ export default function PromiseCard({ promiseItem, tagPrefix, isFlag }: Props) {
       {isFlag && (
         <div className="absolute -top-2 right-2">
           <PopulateFlag flagColor={isFlag.color} />
-          <p className="absolute left-1/2 top-1/2 -translate-x-1 -translate-y-[12px] text-sm font-bold text-white">
+          <p className="absolute left-1/2 top-1/2 -translate-x-[5px] -translate-y-[12px] text-sm font-bold text-white">
             {isFlag.label}
           </p>
         </div>
