@@ -33,7 +33,7 @@ export default function PromiseCard({ promiseItem, tagPrefix, isFlag }: Props) {
             </div>
             <div className="flex items-center space-x-2">
               <ThumbDownIcon className="h-3 w-3 text-blue-400" />
-              <span>{promiseItem.nonRecommendedCount.toLocaleString()}</span>
+              <span>{promiseItem.notRecommendedCount.toLocaleString()}</span>
             </div>
             <div className="flex items-center space-x-2">
               <EyeIcon className="h-3 w-3" />

@@ -6,7 +6,7 @@ import { NextApiBuilder } from '@backend/api-wrapper';
 import { collection } from '@backend/collection';
 import type { User } from '@backend/model/user';
 
-import { verifyToken } from '@utils/jsonwebtoken';
+import getUserInfo from '@utils/user/get-user-info';
 
 import { COOKIE_KEY_ACCESS_TOKEN } from '$src/define/cookie';
 
@@ -27,19 +27,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const objectPromiseId = new ObjectId(promiseId);
 
     if (userToken) {
-      const { userId } = verifyToken(userToken) as { userId: string };
-
       const userCol = await collection.user();
 
-      const user = (await userCol.findOne(
-        { _id: new ObjectId(userId) },
-        { projection: { recentView: 1 } },
-      )) as Pick<User, '_id' | 'recentView'>;
+      const user = await getUserInfo<Pick<User, '_id' | 'recentView'>>(userToken, {
+        recentView: 1,
+      });
 
-      const recentViewArr = [
-        objectPromiseId,
-        ...user.recentView.filter((val) => !objectPromiseId.equals(val)),
-      ];
+      const recentViewArr = [promiseId, ...user.recentView.filter((val) => val !== promiseId)];
 
       await userCol.updateOne({ _id: user._id }, { $set: { recentView: recentViewArr } });
     }

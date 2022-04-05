@@ -11,7 +11,7 @@ export interface PromiseType {
 export interface PromiseTypeBSON extends PromiseType {
   _id: ObjectId | string;
   recommendedCount: number;
-  nonRecommendedCount: number;
+  notRecommendedCount: number;
   viewCount: number;
   createdAt: OurDate;
   deletedAt: OurDate | null;

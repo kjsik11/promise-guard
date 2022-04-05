@@ -4,9 +4,9 @@ export type User = {
   _id: ObjectId;
   user_id: number;
   info: UserInfo;
-  recentView: ObjectId[];
-  recommended: ObjectId[];
-  notRecommended: ObjectId[];
+  recentView: string[];
+  recommended: string[];
+  notRecommended: string[];
   lastLogin: OurDate;
   createdAt: OurDate;
 };

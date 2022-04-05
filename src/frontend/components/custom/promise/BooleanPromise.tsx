@@ -56,7 +56,7 @@ export default function BooleanPromise({ id, isDetailPage, booleanPromiseItems }
                 </div>
                 <div className="flex items-center space-x-2">
                   <ThumbDownIcon className="h-3 w-3 text-blue-400" />
-                  <span>{item.nonRecommendedCount.toLocaleString()}</span>
+                  <span>{item.notRecommendedCount.toLocaleString()}</span>
                 </div>
               </div>
             </a>

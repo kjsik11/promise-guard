@@ -1,7 +1,7 @@
 import { ChevronRightIcon, XIcon } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import { ObjectId } from 'mongodb';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import s from '@assets/markdown.module.css';
 
@@ -15,6 +15,7 @@ import { lifePromiseTags } from '@frontend/define/life-promise';
 import { localeTags } from '@frontend/define/locale-image-circle';
 import { tenPromiseTags } from '@frontend/define/ten-promise-arr';
 import useIncreaseView from '@frontend/hooks/count/use-increase-view';
+import useUser from '@frontend/hooks/use-user';
 
 import buildBreadcrumbs from '@utils/build-breadcrumbs';
 import markdownToHtml from '@utils/markdownToHtml';
@@ -32,6 +33,7 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
   const [localePromiseItems, setLocalePromiseItems] = useState<PromiseTypeFront[]>([]);
   const [tenPromiseItems, setTenPromiseItems] = useState<PromiseTypeFront[]>([]);
   const [lifePromiseItems, setLifePromiseItems] = useState<PromiseTypeFront[]>([]);
+  const { user } = useUser();
 
   useIncreaseView(promiseItem._id as string);
 
@@ -41,8 +43,8 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
       promiseItems
         .sort(
           (
-            { recommendedCount: prevRec, nonRecommendedCount: prevNrec },
-            { recommendedCount: nextRec, nonRecommendedCount: nextNRec },
+            { recommendedCount: prevRec, notRecommendedCount: prevNrec },
+            { recommendedCount: nextRec, notRecommendedCount: nextNRec },
           ) => nextRec - nextNRec - (prevRec - prevNrec),
         )
         .slice(0, 5),
@@ -82,6 +84,13 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
     );
   }, [promiseItems]);
 
+  const handleRecommend = useCallback(() => {
+    if (!user) return;
+  }, [user]);
+  const handleNotRecommend = useCallback(() => {
+    if (!user) return;
+  }, [user]);
+
   return (
     <div className="bg-gray-100">
       <section className="bg-white px-4 py-10">
@@ -111,7 +120,10 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
         </div>
         <div className="flex justify-center space-x-6 py-10">
           <div>
-            <button className="flex h-20 w-20 flex-col items-center justify-center rounded-full bg-red-400 text-white">
+            <button
+              onClick={() => handleRecommend()}
+              className="flex h-20 w-20 flex-col items-center justify-center rounded-full bg-red-400 text-white"
+            >
               <EmptyCircle />
               <p className="pt-1 text-xs font-medium">지지해요</p>
             </button>
@@ -120,12 +132,15 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
             </p>
           </div>
           <div>
-            <button className="flex h-20 w-20 flex-col items-center justify-center rounded-full bg-blue-400 text-white">
+            <button
+              onClick={() => handleNotRecommend()}
+              className="flex h-20 w-20 flex-col items-center justify-center rounded-full bg-blue-400 text-white"
+            >
               <XIcon className="h-9 w-9" />
               <p className="pt-1 text-xs font-medium">반대해요</p>
             </button>
             <p className="pt-1 text-center font-semibold text-blue-400">
-              {promiseItem.nonRecommendedCount.toLocaleString()}
+              {promiseItem.notRecommendedCount.toLocaleString()}
             </p>
           </div>
         </div>

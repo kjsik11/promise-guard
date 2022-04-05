@@ -28,7 +28,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await promiseCol.insertOne({
       ...body,
       recommendedCount: 0,
-      nonRecommendedCount: 0,
+      notRecommendedCount: 0,
       viewCount: 0,
       createdAt: new Date(),
       deletedAt: null,

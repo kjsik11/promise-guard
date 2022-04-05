@@ -15,3 +15,12 @@ export const promiseValidator: (promiseInput: unknown) => Promise<PromiseType> =
 
   return (await validator.validateAsync(promiseInput)) as PromiseType;
 };
+
+export const promiseIdValidator: (input: unknown) => Promise<{ promiseId: string }> = async (
+  input,
+) => {
+  const validator = Joi.object({
+    promiseId: Joi.string().required(),
+  }).required();
+  return (await validator.validateAsync(input)) as { promiseId: string };
+};

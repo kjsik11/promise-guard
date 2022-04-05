@@ -31,8 +31,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     const booleanPromiseItems = promiseItems
       .sort(
         (
-          { recommendedCount: prevRec, nonRecommendedCount: prevNrec },
-          { recommendedCount: nextRec, nonRecommendedCount: nextNRec },
+          { recommendedCount: prevRec, notRecommendedCount: prevNrec },
+          { recommendedCount: nextRec, notRecommendedCount: nextNRec },
         ) => nextRec - nextNRec - (prevRec - prevNrec),
       )
       .slice(0, 5);
