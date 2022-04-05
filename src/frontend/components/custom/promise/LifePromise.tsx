@@ -44,8 +44,8 @@ export default function LifePromise({ promiseItems }: PromiseProps) {
               fill="#6A99CD"
             />
           </svg>
-          <div className="space-y-0.5">
-            <p className="text-left font-bold">59초 쇼츠</p>
+          <div className="space-y-0.5 text-left">
+            <p className="font-bold">59초 쇼츠</p>
             <p className="text-xs font-medium text-gray-600">좋아 빠르게 가!</p>
           </div>
         </button>
@@ -60,8 +60,8 @@ export default function LifePromise({ promiseItems }: PromiseProps) {
           )}
         >
           <HeartIcon className="h-10 w-10 text-PC-400" />
-          <div className="space-y-0.5">
-            <p className="text-left font-bold">심쿵약속</p>
+          <div className="space-y-0.5 text-left">
+            <p className="font-bold">심쿵약속</p>
             <p className="text-xs font-medium text-gray-600">나를 위한 생활정책</p>
           </div>
         </button>

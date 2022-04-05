@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <header
-      className={clsx('sticky inset-x-0 top-0 flex h-14 items-center justify-between p-4', {
+      className={clsx('sticky inset-x-0 top-0 z-[1] flex h-14 items-center justify-between p-4', {
         'bg-white/60 backdrop-blur': y,
       })}
     >
