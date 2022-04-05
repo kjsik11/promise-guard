@@ -1,0 +1,10 @@
+export { default as Brain } from './Brain';
+export { default as Building } from './Building';
+export { default as ChartBar } from './ChartBar';
+export { default as Home } from './Home';
+export { default as Leaf } from './Leaf';
+export { default as Library } from './Library';
+export { default as Road } from './Road';
+export { default as Shield } from './Shield';
+export { default as Syringe } from './Syringe';
+export { default as Users } from './Users';

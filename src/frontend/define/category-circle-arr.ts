@@ -6,12 +6,12 @@ import {
   StarCategory,
 } from '@frontend/components/vector';
 
-export type CategoryCircleItem = {
+export type SvgCircleItems = {
   svg: ({ className }: { className?: string }) => JSX.Element;
   label: string;
 };
 
-export const categoryCircleItems: CategoryCircleItem[] = [
+export const categoryCircleItems: SvgCircleItems[] = [
   {
     svg: StarCategory,
     label: '인기 공약',
