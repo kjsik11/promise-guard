@@ -31,7 +31,7 @@ export default function PromiseSections({
 }: PromiseProps) {
   return (
     <div className="space-y-16 bg-gray-100 py-12">
-      <PopulatePromise id={populateSectionId} promiseItems={promiseItems.slice(0, 5)} />
+      <PopulatePromise id={populateSectionId} populateItems={promiseItems.slice(0, 5)} />
       <BooleanPromise id={booleanSectionId} booleanPromiseItems={booleanPromiseItems} />
       <TenPromise id={tenSectionId} tenPromiseItems={tenPromiseItems} />
       <LocalePromise id={localeSectionId} localePromiseItems={localePromiseItems} />

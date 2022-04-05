@@ -1,4 +1,5 @@
 import { EyeIcon, ThumbDownIcon, ThumbUpIcon } from '@heroicons/react/solid';
+import clsx from 'clsx';
 import Link from 'next/link';
 
 import type { PromiseTypeFront } from '@backend/model/promise';
@@ -7,22 +8,27 @@ import { FireCategory } from '@frontend/components/vector';
 
 interface Props {
   booleanPromiseItems: PromiseTypeFront[];
+  isDetailPage?: boolean;
   id?: string;
 }
 
-export default function BooleanPromise({ id, booleanPromiseItems }: Props) {
+export default function BooleanPromise({ id, isDetailPage, booleanPromiseItems }: Props) {
   return (
-    <div id={id} className="px-4">
+    <div id={id} className={clsx({ 'px-4': !isDetailPage })}>
       <div className="flex justify-between">
-        <div className="flex items-center space-x-2">
+        <div className={clsx('flex items-center space-x-2', { 'px-4': isDetailPage })}>
           <p className="text-3xl font-bold">찬반 공약</p>
           <FireCategory className="h-8 w-8" />
         </div>
-        <Link href="#">
-          <a className="self-end text-sm font-semibold text-PC-400">더보기</a>
-        </Link>
+        {isDetailPage ? (
+          <div></div>
+        ) : (
+          <Link href="/pros-and-cons">
+            <a className="self-end text-sm font-semibold text-PC-400">더보기</a>
+          </Link>
+        )}
       </div>
-      <ul className="space-y-4 pt-6">
+      <ul className={clsx('space-y-4 pt-6', { 'mt-4 bg-gray-50 px-4 pb-16': isDetailPage })}>
         {booleanPromiseItems.map((item, idx) => (
           <li
             className="relative rounded-lg bg-white py-3 px-2"

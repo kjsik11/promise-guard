@@ -1,6 +1,5 @@
 import { HeartIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
-import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
 import type { PromiseTypeFront } from '@backend/model/promise';
@@ -30,9 +29,6 @@ export default function LifePromise({ id, lifePromiseItems }: Props) {
           <p className="text-3xl font-bold">생활 공약</p>
           <DrinkCategory className="h-8 w-8" />
         </div>
-        <Link href="#">
-          <a className="self-end text-sm font-semibold text-PC-400">더보기</a>
-        </Link>
       </div>
       <div className="mx-auto flex max-w-sm space-x-2 pt-6">
         <button
