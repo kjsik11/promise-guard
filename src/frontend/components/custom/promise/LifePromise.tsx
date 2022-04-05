@@ -76,7 +76,7 @@ export default function LifePromise({ id, lifePromiseItems }: Props) {
         </button>
       </div>
       {filterPromiseItems.length > 0 && (
-        <ul className="space-y-4 pt-6">
+        <div className="space-y-4 pt-6">
           {filterPromiseItems.map((item, idx) => (
             <PromiseCard
               tagPrefix={`locale-promise-tag-${idx}`}
@@ -84,7 +84,7 @@ export default function LifePromise({ id, lifePromiseItems }: Props) {
               key={`locale-promise-card-${idx}`}
             />
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

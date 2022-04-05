@@ -1,12 +1,16 @@
 import Logo from '@frontend/components/vector/Logo';
+import useUser from '@frontend/hooks/use-user';
 
 export default function Footer() {
+  const { user } = useUser();
+
   return (
     <footer className="bg-gray-900 py-12 px-4 text-white">
       <Logo />
       <div className="flex space-x-4 pt-6 text-xs font-medium text-gray-400">
         <a href="#">이용약관</a>
         <a href="#">개인정보 처리방침</a>
+        {user && <a href="#">회원탈퇴</a>}
       </div>
       {/* <div>
         <div className="space-y-1 pt-2">

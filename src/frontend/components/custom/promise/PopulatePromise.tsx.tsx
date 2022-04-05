@@ -32,7 +32,7 @@ export default function PopulatePromise({ id, populateItems, isDetailPage = fals
           </Link>
         )}
       </div>
-      <ul className={clsx('space-y-4 pt-6', { 'mt-4 bg-gray-50 px-4 pb-16': isDetailPage })}>
+      <div className={clsx('space-y-4 pt-6', { 'mt-4 bg-gray-50 px-4 pb-16': isDetailPage })}>
         {populateItems.map((item, idx) => (
           <PromiseCard
             isFlag={{ color: flagColors[idx], label: String(idx + 1) }}
@@ -41,7 +41,7 @@ export default function PopulatePromise({ id, populateItems, isDetailPage = fals
             key={`populate-promise-card-${idx}`}
           />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

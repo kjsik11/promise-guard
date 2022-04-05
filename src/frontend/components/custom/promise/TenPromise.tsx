@@ -85,7 +85,7 @@ export default function TenPromise({ id, tenPromiseItems }: Props) {
         </div>
       )}
       {filterPromise && filterPromise.promiseItems.length > 0 && (
-        <ul className="mt-6 space-y-4 px-4">
+        <div className="mt-6 space-y-4 px-4">
           {filterPromise.promiseItems.map((item, idx) => (
             <PromiseCard
               tagPrefix={`locale-promise-tag-${idx}`}
@@ -93,7 +93,7 @@ export default function TenPromise({ id, tenPromiseItems }: Props) {
               key={`locale-promise-card-${idx}`}
             />
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
