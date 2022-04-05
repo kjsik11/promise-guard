@@ -2,6 +2,7 @@ import { ChevronRightIcon, XIcon } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import { ObjectId } from 'mongodb';
 import { useCallback, useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 import s from '@assets/markdown.module.css';
 
@@ -15,10 +16,16 @@ import { lifePromiseTags } from '@frontend/define/life-promise';
 import { localeTags } from '@frontend/define/locale-image-circle';
 import { tenPromiseTags } from '@frontend/define/ten-promise-arr';
 import useIncreaseView from '@frontend/hooks/count/use-increase-view';
+import { useNoti } from '@frontend/hooks/use-noti';
 import useUser from '@frontend/hooks/use-user';
+import getRecommendCounts, { GetRecommendCount } from '@frontend/lib/count/get-recommend-counts';
+import increaseNotRecommendCount from '@frontend/lib/count/increase-not-recommend-count';
+import increaseRecommendCount from '@frontend/lib/count/increase-recommend-count';
 
 import buildBreadcrumbs from '@utils/build-breadcrumbs';
 import markdownToHtml from '@utils/markdownToHtml';
+
+import { SWR_KEY } from '$src/define/swr-keys';
 
 import type { GetStaticPaths, GetStaticProps } from 'next';
 
@@ -29,11 +36,24 @@ interface Props {
 }
 
 export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseItems }: Props) {
+  const { data, mutate } = useSWR<GetRecommendCount>(
+    SWR_KEY.GET_RECOMMEND_COUNTS,
+    () => getRecommendCounts(promiseItem._id as string),
+    {
+      fallbackData: {
+        recommendedCount: promiseItem.recommendedCount,
+        notRecommendedCount: promiseItem.notRecommendedCount,
+      },
+    },
+  );
+
   const [booleanPromiseItems, setBooleanPromiseItems] = useState<PromiseTypeFront[]>([]);
   const [localePromiseItems, setLocalePromiseItems] = useState<PromiseTypeFront[]>([]);
   const [tenPromiseItems, setTenPromiseItems] = useState<PromiseTypeFront[]>([]);
   const [lifePromiseItems, setLifePromiseItems] = useState<PromiseTypeFront[]>([]);
   const { user } = useUser();
+
+  const { showAlert, showNoti } = useNoti();
 
   useIncreaseView(promiseItem._id as string);
 
@@ -84,12 +104,26 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
     );
   }, [promiseItems]);
 
-  const handleRecommend = useCallback(() => {
-    if (!user) return;
-  }, [user]);
-  const handleNotRecommend = useCallback(() => {
-    if (!user) return;
-  }, [user]);
+  const handleRecommend = useCallback(async () => {
+    if (!user) return showNoti({ variant: 'alert', title: '로그인 후 이용해주세요.' });
+
+    await increaseRecommendCount(promiseItem._id as string)
+      .then(async (status) => {
+        if (status === 204) showNoti({ title: '이미 투표하였습니다.' });
+        await mutate();
+      })
+      .catch(showAlert);
+  }, [user, showAlert, mutate, showNoti, promiseItem._id]);
+  const handleNotRecommend = useCallback(async () => {
+    if (!user) return showNoti({ variant: 'alert', title: '로그인 후 이용해주세요.' });
+
+    await increaseNotRecommendCount(promiseItem._id as string)
+      .then(async (status) => {
+        if (status === 204) showNoti({ title: '이미 투표하였습니다.' });
+        await mutate();
+      })
+      .catch(showAlert);
+  }, [user, showAlert, mutate, showNoti, promiseItem._id]);
 
   return (
     <div className="bg-gray-100">
@@ -128,7 +162,7 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
               <p className="pt-1 text-xs font-medium">지지해요</p>
             </button>
             <p className="pt-1 text-center font-semibold text-red-400">
-              {promiseItem.recommendedCount.toLocaleString()}
+              {data?.recommendedCount ?? promiseItem.recommendedCount.toLocaleString()}
             </p>
           </div>
           <div>
@@ -140,7 +174,7 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
               <p className="pt-1 text-xs font-medium">반대해요</p>
             </button>
             <p className="pt-1 text-center font-semibold text-blue-400">
-              {promiseItem.notRecommendedCount.toLocaleString()}
+              {data?.notRecommendedCount ?? promiseItem.notRecommendedCount.toLocaleString()}
             </p>
           </div>
         </div>

@@ -41,7 +41,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!alreadyViewFlag) {
       const promiseCol = await collection.promise();
 
-      await promiseCol.updateOne({ _id: objectPromiseId }, { $inc: { viewCount: 1 } });
+      await promiseCol.updateOne(
+        { _id: objectPromiseId, deletedAt: null },
+        { $inc: { viewCount: 1 } },
+      );
     }
 
     return res.status(StatusCodes.OK).end();

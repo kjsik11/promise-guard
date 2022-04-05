@@ -35,7 +35,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(StatusCodes.NO_CONTENT).end();
     }
 
-    await promiseCol.updateOne({ _id: objectPromiseId }, { $inc: { notRecommendedCount: 1 } });
+    await promiseCol.updateOne(
+      { _id: objectPromiseId, deletedAt: null },
+      { $inc: { notRecommendedCount: 1 } },
+    );
 
     await userCol.updateOne(
       { _id: user._id },
@@ -47,7 +50,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         { _id: user._id },
         { $set: { recommended: user.recommended.filter((val) => val !== promiseId) } },
       );
-      await promiseCol.updateOne({ _id: objectPromiseId }, { $inc: { recommendedCount: -1 } });
+      await promiseCol.updateOne(
+        { _id: objectPromiseId, deletedAt: null },
+        { $inc: { recommendedCount: -1 } },
+      );
     }
 
     return res.status(StatusCodes.OK).end();
