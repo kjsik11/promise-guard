@@ -1,6 +1,7 @@
 import type { PromiseTypeFront } from '@backend/model/promise';
 
 import BooleanPromise from './BooleanPromise.tsx copy';
+import LifePromise from './LifePromise';
 import LocalePromise from './LocalePromise';
 import PopulatePromise from './PopulatePromise.tsx';
 import TenPromise from './TenPromise.tsx copy';
@@ -16,6 +17,7 @@ export default function PromiseSections({ promiseItems }: PromiseProps) {
       <BooleanPromise promiseItems={promiseItems.slice(0, 5)} />
       <TenPromise promiseItems={promiseItems.slice(0, 5)} />
       <LocalePromise promiseItems={promiseItems.slice(0, 5)} />
+      <LifePromise promiseItems={promiseItems.slice(0, 5)} />
     </div>
   );
 }
