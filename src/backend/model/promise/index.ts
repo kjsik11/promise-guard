@@ -10,14 +10,14 @@ export interface PromiseType {
 
 export interface PromiseTypeBSON extends PromiseType {
   _id: ObjectId | string;
-  recommendedIds: ObjectId[];
   recommendedCount: number;
-  nonRecommendedIds: ObjectId[];
   nonRecommendedCount: number;
   viewCount: number;
   createdAt: OurDate;
   deletedAt: OurDate | null;
 }
+
+export type PromiseTypeFront = Omit<PromiseTypeBSON, 'createdAt' | 'deletedAt'>;
 
 export const initialPromise: PromiseType = {
   title: '',
