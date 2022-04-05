@@ -24,10 +24,13 @@ export default function LifePromise({ promiseItems }: PromiseProps) {
       <div className="mx-auto flex max-w-sm space-x-2 pt-6">
         <button
           onClick={() => setSelectedCategory('59-shorts')}
-          className={clsx('flex items-center space-x-2 rounded-lg bg-white p-2 transition-colors', {
-            'bg-[#E3F0FF] ring-[2px] ring-PC-400': selectedCategory === '59-shorts',
-            'bg-white': selectedCategory !== '59-shorts',
-          })}
+          className={clsx(
+            'flex flex-1 items-center space-x-2 rounded-lg bg-white p-2 transition-colors',
+            {
+              'bg-[#E3F0FF] ring-[2px] ring-PC-400': selectedCategory === '59-shorts',
+              'bg-white': selectedCategory !== '59-shorts',
+            },
+          )}
         >
           <svg
             width="40"
@@ -41,22 +44,25 @@ export default function LifePromise({ promiseItems }: PromiseProps) {
               fill="#6A99CD"
             />
           </svg>
-          <div className="space-y-0.5 pr-7">
+          <div className="space-y-0.5">
             <p className="text-left font-bold">59초 쇼츠</p>
-            <p className="text-gray-00 text-sm font-medium">좋아 빠르게 가!</p>
+            <p className="text-xs font-medium text-gray-600">좋아 빠르게 가!</p>
           </div>
         </button>
         <button
           onClick={() => setSelectedCategory('heart-break')}
-          className={clsx('flex items-center space-x-2 rounded-lg bg-white p-2 transition-colors', {
-            'bg-[#E3F0FF] ring-[2px] ring-PC-400': selectedCategory === 'heart-break',
-            'bg-white': selectedCategory !== 'heart-break',
-          })}
+          className={clsx(
+            'flex flex-1 items-center space-x-2 rounded-lg bg-white p-2 transition-colors',
+            {
+              'bg-[#E3F0FF] ring-[2px] ring-PC-400': selectedCategory === 'heart-break',
+              'bg-white': selectedCategory !== 'heart-break',
+            },
+          )}
         >
           <HeartIcon className="h-10 w-10 text-PC-400" />
-          <div className="space-y-0.5 pr-7">
+          <div className="space-y-0.5">
             <p className="text-left font-bold">심쿵약속</p>
-            <p className="text-gray-00 text-sm font-medium">나를 위한 생활정책</p>
+            <p className="text-xs font-medium text-gray-600">나를 위한 생활정책</p>
           </div>
         </button>
       </div>
