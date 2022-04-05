@@ -14,6 +14,7 @@ import EmptyCircle from '@frontend/components/vector/EmptyCircle';
 import { lifePromiseTags } from '@frontend/define/life-promise';
 import { localeTags } from '@frontend/define/locale-image-circle';
 import { tenPromiseTags } from '@frontend/define/ten-promise-arr';
+import useIncreaseView from '@frontend/hooks/count/use-increase-view';
 
 import buildBreadcrumbs from '@utils/build-breadcrumbs';
 import markdownToHtml from '@utils/markdownToHtml';
@@ -31,6 +32,8 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
   const [localePromiseItems, setLocalePromiseItems] = useState<PromiseTypeFront[]>([]);
   const [tenPromiseItems, setTenPromiseItems] = useState<PromiseTypeFront[]>([]);
   const [lifePromiseItems, setLifePromiseItems] = useState<PromiseTypeFront[]>([]);
+
+  useIncreaseView(promiseItem._id as string);
 
   useEffect(() => {
     // filter boolean promise items
