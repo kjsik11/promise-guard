@@ -4,11 +4,11 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 py-12 px-4 text-white">
       <Logo />
-      <div className="flex space-x-4 py-6 text-xs font-medium text-gray-400">
+      <div className="flex space-x-4 pt-6 text-xs font-medium text-gray-400">
+        <a href="#">이용약관</a>
         <a href="#">개인정보 처리방침</a>
-        <a href="#">민감정보 처리방침</a>
       </div>
-      <div>
+      {/* <div>
         <div className="space-y-1 pt-2">
           <div className="flex space-x-1 text-sm text-gray-400">
             <p className="font-semibold">대표</p>
@@ -29,7 +29,7 @@ export default function Footer() {
             <p>서울 강서구 우현로 67 107-304</p>
           </div>
         </div>
-      </div>
+      </div> */}
     </footer>
   );
 }

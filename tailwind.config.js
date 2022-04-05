@@ -11,7 +11,7 @@ module.exports = {
         'PC-400': '#6A99CD',
         'PC-600': '#285A92',
         'PC-800': '#082E59',
-        KAKAO: '#FEE5000',
+        Kakao: '#FEE500',
       },
     },
   },
