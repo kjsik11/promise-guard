@@ -1,17 +1,30 @@
 import clsx from 'clsx';
 import NextImage from 'next/image';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+
+import type { PromiseTypeFront } from '@backend/model/promise';
 
 import { MarkerCategory } from '@frontend/components/vector';
 import { localeImageArr } from '@frontend/define/locale-image-circle';
 
-import type { PromiseProps } from './PromiseSections';
+import PromiseCard from './PromiseCard';
 
-export default function LocalePromise({ promiseItems }: PromiseProps) {
+interface Props {
+  localePromiseItems: PromiseTypeFront[];
+  id?: string;
+}
+
+export default function LocalePromise({ id, localePromiseItems }: Props) {
   const [selectedLocaleCategory, setSelectedLocaleCategory] = useState('');
 
+  const filterPromiseItems = useMemo(() => {
+    return localePromiseItems.filter(({ categories }) => {
+      return categories.includes(selectedLocaleCategory);
+    });
+  }, [selectedLocaleCategory, localePromiseItems]);
+
   return (
-    <div className="px-4">
+    <div id={id} className="px-4">
       <div className="flex space-x-2">
         <p className="text-3xl font-bold">지역 공약</p>
         <MarkerCategory className="h-8 w-8" />
@@ -48,6 +61,17 @@ export default function LocalePromise({ promiseItems }: PromiseProps) {
           </div>
         ))}
       </div>
+      {filterPromiseItems.length > 0 && (
+        <ul className="space-y-4 pt-6">
+          {filterPromiseItems.map((item, idx) => (
+            <PromiseCard
+              tagPrefix={`locale-promise-tag-${idx}`}
+              promiseItem={item}
+              key={`locale-promise-card-${idx}`}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

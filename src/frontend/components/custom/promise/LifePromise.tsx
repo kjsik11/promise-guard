@@ -1,17 +1,30 @@
 import { HeartIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+
+import type { PromiseTypeFront } from '@backend/model/promise';
 
 import { DrinkCategory } from '@frontend/components/vector';
 
-import type { PromiseProps } from './PromiseSections';
+import PromiseCard from './PromiseCard';
 
-export default function LifePromise({ promiseItems }: PromiseProps) {
+interface Props {
+  lifePromiseItems: PromiseTypeFront[];
+  id?: string;
+}
+
+export default function LifePromise({ id, lifePromiseItems }: Props) {
   const [selectedCategory, setSelectedCategory] = useState('');
 
+  const filterPromiseItems = useMemo(() => {
+    return lifePromiseItems.filter(({ categories }) => {
+      return categories.includes(selectedCategory);
+    });
+  }, [selectedCategory, lifePromiseItems]);
+
   return (
-    <div className="px-4">
+    <div id={id} className="px-4">
       <div className="flex justify-between">
         <div className="flex items-center space-x-2">
           <p className="text-3xl font-bold">생활 공약</p>
@@ -23,12 +36,12 @@ export default function LifePromise({ promiseItems }: PromiseProps) {
       </div>
       <div className="mx-auto flex max-w-sm space-x-2 pt-6">
         <button
-          onClick={() => setSelectedCategory('59-shorts')}
+          onClick={() => setSelectedCategory('59초 쇼츠')}
           className={clsx(
             'flex flex-1 items-center space-x-2 rounded-lg bg-white p-2 transition-colors',
             {
-              'bg-[#E3F0FF] ring-[2px] ring-PC-400': selectedCategory === '59-shorts',
-              'bg-white': selectedCategory !== '59-shorts',
+              'bg-[#E3F0FF] ring-[2px] ring-PC-400': selectedCategory === '59초 쇼츠',
+              'bg-white': selectedCategory !== '59초 쇼츠',
             },
           )}
         >
@@ -50,12 +63,12 @@ export default function LifePromise({ promiseItems }: PromiseProps) {
           </div>
         </button>
         <button
-          onClick={() => setSelectedCategory('heart-break')}
+          onClick={() => setSelectedCategory('심쿵약속')}
           className={clsx(
             'flex flex-1 items-center space-x-2 rounded-lg bg-white p-2 transition-colors',
             {
-              'bg-[#E3F0FF] ring-[2px] ring-PC-400': selectedCategory === 'heart-break',
-              'bg-white': selectedCategory !== 'heart-break',
+              'bg-[#E3F0FF] ring-[2px] ring-PC-400': selectedCategory === '심쿵약속',
+              'bg-white': selectedCategory !== '심쿵약속',
             },
           )}
         >
@@ -66,6 +79,17 @@ export default function LifePromise({ promiseItems }: PromiseProps) {
           </div>
         </button>
       </div>
+      {filterPromiseItems.length > 0 && (
+        <ul className="space-y-4 pt-6">
+          {filterPromiseItems.map((item, idx) => (
+            <PromiseCard
+              tagPrefix={`locale-promise-tag-${idx}`}
+              promiseItem={item}
+              key={`locale-promise-card-${idx}`}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

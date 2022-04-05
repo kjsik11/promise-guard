@@ -17,7 +17,7 @@ export interface PromiseTypeBSON extends PromiseType {
   deletedAt: OurDate | null;
 }
 
-export type PromiseTypeFront = Omit<PromiseTypeBSON, 'createdAt' | 'deletedAt'>;
+export type PromiseTypeFront = Omit<PromiseTypeBSON, 'body' | 'createdAt' | 'deletedAt'>;
 
 export const initialPromise: PromiseType = {
   title: '',

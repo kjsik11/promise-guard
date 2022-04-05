@@ -3,10 +3,12 @@ import Header from '@frontend/components/core/Header';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="relative mx-auto h-full max-w-3xl">
+    <div className="relative mx-auto h-full max-w-3xl">
       <Header />
-      {children}
-      <Footer />
-    </main>
+      <main className="pt-14">
+        {children}
+        <Footer />
+      </main>
+    </div>
   );
 }

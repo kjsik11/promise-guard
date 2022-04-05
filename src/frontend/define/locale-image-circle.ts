@@ -22,90 +22,110 @@ type LocaleImageCircle = {
   value: string;
 };
 
+export const localeTags = [
+  '서울',
+  '부산',
+  '대구',
+  '인천',
+  '광주',
+  '대전',
+  '울산',
+  '세종',
+  '경기',
+  '강원',
+  '충북',
+  '충남',
+  '전북',
+  '전남',
+  '경북',
+  '경남',
+  '제주',
+];
+
 export const localeImageArr: LocaleImageCircle[] = [
   {
     image: Seoul,
     label: '서울',
-    value: 'seoul',
+    value: '서울',
   },
   {
     image: Busan,
     label: '부산',
-    value: 'busan',
+    value: '부산',
   },
   {
     image: Incheon,
     label: '인천',
-    value: 'incheon',
+    value: '인천',
   },
   {
     image: Daegu,
     label: '대구',
-    value: 'daegu',
+    value: '대구',
   },
   {
     image: Daejeon,
     label: '대전',
-    value: 'daejeon',
+    value: '대전',
   },
   {
     image: Gwanju,
     label: '광주',
-    value: 'gwanju',
+    value: '광주',
   },
   {
     image: Ulsan,
     label: '울산',
-    value: 'ulsan',
+    value: '울산',
   },
   {
     image: Sejong,
     label: '세종',
-    value: 'sejong',
+    value: '세종',
   },
   {
     image: Gyeonggido,
     label: '경기도',
-    value: 'gyeonggido',
+    value: '경기',
   },
   {
     image: Gangwondo,
     label: '강원도',
-    value: 'gangwondo',
+    value: '강원',
   },
   {
     image: Chungcheongnamdo,
     label: '충청남도',
-    value: 'chungcheongnamdo',
+    value: '충남',
   },
   {
     image: Chungcheongbukdo,
     label: '충청북도',
-    value: 'chungcheongbukdo',
+    value: '충북',
   },
   {
     image: Jeollanamdo,
     label: '전라남도',
-    value: 'jeollanamdo',
+    value: '전남',
   },
   {
     image: Jeollabukdo,
     label: '전라북도',
-    value: 'jeollabukdo',
+    value: '전북',
   },
   {
     image: Gyeongsangnamdo,
     label: '경상남도',
-    value: 'gyeongsangnamdo',
+    value: '경남',
   },
   {
     image: Gyeongsangbukdo,
     label: '경상북도',
-    value: 'gyeongsangbukdo',
+    value: '경북',
   },
   {
     image: Jejudo,
     label: '제주도',
-    value: 'jejudo',
+    value: '제주',
   },
 ];

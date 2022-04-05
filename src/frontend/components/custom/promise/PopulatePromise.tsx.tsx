@@ -1,15 +1,21 @@
 import Link from 'next/link';
 
+import type { PromiseTypeFront } from '@backend/model/promise';
+
 import { StarCategory } from '@frontend/components/vector';
 
 import PromiseCard from './PromiseCard';
-import type { PromiseProps } from './PromiseSections';
 
 const flagColors = ['#082E59', '#285A92', '#6A99CD', '#D1D5DB', '#D1D5DB'];
 
-export default function PopulatePromise({ promiseItems }: PromiseProps) {
+interface Props {
+  promiseItems: PromiseTypeFront[];
+  id?: string;
+}
+
+export default function PopulatePromise({ id, promiseItems }: Props) {
   return (
-    <div className="px-4">
+    <div id={id} className="px-4">
       <div className="flex justify-between">
         <div className="flex items-center space-x-2">
           <p className="text-3xl font-bold">인기 공약</p>

@@ -1,13 +1,18 @@
 import { EyeIcon, ThumbDownIcon, ThumbUpIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 
+import type { PromiseTypeFront } from '@backend/model/promise';
+
 import { FireCategory } from '@frontend/components/vector';
 
-import type { PromiseProps } from './PromiseSections';
+interface Props {
+  booleanPromiseItems: PromiseTypeFront[];
+  id?: string;
+}
 
-export default function BooleanPromise({ promiseItems }: PromiseProps) {
+export default function BooleanPromise({ id, booleanPromiseItems }: Props) {
   return (
-    <div className="px-4">
+    <div id={id} className="px-4">
       <div className="flex justify-between">
         <div className="flex items-center space-x-2">
           <p className="text-3xl font-bold">찬반 공약</p>
@@ -18,7 +23,7 @@ export default function BooleanPromise({ promiseItems }: PromiseProps) {
         </Link>
       </div>
       <ul className="space-y-4 pt-6">
-        {promiseItems.map((item, idx) => (
+        {booleanPromiseItems.map((item, idx) => (
           <li
             className="relative rounded-lg bg-white py-3 px-2"
             key={`populate-promise-card-${idx}`}
