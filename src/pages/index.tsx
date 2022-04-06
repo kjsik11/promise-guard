@@ -13,6 +13,8 @@ import MainLayout from '@frontend/components/layout/MainLayout';
 import { categoryCircleItems } from '@frontend/define/category-circle-arr';
 import useParsePromiseArray from '@frontend/hooks/use-parse-promise-array';
 
+import removeDuplicatedTags from '@utils/remove-duplicated-tags';
+
 import type { GetStaticProps } from 'next';
 
 export default function IndexPage({ promiseItems }: { promiseItems: PromiseTypeFront[] }) {
@@ -79,7 +81,8 @@ export const getStaticProps: GetStaticProps<PromiseProps> = async () => {
 
     if (promiseItems.length === 0) throw new Error('[getStaticProps]: failed to fetch');
 
-    console.log('why????', promiseItems.slice(0, 5));
+    const pureTags = removeDuplicatedTags(promiseItems);
+    console.log(pureTags);
 
     return {
       props: JSON.parse(

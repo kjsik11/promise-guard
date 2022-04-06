@@ -21,11 +21,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (loading) return <LoadingPage />;
 
   return (
-    <main className="relative mx-auto h-full max-w-7xl px-4">
+    <>
       <Header />
-      <Countdown />
-      {children}
-      <Footer />
-    </main>
+      <main className="relative mx-auto h-full max-w-7xl px-4 pt-14">
+        <Countdown />
+        {children}
+        <Footer />
+      </main>
+    </>
   );
 }

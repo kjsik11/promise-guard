@@ -27,7 +27,17 @@ export default function PromiseList() {
 
   return (
     <div className="py-4">
-      <div className="flex justify-end">
+      <div className="flex justify-end space-x-4">
+        <Button
+          onClick={() => {
+            if (promiseList) {
+              const reverseArray = promiseList.reverse();
+              setPromiseList([...reverseArray]);
+            }
+          }}
+        >
+          반대로보기
+        </Button>
         <NextLink passHref href="/upload-promise/upload">
           <Button as="a">Upload</Button>
         </NextLink>
