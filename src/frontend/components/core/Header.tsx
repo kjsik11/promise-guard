@@ -41,7 +41,7 @@ export default function Header() {
             <Menu.Items className="absolute right-0 mt-2 w-[200px] origin-top-right divide-y divide-gray-100 rounded-md bg-white text-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <nav className="py-1">
                 {menuItems.map((item, idx) => (
-                  <Menu.Item key={`nav-item-${item.label}-${idx}`}>
+                  <Menu.Item as={'button'} className="w-full" key={`nav-item-${item.label}-${idx}`}>
                     <NextLink href={item.href}>
                       <a className="flex w-full items-center px-4 py-2">{item.label}</a>
                     </NextLink>
@@ -50,7 +50,7 @@ export default function Header() {
               </nav>
               <div>
                 {user && (
-                  <Menu.Item>
+                  <Menu.Item as={'button'} className="w-full">
                     <NextLink href="/my-promise">
                       <a className="flex w-full items-center px-4 py-2">내 공약</a>
                     </NextLink>

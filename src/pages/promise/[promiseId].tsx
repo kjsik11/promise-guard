@@ -1,7 +1,7 @@
 import { ChevronRightIcon, XIcon } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import { ObjectId } from 'mongodb';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import useSWR from 'swr';
 
 import s from '@assets/markdown.module.css';
@@ -34,6 +34,8 @@ interface Props {
 }
 
 export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseItems }: Props) {
+  const [loading, setLoading] = useState(false);
+
   const { data, mutate } = useSWR<GetRecommendCount>(
     SWR_KEY.GET_RECOMMEND_COUNTS,
     () => getRecommendCounts(promiseItem._id as string),
@@ -55,6 +57,7 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
     useParsePromiseArray(promiseItems);
 
   const handleRecommend = useCallback(async () => {
+    setLoading(true);
     if (!user) return showNoti({ variant: 'alert', title: '로그인 후 이용해주세요.' });
 
     await increaseRecommendCount(promiseItem._id as string)
@@ -62,9 +65,12 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
         if (status === 204) showNoti({ title: '이미 투표하였습니다.' });
         await mutate();
       })
-      .catch(showAlert);
+      .catch(showAlert)
+      .finally(() => setLoading(false));
   }, [user, showAlert, mutate, showNoti, promiseItem._id]);
+
   const handleNotRecommend = useCallback(async () => {
+    setLoading(true);
     if (!user) return showNoti({ variant: 'alert', title: '로그인 후 이용해주세요.' });
 
     await increaseNotRecommendCount(promiseItem._id as string)
@@ -72,7 +78,8 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
         if (status === 204) showNoti({ title: '이미 투표하였습니다.' });
         await mutate();
       })
-      .catch(showAlert);
+      .catch(showAlert)
+      .finally(() => setLoading(false));
   }, [user, showAlert, mutate, showNoti, promiseItem._id]);
 
   return (
@@ -105,7 +112,8 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
         <div className="flex justify-center space-x-6 py-10">
           <div>
             <button
-              onClick={() => handleRecommend()}
+              disabled={loading}
+              onClick={handleRecommend}
               className="flex h-20 w-20 flex-col items-center justify-center rounded-full bg-red-400 text-white"
             >
               <EmptyCircle />
@@ -117,7 +125,8 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
           </div>
           <div>
             <button
-              onClick={() => handleNotRecommend()}
+              disabled={loading}
+              onClick={handleNotRecommend}
               className="flex h-20 w-20 flex-col items-center justify-center rounded-full bg-blue-400 text-white"
             >
               <XIcon className="h-9 w-9" />

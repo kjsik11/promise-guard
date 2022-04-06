@@ -21,7 +21,7 @@ export default function IndexPage({ promiseItems }: { promiseItems: PromiseTypeF
 
   return (
     <div>
-      <section className="relative flex flex-col items-center space-y-4 bg-PC-800 py-12 px-16 text-center text-white">
+      <section className="relative flex flex-col items-center space-y-4 bg-PC-800 py-12 px-4 text-center text-white">
         <p className="text-2xl font-bold">
           대국민 공약 투표
           <br />

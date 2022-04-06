@@ -1,5 +1,20 @@
 import type { ObjectId } from 'mongodb';
 
+export interface MyPromiseType {
+  view: {
+    items: PromiseTypeFront[];
+    count: number;
+  };
+  recommended: {
+    items: PromiseTypeFront[];
+    count: number;
+  };
+  notRecommended: {
+    items: PromiseTypeFront[];
+    count: number;
+  };
+}
+
 export interface PromiseType {
   title: string;
   body: string;
