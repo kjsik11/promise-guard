@@ -3,7 +3,6 @@ import { MenuIcon } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import NextLink from 'next/link';
 import { Fragment } from 'react';
-import { useWindowScroll } from 'react-use';
 
 import Logo from '@frontend/components/vector/Logo';
 import useUser from '@frontend/hooks/use-user';
@@ -17,14 +16,9 @@ const menuItems = [
 
 export default function Header() {
   const { user, handleSignout, handleSignin } = useUser();
-  const { y } = useWindowScroll();
 
   return (
-    <header
-      className={clsx('sticky inset-x-0 top-0 z-[1] h-14  bg-white/60', {
-        'backdrop-blur': y,
-      })}
-    >
+    <header className="sticky inset-x-0 top-0 z-[1] h-14  bg-white/60 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-3xl items-center justify-between p-4">
         <NextLink href="/">
           <a>
