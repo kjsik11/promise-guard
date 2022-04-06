@@ -5,7 +5,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Header />
-      <main className="relative mx-auto h-full max-w-3xl">
+      <main className="relative mx-auto h-full max-w-3xl pt-14">
         {children}
         <Footer />
       </main>

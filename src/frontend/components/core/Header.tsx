@@ -18,7 +18,7 @@ export default function Header() {
   const { user, handleSignout, handleSignin } = useUser();
 
   return (
-    <header className="sticky inset-x-0 top-0 z-[1] h-14  bg-white/60 backdrop-blur">
+    <header className="fixed inset-x-0 top-0 z-[1] bg-white/60 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-3xl items-center justify-between p-4">
         <NextLink href="/">
           <a>
