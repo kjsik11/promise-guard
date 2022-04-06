@@ -22,7 +22,7 @@ export default function Header() {
   return (
     <header
       className={clsx(
-        'fixed inset-x-0 top-0 z-[1] flex h-14 items-center justify-between bg-white/60 p-4',
+        'fixed inset-x-0 top-0 z-[1] mx-auto flex h-14 max-w-3xl items-center justify-between bg-white/60 p-4',
         {
           'backdrop-blur': y,
         },
