@@ -1,6 +1,5 @@
 import { ChevronRightIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 import { collection } from '@backend/collection';
 import type { PromiseTypeFront } from '@backend/model/promise';
@@ -12,64 +11,13 @@ import type { PromiseProps } from '@frontend/components/custom/promise/PromiseSe
 import PromiseSections from '@frontend/components/custom/promise/PromiseSections';
 import MainLayout from '@frontend/components/layout/MainLayout';
 import { categoryCircleItems } from '@frontend/define/category-circle-arr';
-import { lifePromiseTags } from '@frontend/define/life-promise';
-import { localeTags } from '@frontend/define/locale-image-circle';
-import { tenPromiseTags } from '@frontend/define/ten-promise-arr';
+import useParsePromiseArray from '@frontend/hooks/use-parse-promise-array';
 
 import type { GetStaticProps } from 'next';
 
 export default function IndexPage({ promiseItems }: { promiseItems: PromiseTypeFront[] }) {
-  const [booleanPromiseItems, setBooleanPromiseItems] = useState<PromiseTypeFront[]>([]);
-  const [localePromiseItems, setLocalePromiseItems] = useState<PromiseTypeFront[]>([]);
-  const [tenPromiseItems, setTenPromiseItems] = useState<PromiseTypeFront[]>([]);
-  const [lifePromiseItems, setLifePromiseItems] = useState<PromiseTypeFront[]>([]);
-
-  useEffect(() => {
-    // filter boolean promise items
-    setBooleanPromiseItems(
-      promiseItems
-        .sort(
-          (
-            { recommendedCount: prevRec, notRecommendedCount: prevNrec },
-            { recommendedCount: nextRec, notRecommendedCount: nextNRec },
-          ) => nextRec - nextNRec - (prevRec - prevNrec),
-        )
-        .slice(0, 5),
-    );
-
-    // filter local promise items
-    setLocalePromiseItems(
-      promiseItems.filter(({ categories }) => {
-        let filterFlag = false;
-        categories.forEach((category) => {
-          if (localeTags.includes(category)) filterFlag = true;
-        });
-        return filterFlag;
-      }),
-    );
-
-    // filter ten promise items
-    setTenPromiseItems(
-      promiseItems.filter(({ categories }) => {
-        let filterFlag = false;
-        categories.forEach((category) => {
-          if (tenPromiseTags.includes(category)) filterFlag = true;
-        });
-        return filterFlag;
-      }),
-    );
-
-    // filter life promise items
-    setLifePromiseItems(
-      promiseItems.filter(({ categories }) => {
-        let filterFlag = false;
-        categories.forEach((category) => {
-          if (lifePromiseTags.includes(category)) filterFlag = true;
-        });
-        return filterFlag;
-      }),
-    );
-  }, [promiseItems]);
+  const { localePromiseItems, booleanPromiseItems, tenPromiseItems, lifePromiseItems } =
+    useParsePromiseArray(promiseItems);
 
   return (
     <div>
