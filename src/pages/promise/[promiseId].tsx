@@ -1,10 +1,7 @@
 import { ChevronRightIcon, XIcon } from '@heroicons/react/outline';
-import clsx from 'clsx';
 import { ObjectId } from 'mongodb';
 import { useCallback, useState } from 'react';
 import useSWR from 'swr';
-
-import s from '@assets/markdown.module.css';
 
 import { collection } from '@backend/collection';
 import type { PromiseTypeFront } from '@backend/model/promise';
@@ -101,9 +98,9 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
             ))}
           </div>
         )}
-        <div className={clsx('pt-10 pb-4', s.root)}>
+        <div className="pt-10 pb-4">
           <div
-            className="markdown-container"
+            className="prose prose-lg"
             dangerouslySetInnerHTML={{
               __html: markdownToHtml(promiseItem.body),
             }}

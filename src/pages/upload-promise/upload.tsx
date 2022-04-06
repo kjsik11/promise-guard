@@ -1,12 +1,9 @@
 import 'react-mde/lib/styles/css/react-mde-all.css';
 
 import { XIcon } from '@heroicons/react/outline';
-import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import ReactMde from 'react-mde';
-
-import s from '@assets/markdown.module.css';
 
 import { initialPromise, PromiseType } from '@backend/model/promise';
 
@@ -81,7 +78,7 @@ export default function UploadPromise() {
   if (pageLoading) return <Loading />;
 
   return (
-    <div className={clsx(s.root, 'p-4')}>
+    <div className="p-4">
       <p className="text-4xl font-bold">공약 {router.query.id ? '수정' : '업로드'}</p>
       <div className="-mb-4 flex items-center space-x-4 pt-4">
         <p>핵심공약인가요? </p>
@@ -108,27 +105,28 @@ export default function UploadPromise() {
           }))
         }
       />
-
       <p className="-mt-4 mb-4 text-xs">{promiseInput.title.length}/50</p>
-      <ReactMde
-        initialEditorHeight={400}
-        maxEditorHeight={400}
-        minEditorHeight={400}
-        minPreviewHeight={400}
-        value={promiseInput.body}
-        onChange={(t) => setPromiseInput((prev) => ({ ...prev, body: t }))}
-        selectedTab={selectedTab}
-        onTabChange={setSelectedTab}
-        generateMarkdownPreview={(markdown) => Promise.resolve(markdownToHtml(markdown))}
-        childProps={{
-          writeButton: {
-            tabIndex: -1,
-          },
-        }}
-        paste={{
-          saveImage: save,
-        }}
-      />
+      <div className="prose prose-lg w-full">
+        <ReactMde
+          initialEditorHeight={400}
+          maxEditorHeight={400}
+          minEditorHeight={400}
+          minPreviewHeight={400}
+          value={promiseInput.body}
+          onChange={(t) => setPromiseInput((prev) => ({ ...prev, body: t }))}
+          selectedTab={selectedTab}
+          onTabChange={setSelectedTab}
+          generateMarkdownPreview={(markdown) => Promise.resolve(markdownToHtml(markdown))}
+          childProps={{
+            writeButton: {
+              tabIndex: -1,
+            },
+          }}
+          paste={{
+            saveImage: save,
+          }}
+        />
+      </div>
       <form className="mt-8 flex items-end">
         <InputComponent
           maxLength={30}
