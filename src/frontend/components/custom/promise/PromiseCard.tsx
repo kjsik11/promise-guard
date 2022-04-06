@@ -25,7 +25,7 @@ export default function PromiseCard({ promiseItem, tagPrefix, isFlag }: Props) {
         </div>
         <p className="mr-8 pt-2 font-bold line-clamp-1">{promiseItem.title}</p>
         <div className="flex justify-between pt-3">
-          <p className="text-xs font-semibold text-PC-400">정부혁신</p>
+          <p className="text-xs font-semibold text-PC-400">{promiseItem.categories[0]}</p>
           <div className="flex items-center space-x-3 text-xs font-medium text-gray-500">
             <div className="flex items-center space-x-2">
               <ThumbUpIcon className="h-3 w-3 text-red-400" />

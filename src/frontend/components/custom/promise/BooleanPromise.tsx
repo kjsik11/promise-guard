@@ -39,7 +39,7 @@ export default function BooleanPromise({ id, isDetailPage, booleanPromiseItems }
               </div>
               <p className="mr-8 pt-2 font-bold line-clamp-1">{item.title}</p>
               <div className="flex justify-between pt-3">
-                <p className="text-xs font-semibold text-PC-400">정부혁신</p>
+                <p className="text-xs font-semibold text-PC-400">{item.categories[0]}</p>
                 <div className="flex items-center space-x-2 text-xs font-medium">
                   <EyeIcon className="h-3 w-3 text-gray-400" />
                   <span className="text-gray-500">{item.viewCount.toLocaleString()}</span>

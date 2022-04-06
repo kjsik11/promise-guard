@@ -81,8 +81,8 @@ export const getStaticProps: GetStaticProps<PromiseProps> = async () => {
 
     if (promiseItems.length === 0) throw new Error('[getStaticProps]: failed to fetch');
 
+    //TODO:
     const pureTags = removeDuplicatedTags(promiseItems);
-    console.log(pureTags);
 
     return {
       props: JSON.parse(
