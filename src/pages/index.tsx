@@ -79,10 +79,12 @@ export const getStaticProps: GetStaticProps<PromiseProps> = async () => {
 
     if (promiseItems.length === 0) throw new Error('[getStaticProps]: failed to fetch');
 
+    console.log('why????', promiseItems.slice(0, 5));
+
     return {
       props: JSON.parse(
         JSON.stringify({
-          promiseItems: promiseItems,
+          promiseItems,
         }),
       ),
       revalidate: 30,
