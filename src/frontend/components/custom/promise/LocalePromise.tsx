@@ -43,7 +43,7 @@ export default function LocalePromise({ id }: Props) {
       </div>
 
       <div className="mx-auto max-w-sm">
-        <div className="scrollbarNone mt-6 flex space-x-3 overflow-x-scroll">
+        <div className="scrollbarNone flex space-x-3 overflow-x-scroll pt-6">
           {localeImageArr.slice(0, localeImageArr.length / 2).map((item, idx) => (
             <div className="first:pl-4 last:pr-4" key={`tenpromise-circle-${item.value}-${idx}`}>
               <button
@@ -76,7 +76,7 @@ export default function LocalePromise({ id }: Props) {
             </div>
           ))}
         </div>
-        <div className="scrollbarNone mt-5 flex space-x-3 overflow-x-scroll">
+        <div className="scrollbarNone flex space-x-3 overflow-x-scroll pt-5">
           {localeImageArr.slice(localeImageArr.length / 2).map((item, idx) => (
             <div className="first:pl-4 last:pr-4" key={`tenpromise-circle-${item.value}-${idx}`}>
               <button

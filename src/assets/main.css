@@ -39,4 +39,8 @@
   .scrollbarNone::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
   }
+
+  .prose :where(iframe):not(:where([class~='not-prose'] *)) {
+    @apply aspect-myVideo h-auto w-full;
+  }
 }
