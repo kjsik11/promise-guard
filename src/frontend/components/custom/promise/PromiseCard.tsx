@@ -5,6 +5,8 @@ import type { PromiseTypeFront } from '@backend/model/promise';
 
 import { PopulateFlag } from '@frontend/components/vector';
 
+import compressCategoryText from '@utils/compress-category-text';
+
 interface Props {
   promiseItem: PromiseTypeFront;
   tagPrefix: string;
@@ -25,9 +27,11 @@ export default function PromiseCard({ promiseItem, tagPrefix, isFlag }: Props) {
         </div>
         <p className="mr-8 pt-2 font-bold line-clamp-1">{promiseItem.title}</p>
         <div className="flex justify-between pt-3">
-          <p className="text-xs font-semibold text-PC-400">{promiseItem.categories[0]}</p>
+          <p className="text-xs font-semibold text-PC-400">
+            {compressCategoryText(promiseItem.categories[0])}
+          </p>
           <div className="flex items-center space-x-3 text-xs font-medium text-gray-500">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1">
               <ThumbUpIcon className="h-3 w-3 text-red-400" />
               <span>{promiseItem.recommendedCount.toLocaleString()}</span>
             </div>
