@@ -3,8 +3,8 @@ import { ChevronDownIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
 import NextImage from 'next/image';
 
-import Calendar from '@assets/introduce/calendar.jpg';
-import CheckBoardImage from '@assets/introduce/check-board.jpg';
+import Calendar from '@assets/introduce/calendar.png';
+import CheckBoardImage from '@assets/introduce/check-board.png';
 
 import KakaoButton from '@frontend/components/custom/KakaoButton';
 import { QAList } from '@frontend/define/qa-list';

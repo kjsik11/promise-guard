@@ -1,4 +1,3 @@
-export { default as Board } from './Board';
 export { default as DrinkCategory } from './DrinkCategory';
 export { default as FireCategory } from './FireCategory';
 export { default as FlagCategory } from './FlagCategory';

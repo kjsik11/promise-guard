@@ -2,9 +2,6 @@ module.exports = {
   content: ['./src/pages/**/*.{js,ts,jsx,tsx}', './src/frontend/components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      aspectRatio: {
-        myVideo: '16 / 9',
-      },
       fontFamily: {
         pretendard:
           "Pretendard, -apple-system, 'system-ui', system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', arial, sans-serif;",

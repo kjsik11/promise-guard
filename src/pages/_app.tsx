@@ -40,19 +40,18 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     <>
       <Script src="/js/redirectIE.js" strategy="beforeInteractive" />
       <DefaultSeo
-        title="NextJS App"
-        description="This page has been created by the template for full-stack nextjs application made by Coxwave"
+        title="May10"
+        description="2Nerds Lab May10 promise"
         openGraph={{
           type: 'website',
-          title: 'NextJS App',
-          description:
-            'This page has been created by the template for full-stack nextjs application made by Coxwave',
+          title: 'May10',
+          description: 'Nerds Lab May10 promise',
           images: [
             {
               url: '/assets/open_graph.jpg',
               width: 1200,
               height: 630,
-              alt: 'NextJS Template',
+              alt: 'May10 open-graph image',
             },
           ],
         }}

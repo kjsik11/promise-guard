@@ -209,7 +209,12 @@ export default function MyPromisePage() {
                 key={`my-promise-${idx}`}
               />
             ))
-          : !buttonLoading && <div className="py-20 text-center">없습니다.</div>}
+          : !buttonLoading && (
+              <div className="py-20 text-center text-2xl font-bold text-PC-800">
+                {selected === 'view' ? '조회' : selected === 'recommended' ? '지지' : '반대'}한
+                공약이 없습니다.
+              </div>
+            )}
 
         {buttonLoading && <DynamicLoading />}
       </section>
