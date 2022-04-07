@@ -8,8 +8,20 @@ export default function Footer() {
     <footer className="bg-gray-900 py-12 px-4 text-white">
       <Logo />
       <div className="flex space-x-4 pt-6 text-xs font-medium text-gray-400">
-        <a href="#">이용약관</a>
-        <a href="#">개인정보 처리방침</a>
+        <a
+          target="_blank"
+          href="https://merciful-son-52b.notion.site/c70ed37d893049b28377b45852b84a22"
+          rel="noreferrer"
+        >
+          이용약관
+        </a>
+        <a
+          target="_blank"
+          href="https://merciful-son-52b.notion.site/a6b7f58743e446d8b4dd121c2f8e5ab2"
+          rel="noreferrer"
+        >
+          개인정보 처리방침
+        </a>
         {user && <a href="#">회원탈퇴</a>}
       </div>
       {/* <div>
