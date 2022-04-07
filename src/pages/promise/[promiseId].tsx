@@ -1,4 +1,5 @@
 import { ChevronRightIcon, XIcon } from '@heroicons/react/outline';
+import clsx from 'clsx';
 import { ObjectId } from 'mongodb';
 import { useCallback, useState } from 'react';
 import useSWR from 'swr';
@@ -102,7 +103,13 @@ export default function PromiseDetailPage({
         )}
         <div className="pt-10 pb-4">
           <div
-            className="prose prose-lg"
+            className={clsx(
+              'prose prose-lg',
+              'prose-h3:text-xl prose-h3:font-bold prose-h3:text-black',
+              'prose-p:text-base prose-p:font-normal prose-p:text-gray-900',
+              'prose-li:text-base prose-li:font-normal prose-li:text-gray-900 prose-li:marker:text-xs prose-li:marker:text-black',
+              'prose-img:w-full',
+            )}
             dangerouslySetInnerHTML={{
               __html: markdownToHtml(promiseItem.body),
             }}
