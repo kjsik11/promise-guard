@@ -15,27 +15,21 @@ import PopulatePromise from './PopulatePromise.tsx';
 import TenPromise from './TenPromise';
 
 export interface PromiseProps {
-  promiseItems: PromiseTypeFront[];
+  populatePromiseItems: PromiseTypeFront[];
   booleanPromiseItems: PromiseTypeFront[];
-  localePromiseItems: PromiseTypeFront[];
-  tenPromiseItems: PromiseTypeFront[];
-  lifePromiseItems: PromiseTypeFront[];
 }
 
 export default function PromiseSections({
-  localePromiseItems,
+  populatePromiseItems,
   booleanPromiseItems,
-  tenPromiseItems,
-  lifePromiseItems,
-  promiseItems,
 }: PromiseProps) {
   return (
     <div className="space-y-16 bg-gray-100 py-12">
-      <PopulatePromise id={populateSectionId} populateItems={promiseItems.slice(0, 5)} />
+      <PopulatePromise id={populateSectionId} populateItems={populatePromiseItems} />
       <BooleanPromise id={booleanSectionId} booleanPromiseItems={booleanPromiseItems} />
-      <TenPromise id={tenSectionId} tenPromiseItems={tenPromiseItems} />
-      <LocalePromise id={localeSectionId} localePromiseItems={localePromiseItems} />
-      <LifePromise id={lifeSectionId} lifePromiseItems={lifePromiseItems} />
+      <TenPromise id={tenSectionId} />
+      <LocalePromise id={localeSectionId} />
+      <LifePromise id={lifeSectionId} />
     </div>
   );
 }

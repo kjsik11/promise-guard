@@ -1,27 +1,39 @@
 import clsx from 'clsx';
 import NextImage from 'next/image';
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { PromiseTypeFront } from '@backend/model/promise';
 
+import DynamicLoading from '@frontend/components/core/DynamicLoading';
 import { MarkerCategory } from '@frontend/components/vector';
 import { localeImageArr } from '@frontend/define/locale-image-circle';
+import { useNoti } from '@frontend/hooks/use-noti';
+import { fetcher } from '@frontend/lib/fetcher';
 
 import PromiseCard from './PromiseCard';
 
 interface Props {
-  localePromiseItems: PromiseTypeFront[];
   id?: string;
 }
 
-export default function LocalePromise({ id, localePromiseItems }: Props) {
+export default function LocalePromise({ id }: Props) {
   const [selectedLocaleCategory, setSelectedLocaleCategory] = useState('');
+  const [promiseItems, setPromiseItems] = useState<null | PromiseTypeFront[]>(null);
+  const [loading, setLoading] = useState(false);
 
-  const filterPromiseItems = useMemo(() => {
-    return localePromiseItems.filter(({ categories }) => {
-      return categories.includes(selectedLocaleCategory);
-    });
-  }, [selectedLocaleCategory, localePromiseItems]);
+  const { showAlert } = useNoti();
+
+  useEffect(() => {
+    if (selectedLocaleCategory) {
+      setLoading(true);
+      setPromiseItems(null);
+      fetcher(`/api/promise/locale?category=${selectedLocaleCategory}`)
+        .json<PromiseTypeFront[]>()
+        .then(setPromiseItems)
+        .catch(showAlert)
+        .finally(() => setLoading(false));
+    }
+  }, [selectedLocaleCategory, showAlert]);
 
   return (
     <div id={id} className="px-4">
@@ -33,6 +45,7 @@ export default function LocalePromise({ id, localePromiseItems }: Props) {
         {localeImageArr.map((item, idx) => (
           <div key={`tenpromise-circle-${item.value}-${idx}`}>
             <button
+              disabled={loading}
               onClick={() => setSelectedLocaleCategory(item.value)}
               className={clsx(
                 'flex h-[60px] w-[60px] items-center justify-center overflow-hidden rounded-full bg-white transition-colors',
@@ -61,17 +74,20 @@ export default function LocalePromise({ id, localePromiseItems }: Props) {
           </div>
         ))}
       </div>
-      {filterPromiseItems.length > 0 && (
-        <div className="space-y-4 pt-6">
-          {filterPromiseItems.map((item, idx) => (
-            <PromiseCard
-              tagPrefix={`locale-promise-tag-${idx}`}
-              promiseItem={item}
-              key={`locale-promise-card-${idx}`}
-            />
-          ))}
-        </div>
-      )}
+      {selectedLocaleCategory &&
+        (promiseItems && promiseItems.length > 0 ? (
+          <div className="mt-6 space-y-4 px-4">
+            {promiseItems.map((item, idx) => (
+              <PromiseCard
+                tagPrefix={`locale-promise-tag-${idx}`}
+                promiseItem={item}
+                key={`locale-promise-card-${idx}`}
+              />
+            ))}
+          </div>
+        ) : (
+          <DynamicLoading />
+        ))}
     </div>
   );
 }

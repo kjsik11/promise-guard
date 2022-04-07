@@ -11,7 +11,6 @@ import PromiseSections from '@frontend/components/custom/promise/PromiseSections
 import EmptyCircle from '@frontend/components/vector/EmptyCircle';
 import useIncreaseView from '@frontend/hooks/count/use-increase-view';
 import { useNoti } from '@frontend/hooks/use-noti';
-import useParsePromiseArray from '@frontend/hooks/use-parse-promise-array';
 import useUser from '@frontend/hooks/use-user';
 import getRecommendCounts, { GetRecommendCount } from '@frontend/lib/count/get-recommend-counts';
 import increaseNotRecommendCount from '@frontend/lib/count/increase-not-recommend-count';
@@ -27,10 +26,16 @@ import type { GetStaticPaths, GetStaticProps } from 'next';
 interface Props {
   breadcrumbs: string[];
   promiseItem: PromiseTypeFront & { body: string };
-  promiseItems: PromiseTypeFront[];
+  booleanPromiseItems: PromiseTypeFront[];
+  populatePromiseItems: PromiseTypeFront[];
 }
 
-export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseItems }: Props) {
+export default function PromiseDetailPage({
+  breadcrumbs,
+  promiseItem,
+  booleanPromiseItems,
+  populatePromiseItems,
+}: Props) {
   const [loading, setLoading] = useState(false);
 
   const { data, mutate } = useSWR<GetRecommendCount>(
@@ -49,9 +54,6 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
   const { showAlert, showNoti } = useNoti();
 
   useIncreaseView(promiseItem._id as string);
-
-  const { localePromiseItems, booleanPromiseItems, tenPromiseItems, lifePromiseItems } =
-    useParsePromiseArray(promiseItems);
 
   const handleRecommend = useCallback(async () => {
     setLoading(true);
@@ -143,11 +145,8 @@ export default function PromiseDetailPage({ breadcrumbs, promiseItem, promiseIte
       </section>
       <section>
         <PromiseSections
-          localePromiseItems={localePromiseItems}
           booleanPromiseItems={booleanPromiseItems}
-          tenPromiseItems={tenPromiseItems}
-          lifePromiseItems={lifePromiseItems}
-          promiseItems={promiseItems}
+          populatePromiseItems={populatePromiseItems}
         />
       </section>
     </div>
@@ -177,17 +176,38 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
       { deletedAt: null, _id: promiseId },
       { projection: { createdAt: 0, deletedAt: 0 } },
     );
-
     if (!promiseItem) throw new Error('[getStaticProps]: failed to fetch');
 
     const breadcrumbs = buildBreadcrumbs(promiseItem.categories);
+
+    const booleanPromiseItems = promiseItems
+      .slice()
+      .sort((prev, next) => {
+        return (
+          next.recommendedCount +
+          next.notRecommendedCount -
+          (prev.recommendedCount + prev.notRecommendedCount)
+        );
+      })
+      .slice(0, 50)
+      .sort((prev, next) => {
+        return (
+          prev.recommendedCount -
+          prev.notRecommendedCount -
+          (next.recommendedCount - next.notRecommendedCount)
+        );
+      })
+      .slice(0, 5);
+
+    //TODO:
 
     return {
       props: JSON.parse(
         JSON.stringify({
           breadcrumbs,
           promiseItem,
-          promiseItems,
+          populatePromiseItems: promiseItems.slice(0, 5),
+          booleanPromiseItems,
         }),
       ),
     };

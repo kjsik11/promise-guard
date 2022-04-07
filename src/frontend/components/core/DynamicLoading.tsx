@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 
 const Loading = dynamic(() => import('./Loading'), {
-  loading: () => <p>loading...</p>,
+  loading: () => <p></p>,
 });
 
 export default function DynamicLoading() {

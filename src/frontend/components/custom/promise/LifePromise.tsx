@@ -1,26 +1,38 @@
 import { HeartIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { PromiseTypeFront } from '@backend/model/promise';
 
+import DynamicLoading from '@frontend/components/core/DynamicLoading';
 import { DrinkCategory } from '@frontend/components/vector';
+import { useNoti } from '@frontend/hooks/use-noti';
+import { fetcher } from '@frontend/lib/fetcher';
 
 import PromiseCard from './PromiseCard';
 
 interface Props {
-  lifePromiseItems: PromiseTypeFront[];
   id?: string;
 }
 
-export default function LifePromise({ id, lifePromiseItems }: Props) {
+export default function LifePromise({ id }: Props) {
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [promiseItems, setPromiseItems] = useState<null | PromiseTypeFront[]>(null);
+  const [loading, setLoading] = useState(false);
 
-  const filterPromiseItems = useMemo(() => {
-    return lifePromiseItems.filter(({ categories }) => {
-      return categories.includes(selectedCategory);
-    });
-  }, [selectedCategory, lifePromiseItems]);
+  const { showAlert } = useNoti();
+
+  useEffect(() => {
+    if (selectedCategory) {
+      setLoading(true);
+      setPromiseItems(null);
+      fetcher(`/api/promise/life?category=${selectedCategory}`)
+        .json<PromiseTypeFront[]>()
+        .then(setPromiseItems)
+        .catch(showAlert)
+        .finally(() => setLoading(false));
+    }
+  }, [selectedCategory, showAlert]);
 
   return (
     <div id={id} className="px-4">
@@ -32,6 +44,7 @@ export default function LifePromise({ id, lifePromiseItems }: Props) {
       </div>
       <div className="mx-auto flex max-w-sm space-x-2 pt-6">
         <button
+          disabled={loading}
           onClick={() => setSelectedCategory('59초 쇼츠')}
           className={clsx(
             'flex flex-1 items-center space-x-2 rounded-lg bg-white p-2 transition-colors',
@@ -75,17 +88,20 @@ export default function LifePromise({ id, lifePromiseItems }: Props) {
           </div>
         </button>
       </div>
-      {filterPromiseItems.length > 0 && (
-        <div className="space-y-4 pt-6">
-          {filterPromiseItems.map((item, idx) => (
-            <PromiseCard
-              tagPrefix={`locale-promise-tag-${idx}`}
-              promiseItem={item}
-              key={`locale-promise-card-${idx}`}
-            />
-          ))}
-        </div>
-      )}
+      {selectedCategory &&
+        (promiseItems && promiseItems.length > 0 ? (
+          <div className="mt-6 space-y-4 px-4">
+            {promiseItems.map((item, idx) => (
+              <PromiseCard
+                tagPrefix={`life-promise-tag-${idx}`}
+                promiseItem={item}
+                key={`life-promise-card-${idx}`}
+              />
+            ))}
+          </div>
+        ) : (
+          <DynamicLoading />
+        ))}
     </div>
   );
 }

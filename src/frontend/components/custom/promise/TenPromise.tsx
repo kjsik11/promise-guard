@@ -1,36 +1,57 @@
 import clsx from 'clsx';
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { PromiseTypeFront } from '@backend/model/promise';
 
+import DynamicLoading from '@frontend/components/core/DynamicLoading';
 import { FlagCategory } from '@frontend/components/vector';
 import { tenPromiseArr } from '@frontend/define/ten-promise-arr';
+import { useNoti } from '@frontend/hooks/use-noti';
+import { fetcher } from '@frontend/lib/fetcher';
 
 import removeDuplicatedTags from '@utils/remove-duplicated-tags';
 
 import PromiseCard from './PromiseCard';
 
 interface Props {
-  tenPromiseItems: PromiseTypeFront[];
   id?: string;
 }
 
-export default function TenPromise({ id, tenPromiseItems }: Props) {
+export default function TenPromise({ id }: Props) {
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedTag, setSelectedTag] = useState('');
+  const [promiseItems, setPromiseItems] = useState<null | PromiseTypeFront[]>(null);
+  const [promiseTags, setPromiseTags] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const filterPromise = useMemo(() => {
-    const tempPromiseItems = tenPromiseItems.filter(({ categories }) => {
-      return categories.includes(selectedCategory);
-    });
+  const { showAlert } = useNoti();
 
-    const pureTags = removeDuplicatedTags(tempPromiseItems);
+  // const filterPromise = useMemo(() => {
+  //   const tempPromiseItems = tenPromiseItems.filter(({ categories }) => {
+  //     return categories.includes(selectedCategory);
+  //   });
 
-    return {
-      promiseItems: tempPromiseItems,
-      pureTags,
-    };
-  }, [selectedCategory, tenPromiseItems]);
+  //   const pureTags = removeDuplicatedTags(tempPromiseItems);
+
+  //   return {
+  //     promiseItems: tempPromiseItems,
+  //     pureTags,
+  //   };
+  // }, [selectedCategory, tenPromiseItems]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      setLoading(true);
+      setPromiseItems(null);
+      fetcher(`/api/promise/ten?category=${selectedCategory}`)
+        .json<PromiseTypeFront[]>()
+        .then((tenPromiseList) => {
+          setPromiseItems(tenPromiseList);
+          setPromiseTags(removeDuplicatedTags(tenPromiseList));
+        })
+        .catch(showAlert)
+        .finally(() => setLoading(false));
+    }
+  }, [selectedCategory, showAlert]);
 
   return (
     <div id={id}>
@@ -42,6 +63,7 @@ export default function TenPromise({ id, tenPromiseItems }: Props) {
         {tenPromiseArr.map((item, idx) => (
           <div key={`tenpromise-circle-${item.value}-${idx}`}>
             <button
+              disabled={loading}
               onClick={() => setSelectedCategory(item.value)}
               className={clsx('rounded-full bg-white p-2.5 transition-colors', {
                 'bg-[#E3F0FF] ring-[2px] ring-PC-400': selectedCategory === item.value,
@@ -65,7 +87,7 @@ export default function TenPromise({ id, tenPromiseItems }: Props) {
           </div>
         ))}
       </div>
-      {filterPromise && filterPromise.pureTags.length > 0 && (
+      {/* {promiseItems && promiseTags.length > 0 ? (
         <div className="mt-6 flex overflow-auto bg-white py-2">
           {filterPromise.pureTags.map((tag, idx) => (
             <button
@@ -83,18 +105,23 @@ export default function TenPromise({ id, tenPromiseItems }: Props) {
             </button>
           ))}
         </div>
-      )}
-      {filterPromise && filterPromise.promiseItems.length > 0 && (
-        <div className="mt-6 space-y-4 px-4">
-          {filterPromise.promiseItems.map((item, idx) => (
-            <PromiseCard
-              tagPrefix={`locale-promise-tag-${idx}`}
-              promiseItem={item}
-              key={`locale-promise-card-${idx}`}
-            />
-          ))}
-        </div>
-      )}
+      ) : (
+        <DynamicLoading />
+      )} */}
+      {selectedCategory &&
+        (promiseItems && promiseItems.length > 0 ? (
+          <div className="mt-6 space-y-4 px-4">
+            {promiseItems.map((item, idx) => (
+              <PromiseCard
+                tagPrefix={`ten-promise-tag-${idx}`}
+                promiseItem={item}
+                key={`ten-promise-card-${idx}`}
+              />
+            ))}
+          </div>
+        ) : (
+          <DynamicLoading />
+        ))}
     </div>
   );
 }

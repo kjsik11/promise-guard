@@ -12,7 +12,7 @@ import {
 } from '@frontend/components/vector/ten-promise';
 
 export const tenPromiseTags = [
-  '코로나19 극복 회복과 도약 ',
+  '코로나19 극복 회복과 도약',
   '행복경제시대, 성장과 복지의 선순환',
   '공정과 상식의 회복, 대한민국 정상화',
   '따뜻한 동행, 모두가 행복한 대한민국',
@@ -34,7 +34,7 @@ export const tenPromiseArr: tenCircleItems[] = [
   {
     svg: Syringe,
     label: '코로나19',
-    value: '코로나19 극복 회복과 도약 ',
+    value: '코로나19 극복 회복과 도약',
   },
   {
     svg: ChartBar,
