@@ -2,6 +2,8 @@ import { lifePromiseTags } from '@frontend/define/life-promise';
 import { localeTags } from '@frontend/define/locale-image-circle';
 import { tenPromiseArr, tenPromiseTags } from '@frontend/define/ten-promise-arr';
 
+import compressCategoryText from './compress-category-text';
+
 export default function buildBreadcrumbs(categories: string[]) {
   const breadcrumbs: string[] = [];
 
@@ -13,11 +15,12 @@ export default function buildBreadcrumbs(categories: string[]) {
   });
 
   if (filterFlag) {
-    breadcrumbs.push('10대 공약');
     categories.forEach((val, idx) => {
       if (idx === 0) {
         breadcrumbs.push(
-          tenPromiseArr[tenPromiseArr.findIndex(({ value }) => value === val)].label,
+          compressCategoryText(
+            tenPromiseArr[tenPromiseArr.findIndex(({ value }) => value === val)].label,
+          ),
         );
       } else breadcrumbs.push(val);
     });

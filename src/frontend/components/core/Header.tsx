@@ -8,7 +8,7 @@ import useUser from '@frontend/hooks/use-user';
 
 const menuItems = [
   { label: '오월,십일 소개', href: 'introduce' },
-  { label: '의견 제보 · 공약 수정 요청', href: '/feedback' },
+  { label: '의견 제보 · 공약 수정 요청', href: 'https://forms.gle/MPon2wu38gHxz2KU8' },
 ];
 
 export default function Header() {
@@ -43,7 +43,15 @@ export default function Header() {
                 {menuItems.map((item, idx) => (
                   <Menu.Item as={'button'} className="w-full" key={`nav-item-${item.label}-${idx}`}>
                     <NextLink href={item.href}>
-                      <a className="flex w-full items-center px-4 py-2">{item.label}</a>
+                      <a
+                        target={item.href.split('https://').length > 1 ? '_blank' : '_self'}
+                        referrerPolicy={
+                          item.href.split('https://').length > 1 ? 'no-referrer' : 'origin'
+                        }
+                        className="flex w-full items-center px-4 py-2"
+                      >
+                        {item.label}
+                      </a>
                     </NextLink>
                   </Menu.Item>
                 ))}
