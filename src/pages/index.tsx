@@ -13,7 +13,7 @@ import PromiseSections from '@frontend/components/custom/promise/PromiseSections
 import MainLayout from '@frontend/components/layout/MainLayout';
 import { categoryCircleItems } from '@frontend/define/category-circle-arr';
 
-import removeDuplicatedTags from '@utils/remove-duplicated-tags';
+import { removeDuplicatedTags } from '@utils/remove-duplicated-tags';
 
 import type { GetStaticProps } from 'next';
 

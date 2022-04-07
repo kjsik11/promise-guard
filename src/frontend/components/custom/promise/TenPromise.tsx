@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import type { PromiseTypeFront } from '@backend/model/promise';
 
@@ -9,7 +9,7 @@ import { tenPromiseArr } from '@frontend/define/ten-promise-arr';
 import { useNoti } from '@frontend/hooks/use-noti';
 import { fetcher } from '@frontend/lib/fetcher';
 
-import removeDuplicatedTags from '@utils/remove-duplicated-tags';
+import { removeDuplicatedCategoris } from '@utils/remove-duplicated-tags';
 
 import PromiseCard from './PromiseCard';
 
@@ -18,12 +18,20 @@ interface Props {
 }
 
 export default function TenPromise({ id }: Props) {
+  const [selectedPureCategory, setSelectedPureCategory] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [promiseItems, setPromiseItems] = useState<null | PromiseTypeFront[]>(null);
-  const [promiseTags, setPromiseTags] = useState<string[]>([]);
+  const [pureCategories, setPureCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
   const { showAlert } = useNoti();
+
+  const renderedPromiseItem = useMemo<null | PromiseTypeFront[]>(() => {
+    if (!promiseItems) return null;
+    else if (selectedPureCategory)
+      return promiseItems.filter(({ categories }) => categories[1] === selectedPureCategory);
+    return promiseItems;
+  }, [selectedPureCategory, promiseItems]);
 
   // const filterPromise = useMemo(() => {
   //   const tempPromiseItems = tenPromiseItems.filter(({ categories }) => {
@@ -42,11 +50,13 @@ export default function TenPromise({ id }: Props) {
     if (selectedCategory) {
       setLoading(true);
       setPromiseItems(null);
+      setSelectedPureCategory('');
+
       fetcher(`/api/promise/ten?category=${selectedCategory}`)
         .json<PromiseTypeFront[]>()
         .then((tenPromiseList) => {
           setPromiseItems(tenPromiseList);
-          setPromiseTags(removeDuplicatedTags(tenPromiseList));
+          setPureCategories(removeDuplicatedCategoris(tenPromiseList));
         })
         .catch(showAlert)
         .finally(() => setLoading(false));
@@ -87,31 +97,29 @@ export default function TenPromise({ id }: Props) {
           </div>
         ))}
       </div>
-      {/* {promiseItems && promiseTags.length > 0 ? (
-        <div className="mt-6 flex overflow-auto bg-white py-2">
-          {filterPromise.pureTags.map((tag, idx) => (
+      {selectedCategory && (
+        <div className="scrollbarNone my-6 flex items-center overflow-x-auto bg-white py-2 px-4">
+          {pureCategories.map((category, idx) => (
             <button
-              onClick={() => setSelectedTag(tag)}
+              onClick={() => setSelectedPureCategory(category)}
               className={clsx(
-                'rounded-full px-3 py-1.5 text-sm font-semibold transition-colors first:pl-4 last:pr-4',
+                'shrink-0 rounded-full py-1.5 px-3 text-sm font-semibold transition-colors',
                 {
-                  'bg-PC-400 text-white': selectedTag === tag,
-                  'text-PC-600': selectedTag !== tag,
+                  'text-PC-600': selectedPureCategory !== category,
+                  'bg-PC-400 text-white': selectedPureCategory === category,
                 },
               )}
-              key={`puretags-${tag}-${idx}`}
+              key={`pure-${category}-${idx}`}
             >
-              {'Hello'}
+              {category}
             </button>
           ))}
         </div>
-      ) : (
-        <DynamicLoading />
-      )} */}
+      )}
       {selectedCategory &&
-        (promiseItems && promiseItems.length > 0 ? (
-          <div className="mt-6 space-y-4 px-4">
-            {promiseItems.map((item, idx) => (
+        (renderedPromiseItem && renderedPromiseItem.length > 0 ? (
+          <div className="space-y-4 px-4">
+            {renderedPromiseItem.map((item, idx) => (
               <PromiseCard
                 tagPrefix={`ten-promise-tag-${idx}`}
                 promiseItem={item}
