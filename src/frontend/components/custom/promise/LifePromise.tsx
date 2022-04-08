@@ -90,7 +90,7 @@ export default function LifePromise({ id }: Props) {
       </div>
       {selectedCategory &&
         (promiseItems && promiseItems.length > 0 ? (
-          <div className="mt-6 space-y-4 px-4">
+          <div className="mt-6 space-y-4">
             {promiseItems.map((item, idx) => (
               <PromiseCard
                 tagPrefix={`life-promise-tag-${idx}`}

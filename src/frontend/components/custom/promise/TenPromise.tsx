@@ -50,6 +50,7 @@ export default function TenPromise({ id }: Props) {
     if (selectedCategory) {
       setLoading(true);
       setPromiseItems(null);
+      setPureCategories([]);
       setSelectedPureCategory('');
 
       fetcher(`/api/promise/ten?category=${selectedCategory}`)
@@ -97,7 +98,7 @@ export default function TenPromise({ id }: Props) {
           </div>
         ))}
       </div>
-      {selectedCategory && (
+      {selectedCategory && pureCategories.length > 0 && (
         <div className="scrollbarNone my-6 flex items-center overflow-x-auto bg-white py-2 px-4">
           {pureCategories.map((category, idx) => (
             <button
