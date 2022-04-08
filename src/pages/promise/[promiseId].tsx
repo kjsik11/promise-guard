@@ -20,6 +20,7 @@ import increaseRecommendCount from '@frontend/lib/count/increase-recommend-count
 
 import buildBreadcrumbs from '@utils/build-breadcrumbs';
 import markdownToHtml from '@utils/markdownToHtml';
+import shareLogic from '@utils/share-logic';
 
 import { SWR_KEY } from '$src/define/swr-keys';
 
@@ -131,7 +132,13 @@ export default function PromiseDetailPage({
           />
         </div>
         <div className="mx-auto flex max-w-sm items-center space-x-2">
-          <button className="mx-2 mt-2 text-xs text-gray-600">
+          <button
+            onClick={() => {
+              const isShowNoti = shareLogic(`${window.location.origin}/promise/${promiseItem._id}`);
+              if (isShowNoti) showNoti({ title: '공유하기 URL이 복사되었습니다.' });
+            }}
+            className="mx-2 mt-2 text-xs text-gray-600"
+          >
             <ShareIcon className="h-6 w-6" />
             <p>공유</p>
           </button>
