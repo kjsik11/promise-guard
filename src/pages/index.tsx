@@ -96,9 +96,8 @@ export const getStaticProps: GetStaticProps<PromiseProps> = async () => {
       .slice(0, 50)
       .sort((prev, next) => {
         return (
-          prev.recommendedCount -
-          prev.notRecommendedCount -
-          (next.recommendedCount - next.notRecommendedCount)
+          Math.abs(prev.recommendedCount - prev.notRecommendedCount) -
+          Math.abs(next.recommendedCount - next.notRecommendedCount)
         );
       })
       .slice(0, 5);

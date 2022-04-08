@@ -30,7 +30,7 @@ export default function BooleanPromise({ id, isDetailPage, booleanPromiseItems }
           </Link>
         )}
       </div>
-      <div className={clsx('space-y-4 pt-6', { 'mt-4 bg-gray-50 px-4 pb-16': isDetailPage })}>
+      <div className={clsx('space-y-4 pt-6', { 'mt-4 bg-gray-50 px-4 pb-4': isDetailPage })}>
         {booleanPromiseItems.map((item, idx) => (
           <Link key={`populate-promise-card-${idx}`} href={`/promise/${item._id}`}>
             <a className="relative block rounded-lg bg-white py-3 px-2">

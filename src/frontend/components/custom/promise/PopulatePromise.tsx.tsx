@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 import type { PromiseTypeFront } from '@backend/model/promise';
 
@@ -17,8 +16,6 @@ interface Props {
 }
 
 export default function PopulatePromise({ id, populateItems, isDetailPage = false }: Props) {
-  const router = useRouter();
-
   return (
     <div id={id} className={clsx({ 'px-4': !isDetailPage })}>
       <div className="flex justify-between">
@@ -32,7 +29,7 @@ export default function PopulatePromise({ id, populateItems, isDetailPage = fals
           </Link>
         )}
       </div>
-      <div className={clsx('space-y-4 pt-6', { 'mt-4 bg-gray-50 px-4 pb-16': isDetailPage })}>
+      <div className={clsx('space-y-4 pt-6', { 'mt-4 bg-gray-50 px-4 pb-4': isDetailPage })}>
         {populateItems.map((item, idx) => (
           <PromiseCard
             isFlag={{ color: flagColors[idx], label: String(idx + 1) }}

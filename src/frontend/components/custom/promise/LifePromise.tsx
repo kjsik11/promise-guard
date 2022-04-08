@@ -32,7 +32,6 @@ export default function LifePromise({ id }: Props) {
       typeof sessionCategory === 'string' &&
       lifePromiseTags.includes(sessionCategory)
     ) {
-      console.log('life');
       setSelectedCategory(sessionCategory);
       setLoading(true);
       fetcher(`/api/promise/life?category=${sessionCategory}`)
