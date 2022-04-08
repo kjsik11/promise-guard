@@ -1,4 +1,4 @@
-import { ChevronRightIcon, XIcon } from '@heroicons/react/outline';
+import { ChevronRightIcon, ShareIcon, XIcon } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import { ObjectId } from 'mongodb';
 import { useCallback, useState } from 'react';
@@ -9,6 +9,7 @@ import type { PromiseTypeFront } from '@backend/model/promise';
 
 import KakaoChannel from '@frontend/components/custom/KakaoChannel';
 import PromiseSections from '@frontend/components/custom/promise/PromiseSections';
+import LoginModal from '@frontend/components/ui/LoginModal';
 import EmptyCircle from '@frontend/components/vector/EmptyCircle';
 import useIncreaseView from '@frontend/hooks/count/use-increase-view';
 import { useNoti } from '@frontend/hooks/use-noti';
@@ -38,6 +39,7 @@ export default function PromiseDetailPage({
   populatePromiseItems,
 }: Props) {
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const { data, mutate } = useSWR<GetRecommendCount>(
     SWR_KEY.GET_RECOMMEND_COUNTS,
@@ -50,7 +52,7 @@ export default function PromiseDetailPage({
     },
   );
 
-  const { user } = useUser();
+  const { user, handleSignin } = useUser();
 
   const { showAlert, showNoti } = useNoti();
 
@@ -58,7 +60,10 @@ export default function PromiseDetailPage({
 
   const handleRecommend = useCallback(async () => {
     setLoading(true);
-    if (!user) return showNoti({ variant: 'alert', title: '로그인 후 이용해주세요.' });
+    if (!user) {
+      setLoading(false);
+      return showNoti({ variant: 'alert', title: '로그인 후 이용해주세요.' });
+    }
 
     await increaseRecommendCount(promiseItem._id as string)
       .then(async (status) => {
@@ -66,12 +71,18 @@ export default function PromiseDetailPage({
         await mutate();
       })
       .catch(showAlert)
-      .finally(() => setLoading(false));
+      .finally(() => {
+        showNoti({ title: '지지 투표되었습니다.', content: '지인들에게도 공약을 소개해주세요!' });
+        setLoading(false);
+      });
   }, [user, showAlert, mutate, showNoti, promiseItem._id]);
 
   const handleNotRecommend = useCallback(async () => {
     setLoading(true);
-    if (!user) return showNoti({ variant: 'alert', title: '로그인 후 이용해주세요.' });
+    if (!user) {
+      setLoading(false);
+      return showNoti({ variant: 'alert', title: '로그인 후 이용해주세요.' });
+    }
 
     await increaseNotRecommendCount(promiseItem._id as string)
       .then(async (status) => {
@@ -79,7 +90,10 @@ export default function PromiseDetailPage({
         await mutate();
       })
       .catch(showAlert)
-      .finally(() => setLoading(false));
+      .finally(() => {
+        showNoti({ title: '지지 투표되었습니다.', content: '지인들에게도 공약을 소개해주세요!' });
+        setLoading(false);
+      });
   }, [user, showAlert, mutate, showNoti, promiseItem._id]);
 
   return (
@@ -115,33 +129,43 @@ export default function PromiseDetailPage({
             }}
           />
         </div>
-        <div className="flex justify-center space-x-6 py-10">
-          <div>
-            <button
-              disabled={loading}
-              onClick={handleRecommend}
-              className="flex h-20 w-20 flex-col items-center justify-center rounded-full bg-red-400 text-white"
-            >
-              <EmptyCircle />
-              <p className="pt-1 text-xs font-medium">지지해요</p>
-            </button>
-            <p className="pt-1 text-center font-semibold text-red-400">
-              {data?.recommendedCount ?? promiseItem.recommendedCount.toLocaleString()}
-            </p>
-          </div>
-          <div>
-            <button
-              disabled={loading}
-              onClick={handleNotRecommend}
-              className="flex h-20 w-20 flex-col items-center justify-center rounded-full bg-blue-400 text-white"
-            >
-              <XIcon className="h-9 w-9" />
-              <p className="pt-1 text-xs font-medium">반대해요</p>
-            </button>
-            <p className="pt-1 text-center font-semibold text-blue-400">
-              {data?.notRecommendedCount ?? promiseItem.notRecommendedCount.toLocaleString()}
-            </p>
-          </div>
+        <div className="mx-auto flex max-w-sm items-center space-x-2">
+          <button className="mx-2 mt-2 text-xs text-gray-600">
+            <ShareIcon className="h-6 w-6" />
+            <p>공유</p>
+          </button>
+          <button
+            disabled={loading}
+            onClick={() => {
+              if (user) handleRecommend();
+              else {
+                setShowModal(true);
+              }
+            }}
+            className="flex flex-1 items-center space-x-3 rounded-xl bg-red-400 py-1.5 px-3 text-sm font-bold text-white"
+          >
+            <EmptyCircle />
+            <div className="text-left">
+              <p>{data?.recommendedCount ?? promiseItem.recommendedCount.toLocaleString()}</p>
+              <p>지지해요</p>
+            </div>
+          </button>
+          <button
+            disabled={loading}
+            onClick={() => {
+              if (user) handleNotRecommend();
+              else {
+                setShowModal(true);
+              }
+            }}
+            className="flex flex-1 items-center space-x-3 rounded-xl bg-blue-400 py-1.5 px-3 text-sm font-bold text-white"
+          >
+            <XIcon className="h-9 w-9" />
+            <div className="text-left">
+              <p>{data?.notRecommendedCount ?? promiseItem.notRecommendedCount.toLocaleString()}</p>
+              <p>반대해요</p>
+            </div>
+          </button>
         </div>
       </section>
       <section>
@@ -156,6 +180,13 @@ export default function PromiseDetailPage({
           populatePromiseItems={populatePromiseItems}
         />
       </section>
+      <LoginModal
+        show={showModal}
+        close={() => setShowModal(false)}
+        action={async () => {
+          await handleSignin().finally(() => setShowModal(false));
+        }}
+      />
     </div>
   );
 }

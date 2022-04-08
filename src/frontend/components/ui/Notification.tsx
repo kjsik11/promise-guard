@@ -26,7 +26,7 @@ export default function Notification({
       aria-live="assertive"
       className={clsx(
         className,
-        'pointer-events-none fixed inset-0 z-10 flex items-end justify-center px-4 py-6 sm:items-start sm:justify-end sm:p-6',
+        'pointer-events-none fixed inset-0 z-10 flex items-end justify-center px-4 py-6',
       )}
     >
       {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
@@ -34,8 +34,8 @@ export default function Notification({
         show={show}
         as={Fragment}
         enter="ease-out duration-300 transition"
-        enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-        enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+        enterFrom="translate-y-2 opacity-0"
+        enterTo="translate-y-0 opacity-100"
         leave="transition ease-in duration-100"
         leaveFrom="opacity-100"
         leaveTo="opacity-0"

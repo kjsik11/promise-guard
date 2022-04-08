@@ -93,18 +93,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           Authorization: `Bearer ${kakaoAccount.access_token}`,
           'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
         },
-      }).catch(() => {
-        got
-          .post(`${KAKAO_USER_HOST}/v1/user/unlink`, {
-            headers: {
-              Authorization: `Bearer ${kakaoAccount.access_token}`,
-              'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-            },
-          })
-          .then(() => res.status(StatusCodes.FORBIDDEN).redirect('/401'))
-          .catch((err) => {
-            throw new ApiError(err);
-          });
+      }).catch(async () => {
+        await got.post(`${KAKAO_USER_HOST}/v1/user/unlink`, {
+          headers: {
+            Authorization: `Bearer ${kakaoAccount.access_token}`,
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+          },
+        });
+
+        res.status(StatusCodes.FORBIDDEN).redirect('/401');
+
+        throw new ApiError('INTERNAL_SERVER_ERROR');
       });
 
       const { insertedId } = await userCol.insertOne({
@@ -130,6 +129,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }),
     ]);
     res.redirect(req.cookies[COOKIE_KEY_REDIRECT_URL] || '/');
+    return;
   }
 };
 

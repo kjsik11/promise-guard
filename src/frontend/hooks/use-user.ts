@@ -19,14 +19,17 @@ export default function useUser() {
 
   const { data: user, error, mutate } = useSWRImmutable(SWR_KEY.USER_PROFILE, getUserInfo);
 
-  const handleSignin = useCallback(async () => {
-    setCookie(COOKIE_KEY_REDIRECT_URL, router.asPath);
+  const handleSignin = useCallback(
+    async (ishome: boolean = false) => {
+      setCookie(COOKIE_KEY_REDIRECT_URL, ishome ? '/' : router.asPath);
 
-    await router
-      .push('/signin/kakao')
-      .then(() => mutate())
-      .catch(showAlert);
-  }, [showAlert, mutate, router]);
+      await router
+        .push('/signin/kakao')
+        .then(() => mutate())
+        .catch(showAlert);
+    },
+    [showAlert, mutate, router],
+  );
 
   const handleSignout = useCallback(async () => {
     await signout()
