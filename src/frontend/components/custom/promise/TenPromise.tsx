@@ -5,7 +5,8 @@ import type { PromiseTypeFront } from '@backend/model/promise';
 
 import DynamicLoading from '@frontend/components/core/DynamicLoading';
 import { FlagCategory } from '@frontend/components/vector';
-import { tenPromiseArr } from '@frontend/define/ten-promise-arr';
+import { recentCategoryKey } from '@frontend/define/session-key';
+import { tenPromiseArr, tenPromiseTags } from '@frontend/define/ten-promise-arr';
 import { useNoti } from '@frontend/hooks/use-noti';
 import { fetcher } from '@frontend/lib/fetcher';
 
@@ -47,7 +48,29 @@ export default function TenPromise({ id }: Props) {
   // }, [selectedCategory, tenPromiseItems]);
 
   useEffect(() => {
+    const sessionCategory = window.sessionStorage.getItem(recentCategoryKey);
+
+    if (
+      sessionCategory &&
+      typeof sessionCategory === 'string' &&
+      tenPromiseTags.includes(sessionCategory)
+    ) {
+      setSelectedCategory(sessionCategory);
+      setLoading(true);
+      fetcher(`/api/promise/ten?category=${sessionCategory}`)
+        .json<PromiseTypeFront[]>()
+        .then((tenPromiseList) => {
+          setPromiseItems(tenPromiseList);
+          setPureCategories(removeDuplicatedCategoris(tenPromiseList));
+        })
+        .catch(showAlert)
+        .finally(() => setLoading(false));
+    }
+  }, [showAlert]);
+
+  useEffect(() => {
     if (selectedCategory) {
+      window.sessionStorage.setItem(recentCategoryKey, selectedCategory);
       setLoading(true);
       setPromiseItems(null);
       setPureCategories([]);

@@ -4,6 +4,9 @@
  * @type {import('next').NextConfig}
  **/
 const nextConfig = {
+  experimental: {
+    scrollRestoration: true,
+  },
   async rewrites() {
     return [
       {

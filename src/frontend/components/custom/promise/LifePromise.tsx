@@ -6,6 +6,8 @@ import type { PromiseTypeFront } from '@backend/model/promise';
 
 import DynamicLoading from '@frontend/components/core/DynamicLoading';
 import { DrinkCategory } from '@frontend/components/vector';
+import { lifePromiseTags } from '@frontend/define/life-promise';
+import { recentCategoryKey } from '@frontend/define/session-key';
 import { useNoti } from '@frontend/hooks/use-noti';
 import { fetcher } from '@frontend/lib/fetcher';
 
@@ -23,7 +25,27 @@ export default function LifePromise({ id }: Props) {
   const { showAlert } = useNoti();
 
   useEffect(() => {
+    const sessionCategory = window.sessionStorage.getItem(recentCategoryKey);
+
+    if (
+      sessionCategory &&
+      typeof sessionCategory === 'string' &&
+      lifePromiseTags.includes(sessionCategory)
+    ) {
+      console.log('life');
+      setSelectedCategory(sessionCategory);
+      setLoading(true);
+      fetcher(`/api/promise/life?category=${sessionCategory}`)
+        .json<PromiseTypeFront[]>()
+        .then(setPromiseItems)
+        .catch(showAlert)
+        .finally(() => setLoading(false));
+    }
+  }, [showAlert]);
+
+  useEffect(() => {
     if (selectedCategory) {
+      window.sessionStorage.setItem(recentCategoryKey, selectedCategory);
       setLoading(true);
       setPromiseItems(null);
       fetcher(`/api/promise/life?category=${selectedCategory}`)

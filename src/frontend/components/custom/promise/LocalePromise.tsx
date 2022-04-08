@@ -6,7 +6,8 @@ import type { PromiseTypeFront } from '@backend/model/promise';
 
 import DynamicLoading from '@frontend/components/core/DynamicLoading';
 import { MarkerCategory } from '@frontend/components/vector';
-import { localeImageArr } from '@frontend/define/locale-image-circle';
+import { localeImageArr, localeTags } from '@frontend/define/locale-image-circle';
+import { recentCategoryKey } from '@frontend/define/session-key';
 import { useNoti } from '@frontend/hooks/use-noti';
 import { fetcher } from '@frontend/lib/fetcher';
 
@@ -17,23 +18,42 @@ interface Props {
 }
 
 export default function LocalePromise({ id }: Props) {
-  const [selectedLocaleCategory, setSelectedLocaleCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [promiseItems, setPromiseItems] = useState<null | PromiseTypeFront[]>(null);
   const [loading, setLoading] = useState(false);
 
   const { showAlert } = useNoti();
 
   useEffect(() => {
-    if (selectedLocaleCategory) {
+    const sessionCategory = window.sessionStorage.getItem(recentCategoryKey);
+
+    if (
+      sessionCategory &&
+      typeof sessionCategory === 'string' &&
+      localeTags.includes(sessionCategory)
+    ) {
+      setSelectedCategory(sessionCategory);
       setLoading(true);
-      setPromiseItems(null);
-      fetcher(`/api/promise/locale?category=${selectedLocaleCategory}`)
+      fetcher(`/api/promise/locale?category=${sessionCategory}`)
         .json<PromiseTypeFront[]>()
         .then(setPromiseItems)
         .catch(showAlert)
         .finally(() => setLoading(false));
     }
-  }, [selectedLocaleCategory, showAlert]);
+  }, [showAlert]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      window.sessionStorage.setItem(recentCategoryKey, selectedCategory);
+      setLoading(true);
+      setPromiseItems(null);
+      fetcher(`/api/promise/locale?category=${selectedCategory}`)
+        .json<PromiseTypeFront[]>()
+        .then(setPromiseItems)
+        .catch(showAlert)
+        .finally(() => setLoading(false));
+    }
+  }, [selectedCategory, showAlert]);
 
   return (
     <div id={id}>
@@ -48,11 +68,11 @@ export default function LocalePromise({ id }: Props) {
             <div className="first:pl-4 last:pr-4" key={`tenpromise-circle-${item.value}-${idx}`}>
               <button
                 disabled={loading}
-                onClick={() => setSelectedLocaleCategory(item.value)}
+                onClick={() => setSelectedCategory(item.value)}
                 className={clsx(
                   'flex h-[60px] w-[60px] items-center justify-center overflow-hidden rounded-full bg-white transition-colors',
                   {
-                    'ring-[2px] ring-PC-400': selectedLocaleCategory === item.value,
+                    'ring-[2px] ring-PC-400': selectedCategory === item.value,
                   },
                 )}
               >
@@ -62,8 +82,8 @@ export default function LocalePromise({ id }: Props) {
               </button>
               <p
                 className={clsx('pt-1.5 text-center text-xs font-semibold transition-colors', {
-                  'text-PC-400': selectedLocaleCategory === item.value,
-                  'text-gray-500': selectedLocaleCategory !== item.value,
+                  'text-PC-400': selectedCategory === item.value,
+                  'text-gray-500': selectedCategory !== item.value,
                 })}
               >
                 {item.label.split('\n').map((val, index) => (
@@ -81,11 +101,11 @@ export default function LocalePromise({ id }: Props) {
             <div className="first:pl-4 last:pr-4" key={`tenpromise-circle-${item.value}-${idx}`}>
               <button
                 disabled={loading}
-                onClick={() => setSelectedLocaleCategory(item.value)}
+                onClick={() => setSelectedCategory(item.value)}
                 className={clsx(
                   'flex h-[60px] w-[60px] items-center justify-center overflow-hidden rounded-full bg-white transition-colors',
                   {
-                    'ring-[2px] ring-PC-400': selectedLocaleCategory === item.value,
+                    'ring-[2px] ring-PC-400': selectedCategory === item.value,
                   },
                 )}
               >
@@ -95,8 +115,8 @@ export default function LocalePromise({ id }: Props) {
               </button>
               <p
                 className={clsx('pt-1.5 text-center text-xs font-semibold transition-colors', {
-                  'text-PC-400': selectedLocaleCategory === item.value,
-                  'text-gray-500': selectedLocaleCategory !== item.value,
+                  'text-PC-400': selectedCategory === item.value,
+                  'text-gray-500': selectedCategory !== item.value,
                 })}
               >
                 {item.label.split('\n').map((val, index) => (
@@ -115,11 +135,11 @@ export default function LocalePromise({ id }: Props) {
           <div key={`tenpromise-circle-${item.value}-${idx}`}>
             <button
               disabled={loading}
-              onClick={() => setSelectedLocaleCategory(item.value)}
+              onClick={() => setSelectedCategory(item.value)}
               className={clsx(
                 'flex h-[60px] w-[60px] items-center justify-center overflow-hidden rounded-full bg-white transition-colors',
                 {
-                  'ring-[2px] ring-PC-400': selectedLocaleCategory === item.value,
+                  'ring-[2px] ring-PC-400': selectedCategory === item.value,
                 },
               )}
             >
@@ -129,8 +149,8 @@ export default function LocalePromise({ id }: Props) {
             </button>
             <p
               className={clsx('pt-1.5 text-center text-xs font-semibold transition-colors', {
-                'text-PC-400': selectedLocaleCategory === item.value,
-                'text-gray-500': selectedLocaleCategory !== item.value,
+                'text-PC-400': selectedCategory === item.value,
+                'text-gray-500': selectedCategory !== item.value,
               })}
             >
               {item.label.split('\n').map((val, index) => (
@@ -144,7 +164,7 @@ export default function LocalePromise({ id }: Props) {
         ))}
       </div> */}
       <div className="px-4">
-        {selectedLocaleCategory &&
+        {selectedCategory &&
           (promiseItems && promiseItems.length > 0 ? (
             <div className="mt-6 space-y-4">
               {promiseItems.map((item, idx) => (
