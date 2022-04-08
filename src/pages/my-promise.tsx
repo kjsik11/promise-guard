@@ -38,7 +38,11 @@ export default function MyPromisePage() {
   }, [user]);
 
   useEffect(() => {
-    if (myPromiseItems && myPromiseItems[selected].items.length === 0) {
+    if (
+      myPromiseItems &&
+      myPromiseItems[selected].items.length === 0 &&
+      myPromiseItems[selected].count > 0
+    ) {
       setButtonLoading(true);
       fetcher(`/api/user/other-promise?variant=${selected}`)
         .json<PromiseTypeFront[]>()

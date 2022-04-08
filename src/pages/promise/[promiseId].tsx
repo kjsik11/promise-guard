@@ -38,7 +38,8 @@ export default function PromiseDetailPage({
   booleanPromiseItems,
   populatePromiseItems,
 }: Props) {
-  const [loading, setLoading] = useState(false);
+  // for seperate promise true or false button loading
+  const [loading, setLoading] = useState<'true' | 'false' | ''>('');
   const [showModal, setShowModal] = useState(false);
 
   const { data, mutate } = useSWR<GetRecommendCount>(
@@ -59,9 +60,9 @@ export default function PromiseDetailPage({
   useIncreaseView(promiseItem._id as string);
 
   const handleRecommend = useCallback(async () => {
-    setLoading(true);
+    setLoading('true');
     if (!user) {
-      setLoading(false);
+      setLoading('');
       return showNoti({ variant: 'alert', title: '로그인 후 이용해주세요.' });
     }
 
@@ -73,14 +74,14 @@ export default function PromiseDetailPage({
       .catch(showAlert)
       .finally(() => {
         showNoti({ title: '지지 투표되었습니다.', content: '지인들에게도 공약을 소개해주세요!' });
-        setLoading(false);
+        setLoading('');
       });
   }, [user, showAlert, mutate, showNoti, promiseItem._id]);
 
   const handleNotRecommend = useCallback(async () => {
-    setLoading(true);
+    setLoading('false');
     if (!user) {
-      setLoading(false);
+      setLoading('');
       return showNoti({ variant: 'alert', title: '로그인 후 이용해주세요.' });
     }
 
@@ -92,7 +93,7 @@ export default function PromiseDetailPage({
       .catch(showAlert)
       .finally(() => {
         showNoti({ title: '지지 투표되었습니다.', content: '지인들에게도 공약을 소개해주세요!' });
-        setLoading(false);
+        setLoading('');
       });
   }, [user, showAlert, mutate, showNoti, promiseItem._id]);
 
@@ -135,14 +136,17 @@ export default function PromiseDetailPage({
             <p>공유</p>
           </button>
           <button
-            disabled={loading}
+            disabled={Boolean(loading)}
             onClick={() => {
               if (user) handleRecommend();
               else {
                 setShowModal(true);
               }
             }}
-            className="flex flex-1 items-center space-x-3 rounded-xl bg-red-400 py-1.5 px-3 text-sm font-bold text-white"
+            className={clsx(
+              'flex flex-1 items-center space-x-3 rounded-xl bg-red-400 py-1.5 px-3 text-sm font-bold text-white',
+              { 'animate-pulse': loading === 'true' },
+            )}
           >
             <EmptyCircle />
             <div className="text-left">
@@ -151,14 +155,17 @@ export default function PromiseDetailPage({
             </div>
           </button>
           <button
-            disabled={loading}
+            disabled={Boolean(loading)}
             onClick={() => {
               if (user) handleNotRecommend();
               else {
                 setShowModal(true);
               }
             }}
-            className="flex flex-1 items-center space-x-3 rounded-xl bg-blue-400 py-1.5 px-3 text-sm font-bold text-white"
+            className={clsx(
+              'flex flex-1 items-center space-x-3 rounded-xl bg-blue-400 py-1.5 px-3 text-sm font-bold text-white',
+              { 'animate-pulse': loading === 'false' },
+            )}
           >
             <XIcon className="h-9 w-9" />
             <div className="text-left">
