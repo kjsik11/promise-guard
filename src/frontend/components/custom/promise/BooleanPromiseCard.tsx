@@ -44,7 +44,7 @@ export default function BooleanPromiseCard({ promiseItem, tagPrefix }: Props) {
             <span key={`boolean-promise-${tagPrefix}-${index}`}>#{tag}</span>
           ))}
         </div>
-        <p className={clsx('mr-8 pt-2 font-bold line-clamp-1', { 'text-gray-400': isView })}>
+        <p className={clsx('mr-8 pt-1 font-bold line-clamp-1', { 'text-gray-400': isView })}>
           {promiseItem.title}
         </p>
         <div className="flex justify-between pt-3">
