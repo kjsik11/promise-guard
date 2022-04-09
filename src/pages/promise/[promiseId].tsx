@@ -1,4 +1,5 @@
-import { ChevronRightIcon, ShareIcon, XIcon } from '@heroicons/react/outline';
+import { ShareIcon, XIcon } from '@heroicons/react/outline';
+import { ChevronRightIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
 import { ObjectId } from 'mongodb';
 import { useCallback, useEffect, useState } from 'react';
@@ -160,7 +161,7 @@ export default function PromiseDetailPage({
     <>
       <div className="bg-gray-100">
         <section className="bg-white px-4 py-10">
-          <div className="flex items-center text-sm font-semibold text-PC-400">
+          <div className="flex items-center text-xs font-semibold text-PC-400">
             {breadcrumbs.map((val, idx) => (
               <div key={`breadcrumbs-${idx}`} className="flex items-center">
                 {idx !== 0 && <ChevronRightIcon className="h-4 w-4" />}
@@ -168,7 +169,7 @@ export default function PromiseDetailPage({
               </div>
             ))}
           </div>
-          <p className="py-2 text-3xl font-bold">{promiseItem.title}</p>
+          <p className="pt-2 pb-4 text-3xl font-bold">{promiseItem.title}</p>
           {promiseItem.tags.length > 0 && (
             <div className="flex space-x-1 text-sm font-semibold text-PC-400">
               {promiseItem.tags.map((tag, idx) => (

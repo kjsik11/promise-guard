@@ -43,7 +43,7 @@ export default function LoginModal({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-4"
           >
-            <div className="absolute inset-x-0 w-full transition-all">
+            <div className="absolute inset-x-0 w-full px-4 transition-all">
               <div className="mx-auto max-w-sm rounded-lg bg-white px-4 py-5">
                 <div>
                   <div className="text-center">
