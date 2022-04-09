@@ -77,7 +77,12 @@ export default function LocalePromise({ id }: Props) {
                 )}
               >
                 <div className="h-10 w-10">
-                  <NextImage src={item.image} layout="responsive" placeholder="blur" />
+                  <NextImage
+                    alt={`local-image-${idx}`}
+                    src={item.image}
+                    layout="responsive"
+                    placeholder="blur"
+                  />
                 </div>
               </button>
               <p
@@ -110,7 +115,12 @@ export default function LocalePromise({ id }: Props) {
                 )}
               >
                 <div className="h-10 w-10">
-                  <NextImage src={item.image} layout="responsive" placeholder="blur" />
+                  <NextImage
+                    alt={`local-image2-${idx}`}
+                    src={item.image}
+                    layout="responsive"
+                    placeholder="blur"
+                  />
                 </div>
               </button>
               <p
@@ -130,39 +140,6 @@ export default function LocalePromise({ id }: Props) {
           ))}
         </div>
       </div>
-      {/* <div className="mx-auto grid max-w-sm grid-cols-5 gap-y-4 gap-x-3 pt-6">
-        {localeImageArr.map((item, idx) => (
-          <div key={`tenpromise-circle-${item.value}-${idx}`}>
-            <button
-              disabled={loading}
-              onClick={() => setSelectedCategory(item.value)}
-              className={clsx(
-                'flex h-[60px] w-[60px] items-center justify-center overflow-hidden rounded-full bg-white transition-colors',
-                {
-                  'ring-[2px] ring-PC-400': selectedCategory === item.value,
-                },
-              )}
-            >
-              <div className="h-10 w-10">
-                <NextImage src={item.image} layout="responsive" placeholder="blur" />
-              </div>
-            </button>
-            <p
-              className={clsx('pt-1.5 text-center text-xs font-semibold transition-colors', {
-                'text-PC-400': selectedCategory === item.value,
-                'text-gray-500': selectedCategory !== item.value,
-              })}
-            >
-              {item.label.split('\n').map((val, index) => (
-                <span key={`circle-label-${item.value}-${idx}-${index}`}>
-                  {val}
-                  <br />
-                </span>
-              ))}
-            </p>
-          </div>
-        ))}
-      </div> */}
       <div className="px-4">
         {selectedCategory &&
           (promiseItems && promiseItems.length > 0 ? (

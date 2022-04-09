@@ -20,7 +20,7 @@ export default function IntroducePage() {
         </p>
         <div className="mt-16 flex  justify-center">
           <div className="h-[257px] w-[208px]">
-            <NextImage src={CheckBoardImage} placeholder="blur" />
+            <NextImage alt="check-board-img" src={CheckBoardImage} placeholder="blur" />
           </div>
         </div>
         <p className="mt-16">
@@ -37,7 +37,7 @@ export default function IntroducePage() {
         </p>
         <div className="mt-16 flex  justify-center">
           <div className="h-[239px] w-[239px]">
-            <NextImage placeholder="blur" layout="responsive" src={Calendar} />
+            <NextImage alt="calendar-image" placeholder="blur" layout="responsive" src={Calendar} />
           </div>
         </div>
         <p className="pt-16 pb-4">
