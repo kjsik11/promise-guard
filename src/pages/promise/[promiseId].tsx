@@ -11,7 +11,9 @@ import KakaoChannel from '@frontend/components/custom/KakaoChannel';
 import PromiseSections from '@frontend/components/custom/promise/PromiseSections';
 import VoteNotification from '@frontend/components/custom/VoteNotification';
 import LoginModal from '@frontend/components/ui/LoginModal';
+import VoteModal from '@frontend/components/ui/VoteModal';
 import EmptyCircle from '@frontend/components/vector/EmptyCircle';
+import { localVoteModalFlag } from '@frontend/define/session-key';
 import useIncreaseView from '@frontend/hooks/count/use-increase-view';
 import { useNoti } from '@frontend/hooks/use-noti';
 import useUser from '@frontend/hooks/use-user';
@@ -52,6 +54,7 @@ export default function PromiseDetailPage({
   const [disableButton, setDisableButton] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isVote, setIsVote] = useState<'recommended' | 'notRecommended' | ''>('');
+  const [showVoteModal, setShowVoteModal] = useState(false);
 
   const { data, mutate } = useSWR<GetRecommendCount>(
     SWR_KEY.GET_RECOMMEND_COUNTS,
@@ -69,6 +72,14 @@ export default function PromiseDetailPage({
   const { showAlert, showNoti } = useNoti();
 
   useIncreaseView(promiseItem._id as string);
+
+  useEffect(() => {
+    const showVoteModalFlag = window.localStorage.getItem(localVoteModalFlag);
+
+    if (!showVoteModalFlag) {
+      setShowVoteModal(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -256,7 +267,20 @@ export default function PromiseDetailPage({
           }}
         />
       </div>
-      <VoteNotification {...notiText} close={() => setShowVoteNoti(false)} show={showVoteNoti} />
+      <VoteNotification
+        {...notiText}
+        close={() => {
+          setShowVoteNoti(false);
+        }}
+        show={showVoteNoti}
+      />
+      <VoteModal
+        close={() => {
+          setShowVoteModal(false);
+          window.localStorage.setItem(localVoteModalFlag, 'false');
+        }}
+        show={showVoteModal}
+      />
     </>
   );
 }

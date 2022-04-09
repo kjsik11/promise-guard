@@ -8,6 +8,8 @@ import type { PromiseTypeFront } from '@backend/model/promise';
 import CategoryCircle from '@frontend/components/custom/CategoryCircle';
 import Countdown from '@frontend/components/custom/Countdown';
 import KakaoChannel from '@frontend/components/custom/KakaoChannel';
+import DynamicOLottie from '@frontend/components/custom/lottie/DynamicOLottie';
+import DynamicXLottie from '@frontend/components/custom/lottie/DynamicXLottie';
 import type { PromiseProps } from '@frontend/components/custom/promise/PromiseSections';
 import PromiseSections from '@frontend/components/custom/promise/PromiseSections';
 import MainLayout from '@frontend/components/layout/MainLayout';
@@ -45,6 +47,12 @@ export default function IndexPage({
             </a>
           </Link>
           <Countdown isMain />
+          <div className="absolute inset-y-0 left-0 pl-2 pb-8">
+            <DynamicOLottie />
+          </div>
+          <div className="absolute inset-y-0 right-0 pr-2 pb-8">
+            <DynamicXLottie />
+          </div>
         </section>
         <section className="py-[76px] pb-12">
           <div className="flex justify-center space-x-4">
