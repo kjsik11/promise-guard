@@ -167,7 +167,7 @@ export default function PromiseDetailPage({
         }}
       />
       <div className="bg-gray-100">
-        <section className="bg-white px-4 py-10">
+        <section className="bg-white px-4 pt-10">
           <div className="flex items-center text-xs font-semibold text-PC-400">
             {breadcrumbs.map((val, idx) => (
               <div key={`breadcrumbs-${idx}`} className="flex items-center">
@@ -198,7 +198,9 @@ export default function PromiseDetailPage({
               }}
             />
           </div>
-          <div className="mx-auto flex max-w-sm items-center space-x-2">
+        </section>
+        <div className="sticky inset-x-0 top-14 z-[1] bg-white p-2">
+          <div className="mx-auto flex max-w-md items-center space-x-2">
             <button
               onClick={() => {
                 const isShowNoti = shareLogic(
@@ -212,7 +214,13 @@ export default function PromiseDetailPage({
               <p>공유</p>
             </button>
             {disableButton ? (
-              <div className="flex h-[52px] flex-1 animate-pulse rounded-xl bg-gray-300" />
+              <div className="flex h-[52px] flex-1 animate-pulse items-center space-x-3 rounded-xl bg-gray-300 py-1.5 px-3 text-gray-100">
+                <EmptyCircle />
+                <div className="space-y-1">
+                  <div className="h-[18px] w-10 rounded-sm bg-gray-100" />
+                  <div className="h-[18px] w-12 rounded-sm bg-gray-100" />
+                </div>
+              </div>
             ) : (
               <button
                 disabled={Boolean(loading) || disableButton || Boolean(isVote)}
@@ -238,7 +246,13 @@ export default function PromiseDetailPage({
               </button>
             )}
             {disableButton ? (
-              <div className="flex h-[52px] flex-1 animate-pulse rounded-xl bg-gray-300" />
+              <div className="flex h-[52px] flex-1 animate-pulse items-center space-x-3 rounded-xl bg-gray-300 py-1.5 px-3 text-gray-100">
+                <XIcon className="h-9 w-9" />
+                <div className="space-y-1">
+                  <div className="h-[18px] w-10 rounded-sm bg-gray-100" />
+                  <div className="h-[18px] w-12 rounded-sm bg-gray-100" />
+                </div>
+              </div>
             ) : (
               <button
                 disabled={Boolean(loading) || disableButton || Boolean(isVote)}
@@ -266,7 +280,7 @@ export default function PromiseDetailPage({
               </button>
             )}
           </div>
-        </section>
+        </div>
         <section>
           <KakaoChannel className="my-4 bg-white" />
         </section>
