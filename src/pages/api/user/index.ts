@@ -15,7 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (!userToken) throw new ApiError('INTERNAL_SERVER_ERROR');
 
-    const info = await getUserInfo(userToken, { _id: 0, info: 1 });
+    const info = await getUserInfo(userToken, { _id: 0, info: 1, recentView: 1 });
 
     return res.status(200).json(info);
   }

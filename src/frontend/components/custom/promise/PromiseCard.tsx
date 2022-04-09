@@ -1,9 +1,13 @@
 import { EyeIcon, ThumbDownIcon, ThumbUpIcon } from '@heroicons/react/solid';
+import clsx from 'clsx';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 import type { PromiseTypeFront } from '@backend/model/promise';
 
 import { PopulateFlag } from '@frontend/components/vector';
+import { viewArrayKey } from '@frontend/define/session-key';
+import useUser from '@frontend/hooks/use-user';
 
 import compressCategoryText from '@utils/compress-category-text';
 
@@ -17,6 +21,24 @@ interface Props {
 }
 
 export default function PromiseCard({ promiseItem, tagPrefix, isFlag }: Props) {
+  const { handleIsView } = useUser();
+
+  const [isView, setIsView] = useState(false);
+
+  useEffect(() => {
+    const viewArray = JSON.parse(window.sessionStorage.getItem(viewArrayKey) ?? '[]') as string[];
+
+    let alreadyViewFlag = false;
+
+    alreadyViewFlag = viewArray.includes(promiseItem._id as string);
+
+    if (handleIsView(promiseItem._id as string)) setIsView(true);
+
+    if (alreadyViewFlag) {
+      setIsView(true);
+    }
+  }, [promiseItem._id, handleIsView]);
+
   return (
     <Link passHref href={`/promise/${promiseItem._id}`}>
       <a className="relative block rounded-lg bg-white py-3 px-2">
@@ -25,7 +47,9 @@ export default function PromiseCard({ promiseItem, tagPrefix, isFlag }: Props) {
             <span key={`${tagPrefix}-${tag}-${idx}`}>#{tag}</span>
           ))}
         </div>
-        <p className="mr-8 pt-1 font-bold line-clamp-1">{promiseItem.title}</p>
+        <p className={clsx('mr-8 pt-1 font-bold line-clamp-1', { 'text-gray-400': isView })}>
+          {promiseItem.title}
+        </p>
         <div className="flex justify-between pt-3">
           <p className="text-xs font-semibold text-PC-400">
             {compressCategoryText(promiseItem.categories[0])}

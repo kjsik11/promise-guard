@@ -1,4 +1,5 @@
 import { QuestionMarkCircleIcon } from '@heroicons/react/solid';
+import Link from 'next/link';
 import { useState } from 'react';
 import CountdownComponent from 'react-countdown';
 import { useEffectOnce } from 'react-use';
@@ -23,10 +24,15 @@ const renderer = ({ days, hours, minutes, seconds, completed }: CountdownParams)
       <p>
         대통령 취임까지&nbsp;
         <span className="font-semibold">
-          {days}일 {hours}시간 {minutes}분 {seconds}초
+          {days}일 {hours < 10 ? `0${hours}` : hours}시간 {minutes < 10 ? `0${minutes}` : minutes}분{' '}
+          {seconds < 10 ? `0${seconds}` : seconds}초
         </span>
       </p>
-      <QuestionMarkCircleIcon className="h-5 w-5" />
+      <Link href="/introduce">
+        <a>
+          <QuestionMarkCircleIcon className="h-5 w-5" />
+        </a>
+      </Link>
     </div>
   );
 };
@@ -46,8 +52,8 @@ const mainRenderer = ({ days, hours, minutes, seconds, completed }: CountdownPar
         <span className="pr-1.5 pl-0.5 text-xs">일</span>
         <span>{hours < 10 ? `0${hours}` : hours}</span>
         <span className="pr-1.5 pl-0.5 text-xs">시</span>
-        <span>{minutes}</span>
-        <span className="pr-1.5 pl-0.5 text-xs"> 분</span>
+        <span>{minutes < 10 ? `0${minutes}` : minutes}</span>
+        <span className="text pr-1.5 pl-0.5"> 분</span>
         <span>{seconds < 10 ? `0${seconds}` : seconds}</span>
         <span className="pr-1.5 pl-0.5 text-xs">초</span>
       </p>

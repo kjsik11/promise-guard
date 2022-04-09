@@ -37,12 +37,22 @@ export default function useUser() {
       .catch(showAlert);
   }, [showAlert, mutate]);
 
+  const handleIsView = useCallback(
+    (promiseId: string) => {
+      if (user && user.recentView.includes(promiseId)) {
+        return true;
+      }
+    },
+    [user],
+  );
+
   return {
     handleSignin,
     handleSignout,
-    loading: !user && !error,
-    user: error ? undefined : user,
-    error,
+    handleIsView,
     mutate,
+    loading: !user && !error,
+    user: error ? undefined : user?.info,
+    error,
   };
 }

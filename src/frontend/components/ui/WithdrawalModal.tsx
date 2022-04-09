@@ -70,7 +70,7 @@ export default function WithdrawalModal({
                     </h3>
                     <div className="mt-4">
                       <p>
-                        모든 활동 내역이 삭제됩니다.
+                        모든 활동, 투표내역이 삭제됩니다.
                         <br /> 정말 탈퇴하시겠습니까?
                       </p>
                     </div>

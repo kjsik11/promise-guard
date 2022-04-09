@@ -1,4 +1,3 @@
-import { EyeIcon, ThumbDownIcon, ThumbUpIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
 import Link from 'next/link';
 
@@ -6,7 +5,7 @@ import type { PromiseTypeFront } from '@backend/model/promise';
 
 import { FireCategory } from '@frontend/components/vector';
 
-import compressCategoryText from '@utils/compress-category-text';
+import BooleanPromiseCard from './BooleanPromiseCard';
 
 interface Props {
   booleanPromiseItems: PromiseTypeFront[];
@@ -32,66 +31,11 @@ export default function BooleanPromise({ id, isDetailPage, booleanPromiseItems }
       </div>
       <div className={clsx('space-y-4 pt-6', { 'mt-4 bg-gray-50 px-4 pb-4': isDetailPage })}>
         {booleanPromiseItems.map((item, idx) => (
-          <Link key={`populate-promise-card-${idx}`} href={`/promise/${item._id}`}>
-            <a className="relative block rounded-lg bg-white py-3 px-2">
-              <div className="space-x-[3px] text-sm font-semibold text-PC-600">
-                {item.tags.map((tag, index) => (
-                  <span key={`boolean-promise-${tag}-${idx}-${index}`}>#{tag}</span>
-                ))}
-              </div>
-              <p className="mr-8 pt-2 font-bold line-clamp-1">{item.title}</p>
-              <div className="flex justify-between pt-3">
-                <p className="text-xs font-semibold text-PC-400">
-                  {compressCategoryText(item.categories[0])}
-                </p>
-                <div className="flex items-center space-x-2 text-xs font-medium">
-                  <EyeIcon className="h-3 w-3 text-gray-400" />
-                  <span className="text-gray-500">{item.viewCount.toLocaleString()}</span>
-                </div>
-              </div>
-              <div className="mt-1 mb-0.5 flex h-[5px] space-x-[1px]">
-                <div
-                  className="bg-red-400"
-                  style={{
-                    width: `${
-                      item.notRecommendedCount + item.recommendedCount === 0
-                        ? 50
-                        : Math.round(
-                            100 *
-                              (item.recommendedCount /
-                                (item.notRecommendedCount + item.recommendedCount)),
-                          )
-                    }%`,
-                  }}
-                />
-                <div
-                  style={{
-                    width: `${
-                      item.notRecommendedCount + item.recommendedCount === 0
-                        ? 50
-                        : 100 -
-                          Math.round(
-                            100 *
-                              (item.recommendedCount /
-                                (item.notRecommendedCount + item.recommendedCount)),
-                          )
-                    }%`,
-                  }}
-                  className="bg-blue-400"
-                />
-              </div>
-              <div className="flex items-center justify-between space-x-3 text-xs font-medium text-gray-500">
-                <div className="flex items-center space-x-2">
-                  <ThumbUpIcon className="h-3 w-3 text-red-400" />
-                  <span>{item.recommendedCount.toLocaleString()}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <ThumbDownIcon className="h-3 w-3 text-blue-400" />
-                  <span>{item.notRecommendedCount.toLocaleString()}</span>
-                </div>
-              </div>
-            </a>
-          </Link>
+          <BooleanPromiseCard
+            promiseItem={item}
+            tagPrefix={`boolean-tag-${idx}`}
+            key={`populate-promise-card-${idx}`}
+          />
         ))}
       </div>
     </div>
