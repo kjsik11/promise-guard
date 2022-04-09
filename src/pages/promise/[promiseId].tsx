@@ -126,7 +126,7 @@ export default function PromiseDetailPage({
         });
         setTimeout(() => {
           setShowVoteNoti(false);
-        }, 3000);
+        }, 10000);
         setLoading('');
       });
   }, [user, showAlert, mutate, showNoti, promiseItem._id]);
@@ -154,7 +154,7 @@ export default function PromiseDetailPage({
         });
         setTimeout(() => {
           setShowVoteNoti(false);
-        }, 3000);
+        }, 10000);
         setLoading('');
       });
   }, [user, showAlert, mutate, showNoti, promiseItem._id]);
@@ -200,7 +200,7 @@ export default function PromiseDetailPage({
             />
           </div>
         </section>
-        <div className="sticky inset-x-0 top-14 z-[1] bg-white p-2">
+        <div className="fixed inset-x-0 bottom-0 z-[1] bg-white p-2">
           <div className="mx-auto flex max-w-md items-center space-x-2">
             <button
               onClick={() => {

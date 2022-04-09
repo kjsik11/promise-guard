@@ -9,7 +9,7 @@ export default function Footer() {
   const { user, mutate } = useUser();
 
   return (
-    <footer className="bg-gray-900 py-12 px-4 text-white">
+    <footer className="relative z-[2] bg-gray-900 py-12 px-4 text-white">
       <Logo />
       <div className="flex space-x-4 pt-6 text-xs font-medium text-gray-400">
         <a

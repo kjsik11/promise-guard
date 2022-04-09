@@ -14,7 +14,7 @@ export default function PromiseDetailPage({ promiseItems, tagKey }: Props) {
   return (
     <div className="pt-12">
       <p className="px-4 text-3xl font-bold text-PC-800">#{tagKey}</p>
-      <section className="mt-4 space-y-4 bg-gray-100 p-4">
+      <section className="mt-4 min-h-[500px] space-y-4 bg-gray-100 p-4">
         {promiseItems.map((item, idx) => (
           <PromiseCard
             tagPrefix={`tagpromise-tag-${idx}`}

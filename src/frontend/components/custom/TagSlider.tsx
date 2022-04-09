@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
 export default function TagSlider({ tags, className }: { tags: string[]; className?: string }) {
-  const [sliderWidth, setSliderWidth] = useState<[number, number, number]>([1666, 1666, 1666]);
+  const [sliderWidth, setSliderWidth] = useState<[number, number, number]>([3800, 3800, 3800]);
 
   const sliceTagArr = useMemo(() => {
     return [tags.slice(0, 20), tags.slice(20, 40), tags.slice(40)];

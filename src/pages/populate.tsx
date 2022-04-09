@@ -64,16 +64,18 @@ export default function PopulatePromisePage({ promiseCount, populateItems }: Pro
         {loading ? (
           <DynamicLoading />
         ) : (
-          <button
-            disabled={loading}
-            onClick={handleMoreLoad}
-            className={clsx(
-              'mx-auto my-4 flex w-full max-w-sm justify-center rounded-md border-gray-300 bg-PC-400 px-4 py-2 text-white',
-              { hidden: renderedPopulateItems.length === promiseCount },
-            )}
-          >
-            더 보기
-          </button>
+          <div className="px-4">
+            <button
+              disabled={loading}
+              onClick={handleMoreLoad}
+              className={clsx(
+                'mx-auto my-4 flex w-full max-w-sm justify-center rounded-md border-gray-300 bg-PC-400 px-4 py-2 text-white',
+                { hidden: renderedPopulateItems.length === promiseCount },
+              )}
+            >
+              더 보기
+            </button>
+          </div>
         )}
       </div>
     </>
