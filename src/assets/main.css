@@ -45,11 +45,11 @@
   }
 
   .slider-left {
-    animation: slideToLeftMobile 40s linear infinite;
+    animation: slideToLeftMobile 70s linear infinite;
   }
 
   .slider-left2 {
-    animation: slideToLeftMobile 60s linear infinite;
+    animation: slideToLeftMobile 90s linear infinite;
   }
 
   @keyframes slideToLeftMobile {

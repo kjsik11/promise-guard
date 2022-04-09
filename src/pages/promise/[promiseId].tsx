@@ -336,7 +336,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
       })
       .slice(0, 5);
 
-    const pureTags = removeDuplicatedTags(promiseItems);
+    const pureTags = removeDuplicatedTags(promiseItems).slice(0, 40);
 
     return {
       props: JSON.parse(
