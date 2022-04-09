@@ -12,7 +12,7 @@ export default function EmptyCircle({ className }: Props) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="18" cy="18" r="12" stroke="white" strokeWidth="3" />
+      <circle cx="18" cy="18" r="12" stroke="currentColor" strokeWidth="3" />
     </svg>
   );
 }

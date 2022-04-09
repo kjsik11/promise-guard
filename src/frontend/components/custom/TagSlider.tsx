@@ -25,7 +25,7 @@ export default function TagSlider({ tags, className }: { tags: string[]; classNa
       >
         {[...sliceTagArr[0], ...sliceTagArr[0]].map((tag, idx) => (
           <Link href={`/tag/${tag}`} key={`tag-slider-${tag}-${idx}`}>
-            <a className="shrink-0 rounded-full bg-PC-600 py-0.5 px-2.5 font-bold text-white">
+            <a className="shrink-0 rounded-full bg-PC-600 py-0.5 px-2.5 font-semibold text-white">
               #{tag}
             </a>
           </Link>
@@ -40,7 +40,7 @@ export default function TagSlider({ tags, className }: { tags: string[]; classNa
       >
         {[...sliceTagArr[1], ...sliceTagArr[1]].map((tag, idx) => (
           <Link href={`/tag/${tag}`} key={`tag-slider2-${tag}-${idx}`}>
-            <a className="shrink-0 rounded-full bg-PC-600 py-0.5 px-2.5 font-bold text-white">
+            <a className="shrink-0 rounded-full bg-PC-600 py-0.5 px-2.5 font-semibold text-white">
               #{tag}
             </a>
           </Link>
