@@ -50,8 +50,35 @@ export default function BooleanPromise({ id, isDetailPage, booleanPromiseItems }
                 </div>
               </div>
               <div className="mt-1 mb-0.5 flex h-[5px] space-x-[1px]">
-                <div className="w-1/2 bg-red-400" />
-                <div className="w-1/2 bg-blue-400" />
+                <div
+                  className="bg-red-400"
+                  style={{
+                    width: `${
+                      item.notRecommendedCount + item.recommendedCount === 0
+                        ? 50
+                        : Math.round(
+                            100 *
+                              (item.recommendedCount /
+                                (item.notRecommendedCount + item.recommendedCount)),
+                          )
+                    }%`,
+                  }}
+                />
+                <div
+                  style={{
+                    width: `${
+                      item.notRecommendedCount + item.recommendedCount === 0
+                        ? 50
+                        : 100 -
+                          Math.round(
+                            100 *
+                              (item.recommendedCount /
+                                (item.notRecommendedCount + item.recommendedCount)),
+                          )
+                    }%`,
+                  }}
+                  className="bg-blue-400"
+                />
               </div>
               <div className="flex items-center justify-between space-x-3 text-xs font-medium text-gray-500">
                 <div className="flex items-center space-x-2">
