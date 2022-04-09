@@ -5,6 +5,7 @@ import { MONGODB_URI } from '@utils/env/internal';
 
 const options: MongoClientOptions = {
   ignoreUndefined: true,
+  connectTimeoutMS: 10000,
 };
 
 let client: MongoClient;

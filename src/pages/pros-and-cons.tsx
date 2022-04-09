@@ -90,7 +90,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
     if (promiseItems.length === 0 || !promiseCount)
       throw new Error('[getStaticProps]: failed to fetch');
-    ``;
+
     const booleanPromiseItems = promiseItems
       .slice()
       .sort((prev, next) => {
