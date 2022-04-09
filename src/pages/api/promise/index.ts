@@ -11,9 +11,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   checkAdmin(req);
 
-  const promiseCol = await collection.promise();
-
   if (req.method === 'GET') {
+    const promiseCol = await collection.promise();
+
     const promiseList = await promiseCol
       .find({ deletedAt: null })
       .sort({ createdAt: -1 })
@@ -24,6 +24,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === 'POST') {
     const body = await promiseValidator(req.body);
+
+    const promiseCol = await collection.promise();
 
     await promiseCol.insertOne({
       ...body,

@@ -20,9 +20,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const { id } = (await queryValidator.validateAsync(req.query)) as { id: string };
 
-  const promiseCol = await collection.promise();
-
   if (req.method === 'GET') {
+    const promiseCol = await collection.promise();
+
     const promise =
       (await promiseCol.findOne(
         { _id: new ObjectId(id), deletedAt: null },
@@ -33,6 +33,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === 'POST') {
+    const promiseCol = await collection.promise();
+
     const promise = await promiseCol.findOne(
       { _id: new ObjectId(id), deletedAt: null },
       { projection: { _id: 0 } },
@@ -48,6 +50,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'PUT') {
     const body = await promiseValidator(req.body);
 
+    const promiseCol = await collection.promise();
+
     await promiseCol.updateOne({ _id: new ObjectId(id), deletedAt: null }, { $set: { ...body } });
 
     return res.status(StatusCodes.NO_CONTENT).end();
@@ -60,12 +64,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const { tags } = (await validator.validateAsync(req.body)) as { tags: string[] };
 
+    const promiseCol = await collection.promise();
+
     await promiseCol.updateOne({ _id: new ObjectId(id), deletedAt: null }, { $set: { tags } });
 
     return res.status(StatusCodes.NO_CONTENT).end();
   }
 
   if (req.method === 'DELETE') {
+    const promiseCol = await collection.promise();
+
     await promiseCol.updateOne(
       { _id: new ObjectId(id), deletedAt: null },
       { $set: { deletedAt: new Date() } },
