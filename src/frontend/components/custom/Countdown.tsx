@@ -19,7 +19,7 @@ const renderer = ({ days, hours, minutes, seconds, completed }: CountdownParams)
   }
   // Render a countdown
   return (
-    <div className="flex items-center justify-center space-x-1.5 bg-[#285A92]/60 py-0.5 px-4 text-white">
+    <div className="flex items-center justify-center space-x-1.5 bg-PC-600/60 py-0.5 px-4 text-white">
       <p>
         대통령 취임까지&nbsp;
         <span className="font-semibold">
