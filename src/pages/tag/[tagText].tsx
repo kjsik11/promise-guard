@@ -56,6 +56,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
           tagKey,
         }),
       ),
+      revalidate: 120,
     };
   } catch (err) {
     console.log('[tag detail page]', (err as any).message);

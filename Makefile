@@ -1,6 +1,3 @@
-test:
-	jest --config jest.config.js --maxWorkers=8 --detectOpenHandles
-
 clean-module:
 	@rm -rf node_modules
 

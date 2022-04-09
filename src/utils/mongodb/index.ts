@@ -1,26 +1,16 @@
 import { MongoClient, type MongoClientOptions } from 'mongodb';
 
-import { isDev, isTest } from '@utils/env';
+import { isDev } from '@utils/env';
 import { MONGODB_URI } from '@utils/env/internal';
 
 const options: MongoClientOptions = {
   ignoreUndefined: true,
-  connectTimeoutMS: 5000,
-  maxIdleTimeMS: 5000,
-  maxPoolSize: 500,
 };
 
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
-if (isTest()) {
-  // In test mode, use in-memory-mongo-server.
-  if (!global.__MONGO_URI__) {
-    throw new Error('Missing test environment setup (global.__MONGO_URI__)');
-  }
-  client = new MongoClient(global.__MONGO_URI__, options);
-  clientPromise = client.connect();
-} else if (isDev()) {
+if (isDev()) {
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
   if (!global._mongoClientPromise) {

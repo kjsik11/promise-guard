@@ -380,6 +380,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
           booleanPromiseItems,
         }),
       ),
+      revalidate: 120,
     };
   } catch (err) {
     console.log('[promise detail page]', (err as any).message);
