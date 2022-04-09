@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { NextSeo } from 'next-seo';
 import { useCallback, useEffect, useState } from 'react';
 
 import { collection } from '@backend/collection';
@@ -51,23 +52,31 @@ export default function PopulatePromisePage({ promiseCount, populateItems }: Pro
   if (!renderedPopulateItems) return <DynamicLoading />;
 
   return (
-    <div className="pt-12">
-      <PopulatePromise isDetailPage populateItems={renderedPopulateItems} />
-      {loading ? (
-        <DynamicLoading />
-      ) : (
-        <button
-          disabled={loading}
-          onClick={handleMoreLoad}
-          className={clsx(
-            'mx-auto my-4 flex w-full max-w-sm justify-center rounded-md border-gray-300 bg-PC-400 px-4 py-2 text-white',
-            { hidden: renderedPopulateItems.length === promiseCount },
-          )}
-        >
-          더 보기
-        </button>
-      )}
-    </div>
+    <>
+      <NextSeo
+        title="인기 공약ㅣ오월 십일"
+        openGraph={{
+          title: '인기 공약ㅣ오월 십일',
+        }}
+      />
+      <div className="pt-12">
+        <PopulatePromise isDetailPage populateItems={renderedPopulateItems} />
+        {loading ? (
+          <DynamicLoading />
+        ) : (
+          <button
+            disabled={loading}
+            onClick={handleMoreLoad}
+            className={clsx(
+              'mx-auto my-4 flex w-full max-w-sm justify-center rounded-md border-gray-300 bg-PC-400 px-4 py-2 text-white',
+              { hidden: renderedPopulateItems.length === promiseCount },
+            )}
+          >
+            더 보기
+          </button>
+        )}
+      </div>
+    </>
   );
 }
 

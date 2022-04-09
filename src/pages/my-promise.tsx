@@ -1,5 +1,6 @@
 import { ExclamationCircleIcon } from '@heroicons/react/outline';
 import clsx from 'clsx';
+import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -119,110 +120,118 @@ export default function MyPromisePage() {
   if (!user || myPromiseItems === null) return <Loading />;
 
   return (
-    <div>
-      <p className="px-4 pt-12 text-3xl font-bold text-PC-800">내 공약</p>
-      <div className="flex justify-center pt-6 text-sm font-medium text-gray-500">
-        <div className="flex items-center space-x-1 rounded bg-gray-100 px-2 py-1">
-          <ExclamationCircleIcon className="h-5 w-5 text-gray-400" />
-          <p>내가 투표/조회한 공약은 나만 확인할 수 있어요</p>
+    <>
+      <NextSeo
+        title="내 공약ㅣ오월 십일"
+        openGraph={{
+          title: '내 공약ㅣ오월 십일',
+        }}
+      />
+      <div>
+        <p className="px-4 pt-12 text-3xl font-bold text-PC-800">내 공약</p>
+        <div className="flex justify-center pt-6 text-sm font-medium text-gray-500">
+          <div className="flex items-center space-x-1 rounded bg-gray-100 px-2 py-1">
+            <ExclamationCircleIcon className="h-5 w-5 text-gray-400" />
+            <p>내가 투표/조회한 공약은 나만 확인할 수 있어요</p>
+          </div>
         </div>
-      </div>
-      <div className="mt-7 grid grid-cols-3">
-        <button
-          disabled={buttonLoading}
-          onClick={() => setSelected('view')}
-          className={clsx('-mb-[2px] border-b-2 pb-3 text-center', {
-            'border-PC-600': selected === 'view',
-            'border-white': selected !== 'view',
-          })}
-        >
-          <p
-            className={clsx('text-2xl font-bold', {
-              'text-PC-600': selected === 'view',
-              'text-gray-300': selected !== 'view',
+        <div className="mt-7 grid grid-cols-3">
+          <button
+            disabled={buttonLoading}
+            onClick={() => setSelected('view')}
+            className={clsx('-mb-[2px] border-b-2 pb-3 text-center', {
+              'border-PC-600': selected === 'view',
+              'border-white': selected !== 'view',
             })}
           >
-            {myPromiseItems.view.count}
-          </p>
-          <p
-            className={clsx('pt-1 text-sm font-semibold', {
-              'text-black': selected === 'view',
-              'text-gray-500': selected !== 'view',
+            <p
+              className={clsx('text-2xl font-bold', {
+                'text-PC-600': selected === 'view',
+                'text-gray-300': selected !== 'view',
+              })}
+            >
+              {myPromiseItems.view.count}
+            </p>
+            <p
+              className={clsx('pt-1 text-sm font-semibold', {
+                'text-black': selected === 'view',
+                'text-gray-500': selected !== 'view',
+              })}
+            >
+              내가 조회한 공약
+            </p>
+          </button>
+          <button
+            disabled={buttonLoading}
+            onClick={() => setSelected('recommended')}
+            className={clsx('-mb-[2px] border-b-2 pb-3 text-center', {
+              'border-PC-600': selected === 'recommended',
+              'border-white': selected !== 'recommended',
             })}
           >
-            내가 조회한 공약
-          </p>
-        </button>
-        <button
-          disabled={buttonLoading}
-          onClick={() => setSelected('recommended')}
-          className={clsx('-mb-[2px] border-b-2 pb-3 text-center', {
-            'border-PC-600': selected === 'recommended',
-            'border-white': selected !== 'recommended',
-          })}
-        >
-          <p
-            className={clsx('text-2xl font-bold', {
-              'text-PC-600': selected === 'recommended',
-              'text-gray-300': selected !== 'recommended',
+            <p
+              className={clsx('text-2xl font-bold', {
+                'text-PC-600': selected === 'recommended',
+                'text-gray-300': selected !== 'recommended',
+              })}
+            >
+              {myPromiseItems.recommended.count}
+            </p>
+            <p
+              className={clsx('pt-1 text-sm font-semibold', {
+                'text-black': selected === 'recommended',
+                'text-gray-500': selected !== 'recommended',
+              })}
+            >
+              내가 지지한 공약
+            </p>
+          </button>
+          <button
+            disabled={buttonLoading}
+            onClick={() => setSelected('notRecommended')}
+            className={clsx('-mb-[2px] border-b-2 pb-3 text-center', {
+              'border-PC-600': selected === 'notRecommended',
+              'border-white': selected !== 'notRecommended',
             })}
           >
-            {myPromiseItems.recommended.count}
-          </p>
-          <p
-            className={clsx('pt-1 text-sm font-semibold', {
-              'text-black': selected === 'recommended',
-              'text-gray-500': selected !== 'recommended',
-            })}
-          >
-            내가 지지한 공약
-          </p>
-        </button>
-        <button
-          disabled={buttonLoading}
-          onClick={() => setSelected('notRecommended')}
-          className={clsx('-mb-[2px] border-b-2 pb-3 text-center', {
-            'border-PC-600': selected === 'notRecommended',
-            'border-white': selected !== 'notRecommended',
-          })}
-        >
-          <p
-            className={clsx('text-2xl font-bold', {
-              'text-PC-600': selected === 'notRecommended',
-              'text-gray-300': selected !== 'notRecommended',
-            })}
-          >
-            {myPromiseItems.notRecommended.count}
-          </p>
-          <p
-            className={clsx('pt-1 text-sm font-semibold', {
-              'text-black': selected === 'notRecommended',
-              'text-gray-500': selected !== 'notRecommended',
-            })}
-          >
-            내가 반대한 공약
-          </p>
-        </button>
-      </div>
-      <section className="space-y-4 bg-gray-100 p-4">
-        {myPromiseItems[selected].items.length
-          ? myPromiseItems[selected].items.map((item, idx) => (
-              <PromiseCard
-                tagPrefix={`my-promise-tags-${idx}`}
-                promiseItem={item}
-                key={`my-promise-${idx}`}
-              />
-            ))
-          : !buttonLoading && (
-              <div className="py-60 text-center text-2xl font-bold text-gray-300">
-                {selected === 'view' ? '조회' : selected === 'recommended' ? '지지' : '반대'}한
-                공약이 없습니다.
-              </div>
-            )}
+            <p
+              className={clsx('text-2xl font-bold', {
+                'text-PC-600': selected === 'notRecommended',
+                'text-gray-300': selected !== 'notRecommended',
+              })}
+            >
+              {myPromiseItems.notRecommended.count}
+            </p>
+            <p
+              className={clsx('pt-1 text-sm font-semibold', {
+                'text-black': selected === 'notRecommended',
+                'text-gray-500': selected !== 'notRecommended',
+              })}
+            >
+              내가 반대한 공약
+            </p>
+          </button>
+        </div>
+        <section className="space-y-4 bg-gray-100 p-4">
+          {myPromiseItems[selected].items.length
+            ? myPromiseItems[selected].items.map((item, idx) => (
+                <PromiseCard
+                  tagPrefix={`my-promise-tags-${idx}`}
+                  promiseItem={item}
+                  key={`my-promise-${idx}`}
+                />
+              ))
+            : !buttonLoading && (
+                <div className="py-60 text-center text-2xl font-bold text-gray-300">
+                  {selected === 'view' ? '조회' : selected === 'recommended' ? '지지' : '반대'}한
+                  공약이 없습니다.
+                </div>
+              )}
 
-        {buttonLoading && <DynamicLoading />}
-      </section>
-      <div ref={inViewRef} />
-    </div>
+          {buttonLoading && <DynamicLoading />}
+        </section>
+        <div ref={inViewRef} />
+      </div>
+    </>
   );
 }

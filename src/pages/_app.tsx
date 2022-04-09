@@ -51,12 +51,12 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
       />
       <Script src="/js/redirectIE.js" strategy="beforeInteractive" />
       <DefaultSeo
-        title="May10"
-        description="2Nerds Lab May10 promise"
+        title="오월 십일, 대국민 공약 투표"
+        description="앞으로 5년, 윤석열 정부가 꼭 지켜야 하는 공약에 투표해주세요"
         openGraph={{
           type: 'website',
-          title: 'May10',
-          description: 'Nerds Lab May10 promise',
+          title: '오월 십일, 대국민 공약 투표',
+          description: '앞으로 5년, 윤석열 정부가 꼭 지켜야 하는 공약에 투표해주세요',
           images: [
             {
               url: '/assets/open_graph.jpg',

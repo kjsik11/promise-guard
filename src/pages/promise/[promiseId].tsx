@@ -2,6 +2,7 @@ import { ShareIcon, XIcon } from '@heroicons/react/outline';
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
 import { ObjectId } from 'mongodb';
+import { NextSeo } from 'next-seo';
 import { useCallback, useEffect, useState } from 'react';
 import useSWR from 'swr';
 
@@ -159,6 +160,12 @@ export default function PromiseDetailPage({
 
   return (
     <>
+      <NextSeo
+        title={`${promiseItem.title}ㅣ오월 십일`}
+        openGraph={{
+          title: `${promiseItem.title}ㅣ오월 십일`,
+        }}
+      />
       <div className="bg-gray-100">
         <section className="bg-white px-4 py-10">
           <div className="flex items-center text-xs font-semibold text-PC-400">
