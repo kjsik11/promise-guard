@@ -4,6 +4,7 @@ export default function CategoryCircle({ id, svg: SvgTag, label }: SvgCircleItem
   return (
     <div>
       <button
+        aria-label={`id-circle-button`}
         onClick={() => {
           const elem = document.getElementById(id);
 

@@ -97,6 +97,7 @@ export default function TenPromise({ id }: Props) {
         {tenPromiseArr.map((item, idx) => (
           <div key={`tenpromise-circle-${item.value}-${idx}`}>
             <button
+              aria-label={`${item.label}-circle-button`}
               disabled={loading}
               onClick={() => setSelectedCategory(item.value)}
               className={clsx('rounded-full bg-white p-2.5 text-PC-400 transition-colors', {

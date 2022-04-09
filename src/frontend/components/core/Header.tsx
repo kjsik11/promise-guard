@@ -18,14 +18,14 @@ export default function Header() {
     <header className="fixed inset-x-0 top-0 z-[1] bg-white/60 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-3xl items-center justify-between p-4">
         <NextLink href="/">
-          <a>
+          <a aria-label="logo-home-link">
             <Logo className="text-black" />
           </a>
         </NextLink>
 
         <Menu as="div" className="relative inline-block h-5 text-left">
           <div>
-            <Menu.Button>
+            <Menu.Button aria-label="menu-button">
               <MenuIcon className="h-5 w-5" />
             </Menu.Button>
           </div>
