@@ -45,11 +45,15 @@
   }
 
   .slider-left {
-    animation: slideToLeftMobile 70s linear infinite;
+    animation: slideToLeftMobile 60s linear infinite;
   }
 
   .slider-left2 {
-    animation: slideToLeftMobile 90s linear infinite;
+    animation: slideToLeftMobile 80s linear infinite;
+  }
+
+  .slider-right {
+    animation: slideToRightMobile 70s linear infinite;
   }
 
   @keyframes slideToLeftMobile {
@@ -58,6 +62,15 @@
     }
     100% {
       transform: translateX(-50%);
+    }
+  }
+
+  @keyframes slideToRightMobile {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0%);
     }
   }
 }
