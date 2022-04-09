@@ -93,7 +93,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
           promiseCount,
         }),
       ),
-      revalidate: 30,
+      revalidate: 10,
     };
   } catch (err) {
     return {

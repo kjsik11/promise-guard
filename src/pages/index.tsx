@@ -45,12 +45,12 @@ export default function IndexPage({
             <br />
             어떤 공약을 지지하시나요?
           </p>
-          <p>
+          <p className="relative">
             앞으로 5년, 윤석열 정부가
             <br />꼭 지켜야 하는 공약에 투표해주세요
           </p>
-          <Link href="#">
-            <a className="flex items-center text-sm font-semibold text-blue-200">
+          <Link href="/introduce">
+            <a className="relative flex items-center text-sm font-semibold text-blue-200">
               더 알아보기
               <ChevronRightIcon className="h-4 w-4" />
             </a>
@@ -125,7 +125,7 @@ export const getStaticProps: GetStaticProps<PromiseProps> = async () => {
           pureTags,
         }),
       ),
-      revalidate: 30,
+      revalidate: 10,
     };
   } catch (err) {
     console.log('[index page]', (err as any).message);
