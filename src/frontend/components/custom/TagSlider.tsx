@@ -6,7 +6,7 @@ export default function TagSlider({ tags, className }: { tags: string[]; classNa
   const [sliderWidth, setSliderWidth] = useState<[number, number, number]>([1666, 1666, 1666]);
 
   const sliceTagArr = useMemo(() => {
-    return [tags.slice(0, 13), tags.slice(13, 26), tags.slice(26)];
+    return [tags.slice(0, 20), tags.slice(20, 40), tags.slice(40)];
   }, [tags]);
 
   useEffect(() => {

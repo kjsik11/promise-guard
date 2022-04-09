@@ -17,6 +17,7 @@ import LoginModal from '@frontend/components/ui/LoginModal';
 import VoteModal from '@frontend/components/ui/VoteModal';
 import EmptyCircle from '@frontend/components/vector/EmptyCircle';
 import { localVoteModalFlag } from '@frontend/define/session-key';
+import { tagWhiteList } from '@frontend/define/tag-white-list';
 import useIncreaseView from '@frontend/hooks/count/use-increase-view';
 import { useNoti } from '@frontend/hooks/use-noti';
 import useUser from '@frontend/hooks/use-user';
@@ -366,7 +367,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
       })
       .slice(0, 5);
 
-    const pureTags = removeDuplicatedTags(promiseItems).slice(0, 40);
+    const pureTags = removeDuplicatedTags(promiseItems).filter((tag) => tagWhiteList.includes(tag));
 
     return {
       props: JSON.parse(

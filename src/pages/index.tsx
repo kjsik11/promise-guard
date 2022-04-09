@@ -15,6 +15,7 @@ import PromiseSections from '@frontend/components/custom/promise/PromiseSections
 import TagSlider from '@frontend/components/custom/TagSlider';
 import MainLayout from '@frontend/components/layout/MainLayout';
 import { categoryCircleItems } from '@frontend/define/category-circle-arr';
+import { tagWhiteList } from '@frontend/define/tag-white-list';
 
 import { removeDuplicatedTags } from '@utils/remove-duplicated-tags';
 
@@ -115,7 +116,7 @@ export const getStaticProps: GetStaticProps<PromiseProps> = async () => {
       })
       .slice(0, 5);
 
-    const pureTags = removeDuplicatedTags(promiseItems).slice(0, 40);
+    const pureTags = removeDuplicatedTags(promiseItems).filter((tag) => tagWhiteList.includes(tag));
 
     return {
       props: JSON.parse(
