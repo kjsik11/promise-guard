@@ -146,7 +146,7 @@ export default function PromiseDetailPage({
         setShowVoteNoti(true);
         setNotiTest({
           url: `${window.location.origin}/promise/${promiseItem._id}`,
-          title: '지지 투표되었습니다.',
+          title: '반대 투표되었습니다.',
           content: '지인들에게도 공약을 소개해주세요!',
         });
         setTimeout(() => {

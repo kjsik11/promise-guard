@@ -25,7 +25,7 @@ export default function PromiseCard({ promiseItem, tagPrefix, isFlag }: Props) {
             <span key={`${tagPrefix}-${tag}-${idx}`}>#{tag}</span>
           ))}
         </div>
-        <p className="mr-8 pt-2 font-bold line-clamp-1">{promiseItem.title}</p>
+        <p className="mr-8 pt-1 font-bold line-clamp-1">{promiseItem.title}</p>
         <div className="flex justify-between pt-3">
           <p className="text-xs font-semibold text-PC-400">
             {compressCategoryText(promiseItem.categories[0])}
