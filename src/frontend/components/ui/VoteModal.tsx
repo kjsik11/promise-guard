@@ -73,7 +73,7 @@ export default function VoteModal({ show, close }: { show: boolean; close: () =>
                   <div className="relative -mb-[7px]">
                     {/*eslint-disable-next-line */}
                     <Image width={1280} height={900} src={voteImage} alt="vote-image" />
-                    <div className="absolute inset-0 top-0 h-8 bg-gradient-to-t from-transparent to-white" />
+                    <div className="absolute inset-0 top-0 h-8 bg-gradient-to-t from-white/0 to-white" />
                   </div>
                 </div>
               </div>

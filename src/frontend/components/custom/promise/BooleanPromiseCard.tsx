@@ -23,7 +23,9 @@ export default function BooleanPromiseCard({ promiseItem, tagPrefix }: Props) {
   useEffect(() => {
     const viewArray = JSON.parse(window.sessionStorage.getItem(viewArrayKey) ?? '[]') as string[];
 
-    const alreadyViewFlag = false;
+    let alreadyViewFlag = false;
+
+    alreadyViewFlag = viewArray.includes(promiseItem._id as string);
 
     if (handleIsView(promiseItem._id as string)) setIsView(true);
 

@@ -81,7 +81,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         {
           $set: {
             lastLogin: new Date(),
-            info: userInfo.properties,
           },
         },
       );
