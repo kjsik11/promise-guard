@@ -203,52 +203,60 @@ export default function PromiseDetailPage({
               <ShareIcon className="h-6 w-6" />
               <p>공유</p>
             </button>
-            <button
-              disabled={Boolean(loading) || disableButton || Boolean(isVote)}
-              onClick={() => {
-                if (user) handleRecommend();
-                else {
-                  setShowModal(true);
-                }
-              }}
-              className={clsx(
-                'flex flex-1 items-center space-x-3 rounded-xl py-1.5 px-3 text-sm font-bold',
-                { 'animate-pulse': loading === 'true' },
-                { 'bg-red-400 text-white': isVote === '' },
-                { 'bg-gray-300 text-gray-400': isVote === 'notRecommended' },
-                { 'bg-red-600 text-white': isVote === 'recommended' },
-              )}
-            >
-              <EmptyCircle />
-              <div className="text-left">
-                <p>{data?.recommendedCount ?? promiseItem.recommendedCount.toLocaleString()}</p>
-                <p>지지해요</p>
-              </div>
-            </button>
-            <button
-              disabled={Boolean(loading) || disableButton || Boolean(isVote)}
-              onClick={() => {
-                if (user) handleNotRecommend();
-                else {
-                  setShowModal(true);
-                }
-              }}
-              className={clsx(
-                'flex flex-1 items-center space-x-3 rounded-xl py-1.5 px-3 text-sm font-bold',
-                { 'animate-pulse': loading === 'false' },
-                { 'bg-blue-400 text-white': isVote === '' },
-                { 'bg-gray-300 text-gray-400': isVote === 'recommended' },
-                { 'bg-blue-600 text-white': isVote === 'notRecommended' },
-              )}
-            >
-              <XIcon className="h-9 w-9" />
-              <div className="text-left">
-                <p>
-                  {data?.notRecommendedCount ?? promiseItem.notRecommendedCount.toLocaleString()}
-                </p>
-                <p>반대해요</p>
-              </div>
-            </button>
+            {disableButton ? (
+              <div className="flex h-[52px] flex-1 animate-pulse rounded-xl bg-gray-300" />
+            ) : (
+              <button
+                disabled={Boolean(loading) || disableButton || Boolean(isVote)}
+                onClick={() => {
+                  if (user) handleRecommend();
+                  else {
+                    setShowModal(true);
+                  }
+                }}
+                className={clsx(
+                  'flex flex-1 items-center space-x-3 rounded-xl py-1.5 px-3 text-sm font-bold',
+                  { 'animate-pulse': loading === 'true' },
+                  { 'bg-red-400 text-white': isVote === '' },
+                  { 'bg-gray-300 text-gray-400': isVote === 'notRecommended' },
+                  { 'bg-red-600 text-white': isVote === 'recommended' },
+                )}
+              >
+                <EmptyCircle />
+                <div className="text-left">
+                  <p>{data?.recommendedCount ?? promiseItem.recommendedCount.toLocaleString()}</p>
+                  <p>지지해요</p>
+                </div>
+              </button>
+            )}
+            {disableButton ? (
+              <div className="flex h-[52px] flex-1 animate-pulse rounded-xl bg-gray-300" />
+            ) : (
+              <button
+                disabled={Boolean(loading) || disableButton || Boolean(isVote)}
+                onClick={() => {
+                  if (user) handleNotRecommend();
+                  else {
+                    setShowModal(true);
+                  }
+                }}
+                className={clsx(
+                  'flex flex-1 items-center space-x-3 rounded-xl py-1.5 px-3 text-sm font-bold',
+                  { 'animate-pulse': loading === 'false' },
+                  { 'bg-blue-400 text-white': isVote === '' },
+                  { 'bg-gray-300 text-gray-400': isVote === 'recommended' },
+                  { 'bg-blue-600 text-white': isVote === 'notRecommended' },
+                )}
+              >
+                <XIcon className="h-9 w-9" />
+                <div className="text-left">
+                  <p>
+                    {data?.notRecommendedCount ?? promiseItem.notRecommendedCount.toLocaleString()}
+                  </p>
+                  <p>반대해요</p>
+                </div>
+              </button>
+            )}
           </div>
         </section>
         <section>

@@ -53,7 +53,7 @@ const mainRenderer = ({ days, hours, minutes, seconds, completed }: CountdownPar
         <span>{hours < 10 ? `0${hours}` : hours}</span>
         <span className="pr-1.5 pl-0.5 text-xs">시</span>
         <span>{minutes < 10 ? `0${minutes}` : minutes}</span>
-        <span className="text pr-1.5 pl-0.5"> 분</span>
+        <span className="pr-1.5 pl-0.5 text-xs"> 분</span>
         <span>{seconds < 10 ? `0${seconds}` : seconds}</span>
         <span className="pr-1.5 pl-0.5 text-xs">초</span>
       </p>
