@@ -125,7 +125,7 @@ export const getStaticProps: GetStaticProps<PromiseProps> = async () => {
           pureTags,
         }),
       ),
-      revalidate: 10,
+      revalidate: 60,
     };
   } catch (err) {
     console.log('[index page]', (err as any).message);
