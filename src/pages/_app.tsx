@@ -36,8 +36,19 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     }
   }, []);
 
+  useEffect(() => {
+    if (window.Kakao) {
+      window.Kakao.init(PUBLIC_ENV.NEXT_PUBLIC_KAKAO_JS_KEY);
+    }
+  }, []);
+
   return (
     <>
+      <Script
+        type="text/javascript"
+        src="https://developers.kakao.com/sdk/js/kakao.js"
+        strategy="beforeInteractive"
+      />
       <Script src="/js/redirectIE.js" strategy="beforeInteractive" />
       <DefaultSeo
         title="May10"
