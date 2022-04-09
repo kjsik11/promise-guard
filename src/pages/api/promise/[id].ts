@@ -53,6 +53,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(StatusCodes.NO_CONTENT).end();
   }
 
+  if (req.method === 'PATCH') {
+    const validator = Joi.object({
+      tags: Joi.array().items(Joi.string().max(30)).max(20),
+    }).required();
+
+    const { tags } = (await validator.validateAsync(req.body)) as { tags: string[] };
+
+    await promiseCol.updateOne({ _id: new ObjectId(id), deletedAt: null }, { $set: { tags } });
+
+    return res.status(StatusCodes.NO_CONTENT).end();
+  }
+
   if (req.method === 'DELETE') {
     await promiseCol.updateOne(
       { _id: new ObjectId(id), deletedAt: null },
