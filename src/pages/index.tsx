@@ -31,7 +31,13 @@ export default function IndexPage({
       <Script defer src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js" />
       <div>
         <section className="relative flex flex-col items-center space-y-4 bg-PC-800 py-12 px-4 text-center text-white">
-          <p className="text-2xl font-bold">
+          <div className="absolute inset-y-0 left-0 pl-2 pb-8">
+            <DynamicOLottie />
+          </div>
+          <div className="absolute inset-y-0 right-0 pr-2 pb-8">
+            <DynamicXLottie />
+          </div>
+          <p className="relative text-2xl font-bold">
             대국민 공약 투표
             <br />
             어떤 공약을 지지하시나요?
@@ -47,12 +53,6 @@ export default function IndexPage({
             </a>
           </Link>
           <Countdown isMain />
-          <div className="absolute inset-y-0 left-0 pl-2 pb-8">
-            <DynamicOLottie />
-          </div>
-          <div className="absolute inset-y-0 right-0 pr-2 pb-8">
-            <DynamicXLottie />
-          </div>
         </section>
         <section className="py-[76px] pb-12">
           <div className="flex justify-center space-x-4">

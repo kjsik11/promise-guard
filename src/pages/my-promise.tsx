@@ -214,7 +214,7 @@ export default function MyPromisePage() {
               />
             ))
           : !buttonLoading && (
-              <div className="py-20 text-center text-2xl font-bold text-PC-800">
+              <div className="py-60 text-center text-2xl font-bold text-gray-300">
                 {selected === 'view' ? '조회' : selected === 'recommended' ? '지지' : '반대'}한
                 공약이 없습니다.
               </div>
