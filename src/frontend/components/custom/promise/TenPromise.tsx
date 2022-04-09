@@ -99,7 +99,7 @@ export default function TenPromise({ id }: Props) {
             <button
               disabled={loading}
               onClick={() => setSelectedCategory(item.value)}
-              className={clsx('rounded-full bg-white p-2.5 transition-colors', {
+              className={clsx('rounded-full bg-white p-2.5 text-PC-400 transition-colors', {
                 'bg-[#E3F0FF] ring-[2px] ring-PC-400': selectedCategory === item.value,
               })}
             >

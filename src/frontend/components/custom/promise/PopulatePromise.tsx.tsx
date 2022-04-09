@@ -7,7 +7,7 @@ import { StarCategory } from '@frontend/components/vector';
 
 import PromiseCard from './PromiseCard';
 
-const flagColors = ['#082E59', '#094C99', '#6A99CD', '#D1D5DB', '#D1D5DB'];
+const flagColors = ['#082E59', '#094C99', '#3487E2', '#D1D5DB', '#D1D5DB'];
 
 interface Props {
   populateItems: PromiseTypeFront[];

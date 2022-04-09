@@ -43,4 +43,21 @@
   .prose :where(iframe):not(:where([class~='not-prose'] *)) {
     @apply aspect-1 h-auto w-full;
   }
+
+  .slider-left {
+    animation: slideToLeftMobile 40s linear infinite;
+  }
+
+  .slider-left2 {
+    animation: slideToLeftMobile 60s linear infinite;
+  }
+
+  @keyframes slideToLeftMobile {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
 }

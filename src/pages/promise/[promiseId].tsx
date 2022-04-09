@@ -9,6 +9,7 @@ import type { PromiseTypeFront } from '@backend/model/promise';
 
 import KakaoChannel from '@frontend/components/custom/KakaoChannel';
 import PromiseSections from '@frontend/components/custom/promise/PromiseSections';
+import TagSlider from '@frontend/components/custom/TagSlider';
 import VoteNotification from '@frontend/components/custom/VoteNotification';
 import LoginModal from '@frontend/components/ui/LoginModal';
 import VoteModal from '@frontend/components/ui/VoteModal';
@@ -24,6 +25,7 @@ import { fetcher } from '@frontend/lib/fetcher';
 
 import buildBreadcrumbs from '@utils/build-breadcrumbs';
 import markdownToHtml from '@utils/markdownToHtml';
+import { removeDuplicatedTags } from '@utils/remove-duplicated-tags';
 import shareLogic from '@utils/share-logic';
 
 import { SWR_KEY } from '$src/define/swr-keys';
@@ -33,6 +35,7 @@ import type { GetStaticPaths, GetStaticProps } from 'next';
 interface Props {
   breadcrumbs: string[];
   promiseItem: PromiseTypeFront & { body: string };
+  pureTags: string[];
   booleanPromiseItems: PromiseTypeFront[];
   populatePromiseItems: PromiseTypeFront[];
 }
@@ -40,6 +43,7 @@ interface Props {
 export default function PromiseDetailPage({
   breadcrumbs,
   promiseItem,
+  pureTags,
   booleanPromiseItems,
   populatePromiseItems,
 }: Props) {
@@ -250,8 +254,10 @@ export default function PromiseDetailPage({
         <section>
           <KakaoChannel className="my-4 bg-white" />
         </section>
-        <section>
-          <div className="my-4 bg-white py-8 text-center">태그 자리</div>
+        <section className="bg-white">
+          <div className="overflow-x-hidden py-10 text-center">
+            <TagSlider tags={pureTags} />
+          </div>
         </section>
         <section>
           <PromiseSections
@@ -331,13 +337,14 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
       })
       .slice(0, 5);
 
-    //TODO:
+    const pureTags = removeDuplicatedTags(promiseItems);
 
     return {
       props: JSON.parse(
         JSON.stringify({
           breadcrumbs,
           promiseItem,
+          pureTags,
           populatePromiseItems: promiseItems.slice(0, 5),
           booleanPromiseItems,
         }),

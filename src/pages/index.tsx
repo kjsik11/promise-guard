@@ -12,6 +12,7 @@ import DynamicOLottie from '@frontend/components/custom/lottie/DynamicOLottie';
 import DynamicXLottie from '@frontend/components/custom/lottie/DynamicXLottie';
 import type { PromiseProps } from '@frontend/components/custom/promise/PromiseSections';
 import PromiseSections from '@frontend/components/custom/promise/PromiseSections';
+import TagSlider from '@frontend/components/custom/TagSlider';
 import MainLayout from '@frontend/components/layout/MainLayout';
 import { categoryCircleItems } from '@frontend/define/category-circle-arr';
 
@@ -22,9 +23,11 @@ import type { GetStaticProps } from 'next';
 export default function IndexPage({
   booleanPromiseItems,
   populatePromiseItems,
+  pureTags,
 }: {
   booleanPromiseItems: PromiseTypeFront[];
   populatePromiseItems: PromiseTypeFront[];
+  pureTags: string[];
 }) {
   return (
     <>
@@ -54,7 +57,7 @@ export default function IndexPage({
           </Link>
           <Countdown isMain />
         </section>
-        <section className="py-[76px] pb-12">
+        <section className="mb-6 pt-[76px]">
           <div className="flex justify-center space-x-4">
             {categoryCircleItems.map((item, idx) => (
               <CategoryCircle
@@ -67,7 +70,9 @@ export default function IndexPage({
           </div>
         </section>
         <section>
-          <div className="my-4 bg-white text-center">태그 자리</div>
+          <div className="mb-12 overflow-x-hidden bg-white text-center">
+            <TagSlider tags={pureTags} />
+          </div>
         </section>
         <section>
           <PromiseSections
@@ -110,7 +115,6 @@ export const getStaticProps: GetStaticProps<PromiseProps> = async () => {
       })
       .slice(0, 5);
 
-    //TODO:
     const pureTags = removeDuplicatedTags(promiseItems);
 
     return {
@@ -118,6 +122,7 @@ export const getStaticProps: GetStaticProps<PromiseProps> = async () => {
         JSON.stringify({
           populatePromiseItems: promiseItems.slice(0, 5),
           booleanPromiseItems,
+          pureTags,
         }),
       ),
       revalidate: 30,
