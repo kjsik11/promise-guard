@@ -417,7 +417,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
       .slice(0, 5);
 
     const pureTags = removeDuplicatedTags(promiseItems).filter((tag) => tagWhiteList.includes(tag));
-
+    console.log('h');
     return {
       props: JSON.parse(
         JSON.stringify({
