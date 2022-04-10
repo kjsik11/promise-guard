@@ -20,15 +20,7 @@ export default function useUser() {
 
   const { showAlert, showNoti } = useNoti();
 
-  const {
-    data: user,
-    error,
-    mutate,
-  } = useSWRImmutable(SWR_KEY.USER_PROFILE, getUserInfo, {
-    onSuccess: () => {
-      showNoti({ title: '로그인 되었습니다.' });
-    },
-  });
+  const { data: user, error, mutate } = useSWRImmutable(SWR_KEY.USER_PROFILE, getUserInfo);
 
   useEffect(() => {
     const tempViewArray = JSON.parse(
