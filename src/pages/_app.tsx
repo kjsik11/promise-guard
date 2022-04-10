@@ -5,17 +5,23 @@ import { DefaultSeo } from 'next-seo';
 import useNProgress from 'next-use-nprogress';
 import Script from 'next/script';
 import { useEffect } from 'react';
+import { SWRConfig } from 'swr';
 
 import { CommonLayout } from '@frontend/components/layout';
 import { Modal, Notification } from '@frontend/components/ui';
 import { useModal } from '@frontend/hooks/use-modal';
 import { useNoti } from '@frontend/hooks/use-noti';
+import { fetcher } from '@frontend/lib/fetcher';
 
 import { isProd } from '@utils/env';
 import { PUBLIC_ENV } from '@utils/env/public';
 import { GTM } from '@utils/tag-manager';
 
 import type { AppProps } from 'next/app';
+
+async function swrFetcher<T = any>(url: string, init?: RequestInit): Promise<T> {
+  return await fetcher(url, init).json();
+}
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const Layout = (Component as any).Layout || CommonLayout;
@@ -95,9 +101,11 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
         ]}
       />
 
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <SWRConfig value={{ fetcher: swrFetcher }}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </SWRConfig>
       <Modal {...modal} close={closeModal} />
       <Notification {...noti} close={closeNoti} />
     </>

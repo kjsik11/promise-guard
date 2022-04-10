@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { ObjectId } from 'mongodb';
 import { NextSeo } from 'next-seo';
 import { useCallback, useEffect, useState } from 'react';
-import useSWR from 'swr';
+import useSWRImmutable from 'swr/immutable';
 
 import { collection } from '@backend/collection';
 import type { PromiseTypeFront } from '@backend/model/promise';
@@ -21,7 +21,7 @@ import { tagWhiteList } from '@frontend/define/tag-white-list';
 import useIncreaseView from '@frontend/hooks/count/use-increase-view';
 import { useNoti } from '@frontend/hooks/use-noti';
 import useUser from '@frontend/hooks/use-user';
-import getRecommendCounts, { GetRecommendCount } from '@frontend/lib/count/get-recommend-counts';
+import type { GetRecommendCount } from '@frontend/lib/count/get-recommend-counts';
 import increaseNotRecommendCount from '@frontend/lib/count/increase-not-recommend-count';
 import increaseRecommendCount from '@frontend/lib/count/increase-recommend-count';
 import { fetcher } from '@frontend/lib/fetcher';
@@ -30,8 +30,6 @@ import buildBreadcrumbs from '@utils/build-breadcrumbs';
 import markdownToHtml from '@utils/markdownToHtml';
 import { removeDuplicatedTags } from '@utils/remove-duplicated-tags';
 import shareLogic from '@utils/share-logic';
-
-import { SWR_KEY } from '$src/define/swr-keys';
 
 import type { GetStaticPaths, GetStaticProps } from 'next';
 
@@ -63,9 +61,8 @@ export default function PromiseDetailPage({
   const [isVote, setIsVote] = useState<'recommended' | 'notRecommended' | ''>('');
   const [showVoteModal, setShowVoteModal] = useState(false);
 
-  const { data, mutate } = useSWR<GetRecommendCount>(
-    SWR_KEY.GET_RECOMMEND_COUNTS,
-    () => getRecommendCounts(promiseItem._id as string),
+  const { data, mutate } = useSWRImmutable<GetRecommendCount>(
+    `/api/count?promiseId=${promiseItem._id}`,
     {
       fallbackData: {
         recommendedCount: promiseItem.recommendedCount,

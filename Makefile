@@ -4,13 +4,7 @@ clean-module:
 clean-build:
 	@rm -rf .next
 
-clean-docs:
-	@rm -rf public/docs
+clean: clean-module clean-build 
 
-clean: clean-module clean-build clean-docs
-
-docs: clean-docs
-	apidoc -i src/pages -o public/docs
-
-build: docs
+build: 
 	next build
