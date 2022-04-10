@@ -22,8 +22,6 @@ export class NextApiBuilder {
   }
 
   build(): NextApiHandler {
-    console.log('wtf');
-
     let handler = this.handler;
 
     for (const c of this.wrappers.reverse()) {

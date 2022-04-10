@@ -7,7 +7,6 @@ import {
   populateSectionId,
   tenSectionId,
 } from '@frontend/define/promise-section-ids';
-import useUser from '@frontend/hooks/use-user';
 
 import BooleanPromise from './BooleanPromise';
 import LifePromise from './LifePromise';
@@ -24,23 +23,13 @@ export default function PromiseSections({
   populatePromiseItems,
   booleanPromiseItems,
 }: PromiseProps) {
-  const { viewArray } = useUser();
-
   return (
     <div className="space-y-16 bg-gray-100 py-12">
-      <PopulatePromise
-        viewArray={viewArray}
-        id={populateSectionId}
-        populateItems={populatePromiseItems}
-      />
-      <BooleanPromise
-        viewArray={viewArray}
-        id={booleanSectionId}
-        booleanPromiseItems={booleanPromiseItems}
-      />
-      <TenPromise viewArray={viewArray} id={tenSectionId} />
-      <LocalePromise viewArray={viewArray} id={localeSectionId} />
-      <LifePromise viewArray={viewArray} id={lifeSectionId} />
+      <PopulatePromise id={populateSectionId} populateItems={populatePromiseItems} />
+      <BooleanPromise id={booleanSectionId} booleanPromiseItems={booleanPromiseItems} />
+      <TenPromise id={tenSectionId} />
+      <LocalePromise id={localeSectionId} />
+      <LifePromise id={lifeSectionId} />
     </div>
   );
 }

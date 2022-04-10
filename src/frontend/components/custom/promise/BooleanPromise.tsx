@@ -4,22 +4,19 @@ import Link from 'next/link';
 import type { PromiseTypeFront } from '@backend/model/promise';
 
 import { FireCategory } from '@frontend/components/vector';
+import useUser from '@frontend/hooks/use-user';
 
 import BooleanPromiseCard from './BooleanPromiseCard';
 
 interface Props {
   booleanPromiseItems: PromiseTypeFront[];
   isDetailPage?: boolean;
-  viewArray: string[];
   id?: string;
 }
 
-export default function BooleanPromise({
-  id,
-  isDetailPage,
-  viewArray,
-  booleanPromiseItems,
-}: Props) {
+export default function BooleanPromise({ id, isDetailPage, booleanPromiseItems }: Props) {
+  const { viewArray } = useUser();
+
   return (
     <div id={id} className={clsx({ 'px-4': !isDetailPage })}>
       <div className="flex justify-between">

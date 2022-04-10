@@ -9,19 +9,21 @@ import { DrinkCategory } from '@frontend/components/vector';
 import { lifePromiseTags } from '@frontend/define/life-promise';
 import { recentCategoryKey } from '@frontend/define/session-key';
 import { useNoti } from '@frontend/hooks/use-noti';
+import useUser from '@frontend/hooks/use-user';
 import { fetcher } from '@frontend/lib/fetcher';
 
 import PromiseCard from './PromiseCard';
 
 interface Props {
   id?: string;
-  viewArray: string[];
 }
 
-export default function LifePromise({ id, viewArray }: Props) {
+export default function LifePromise({ id }: Props) {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [promiseItems, setPromiseItems] = useState<null | PromiseTypeFront[]>(null);
   const [loading, setLoading] = useState(false);
+
+  const { viewArray } = useUser();
 
   const { showAlert } = useNoti();
 

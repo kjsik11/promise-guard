@@ -9,21 +9,22 @@ import { MarkerCategory } from '@frontend/components/vector';
 import { localeImageArr, localeTags } from '@frontend/define/locale-image-circle';
 import { recentCategoryKey } from '@frontend/define/session-key';
 import { useNoti } from '@frontend/hooks/use-noti';
+import useUser from '@frontend/hooks/use-user';
 import { fetcher } from '@frontend/lib/fetcher';
 
 import PromiseCard from './PromiseCard';
 
 interface Props {
   id?: string;
-  viewArray: string[];
 }
 
-export default function LocalePromise({ id, viewArray }: Props) {
+export default function LocalePromise({ id }: Props) {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [promiseItems, setPromiseItems] = useState<null | PromiseTypeFront[]>(null);
   const [loading, setLoading] = useState(false);
 
   const { showAlert } = useNoti();
+  const { viewArray } = useUser();
 
   useEffect(() => {
     const sessionCategory = window.sessionStorage.getItem(recentCategoryKey);

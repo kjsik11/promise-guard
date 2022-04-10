@@ -8,6 +8,7 @@ import { FlagCategory } from '@frontend/components/vector';
 import { recentCategoryKey } from '@frontend/define/session-key';
 import { tenPromiseArr, tenPromiseTags } from '@frontend/define/ten-promise-arr';
 import { useNoti } from '@frontend/hooks/use-noti';
+import useUser from '@frontend/hooks/use-user';
 import { fetcher } from '@frontend/lib/fetcher';
 
 import { removeDuplicatedCategoris } from '@utils/remove-duplicated-tags';
@@ -16,10 +17,9 @@ import PromiseCard from './PromiseCard';
 
 interface Props {
   id?: string;
-  viewArray: string[];
 }
 
-export default function TenPromise({ id, viewArray }: Props) {
+export default function TenPromise({ id }: Props) {
   const [selectedPureCategory, setSelectedPureCategory] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [promiseItems, setPromiseItems] = useState<null | PromiseTypeFront[]>(null);
@@ -27,6 +27,7 @@ export default function TenPromise({ id, viewArray }: Props) {
   const [loading, setLoading] = useState(false);
 
   const { showAlert } = useNoti();
+  const { viewArray } = useUser();
 
   const renderedPromiseItem = useMemo<null | PromiseTypeFront[]>(() => {
     if (!promiseItems) return null;

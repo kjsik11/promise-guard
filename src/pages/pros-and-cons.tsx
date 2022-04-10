@@ -8,7 +8,6 @@ import type { PromiseTypeFront } from '@backend/model/promise';
 import DynamicLoading from '@frontend/components/core/DynamicLoading';
 import BooleanPromise from '@frontend/components/custom/promise/BooleanPromise';
 import { useNoti } from '@frontend/hooks/use-noti';
-import useUser from '@frontend/hooks/use-user';
 import { fetcher } from '@frontend/lib/fetcher';
 
 import type { GetStaticProps } from 'next';
@@ -23,8 +22,6 @@ export const BooleanPageNumber = 10;
 export default function BooleanPromisePage({ promiseCount, booleanPromiseItems }: Props) {
   const [loading, setLoading] = useState(false);
   const [renderedBooleanItems, setRenderedBooleanItems] = useState<PromiseTypeFront[] | null>(null);
-
-  const { viewArray } = useUser();
 
   const { showAlert } = useNoti();
 
@@ -61,11 +58,7 @@ export default function BooleanPromisePage({ promiseCount, booleanPromiseItems }
         }}
       />
       <div className="pt-12">
-        <BooleanPromise
-          viewArray={viewArray}
-          isDetailPage
-          booleanPromiseItems={renderedBooleanItems}
-        />
+        <BooleanPromise isDetailPage booleanPromiseItems={renderedBooleanItems} />
         {loading ? (
           <DynamicLoading />
         ) : (
