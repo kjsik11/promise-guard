@@ -20,20 +20,19 @@ const renderer = ({ days, hours, minutes, seconds, completed }: CountdownParams)
   }
   // Render a countdown
   return (
-    <div className="flex items-center justify-center space-x-1.5 bg-PC-600/60 py-0.5 px-4 text-white">
-      <p>
-        대통령 취임까지&nbsp;
-        <span className="font-semibold">
-          {days}일 {hours < 10 ? `0${hours}` : hours}시간 {minutes < 10 ? `0${minutes}` : minutes}분{' '}
-          {seconds < 10 ? `0${seconds}` : seconds}초
-        </span>
-      </p>
-      <Link href="/introduce">
-        <a>
-          <QuestionMarkCircleIcon className="h-5 w-5" />
-        </a>
-      </Link>
-    </div>
+    <Link href="/introduce" passHref>
+      <a className="flex items-center justify-center space-x-1.5 bg-PC-600/60 py-0.5 px-4 text-white">
+        <p>
+          대통령 취임까지&nbsp;
+          <span className="font-semibold">
+            {days}일 {hours < 10 ? `0${hours}` : hours}시간 {minutes < 10 ? `0${minutes}` : minutes}
+            분 {seconds < 10 ? `0${seconds}` : seconds}초
+          </span>
+        </p>
+
+        <QuestionMarkCircleIcon className="h-5 w-5" />
+      </a>
+    </Link>
   );
 };
 

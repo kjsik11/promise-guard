@@ -261,7 +261,7 @@ export default function PromiseDetailPage({
             />
           </div>
         </section>
-        <div className="sticky inset-x-0 bottom-0 z-[1] bg-white p-2">
+        <div className="sticky inset-x-0 bottom-0 z-[1] border-t border-gray-100 bg-white p-2">
           <div className="mx-auto flex max-w-md items-center space-x-2">
             <button
               onClick={() => {

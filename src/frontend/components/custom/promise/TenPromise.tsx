@@ -34,19 +34,6 @@ export default function TenPromise({ id }: Props) {
     return promiseItems;
   }, [selectedPureCategory, promiseItems]);
 
-  // const filterPromise = useMemo(() => {
-  //   const tempPromiseItems = tenPromiseItems.filter(({ categories }) => {
-  //     return categories.includes(selectedCategory);
-  //   });
-
-  //   const pureTags = removeDuplicatedTags(tempPromiseItems);
-
-  //   return {
-  //     promiseItems: tempPromiseItems,
-  //     pureTags,
-  //   };
-  // }, [selectedCategory, tenPromiseItems]);
-
   useEffect(() => {
     const sessionCategory = window.sessionStorage.getItem(recentCategoryKey);
 
@@ -61,7 +48,9 @@ export default function TenPromise({ id }: Props) {
         .json<PromiseTypeFront[]>()
         .then((tenPromiseList) => {
           setPromiseItems(tenPromiseList);
-          setPureCategories(removeDuplicatedCategoris(tenPromiseList));
+          const myPureCategories = removeDuplicatedCategoris(tenPromiseList);
+          setPureCategories(myPureCategories);
+          setSelectedPureCategory(myPureCategories[0]);
         })
         .catch(showAlert)
         .finally(() => setLoading(false));
@@ -80,7 +69,9 @@ export default function TenPromise({ id }: Props) {
         .json<PromiseTypeFront[]>()
         .then((tenPromiseList) => {
           setPromiseItems(tenPromiseList);
-          setPureCategories(removeDuplicatedCategoris(tenPromiseList));
+          const myPureCategories = removeDuplicatedCategoris(tenPromiseList);
+          setPureCategories(myPureCategories);
+          setSelectedPureCategory(myPureCategories[0]);
         })
         .catch(showAlert)
         .finally(() => setLoading(false));
