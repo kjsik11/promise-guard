@@ -117,7 +117,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
           booleanPromiseItems,
         }),
       ),
-      revalidate: 60,
+      revalidate: 120,
     };
   } catch (err) {
     return {
