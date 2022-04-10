@@ -56,7 +56,7 @@ export default function PromiseDetailPage({
     url: '',
   });
   const [showVoteNoti, setShowVoteNoti] = useState(false);
-  const [disableButton, setDisableButton] = useState(false);
+  const [disableButton, setDisableButton] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [isVote, setIsVote] = useState<'recommended' | 'notRecommended' | ''>('');
   const [showVoteModal, setShowVoteModal] = useState(false);
@@ -71,7 +71,7 @@ export default function PromiseDetailPage({
     },
   );
 
-  const { user, handleSignin } = useUser();
+  const { user, loading: userLoading, handleSignin } = useUser();
 
   const { showAlert, showNoti } = useNoti();
 
@@ -87,7 +87,6 @@ export default function PromiseDetailPage({
 
   useEffect(() => {
     if (user) {
-      setDisableButton(true);
       fetcher(`/api/user/vote-info?promiseId=${promiseItem._id}`)
         .json<{ voteInfo: 'recommended' | 'notRecommended' | '' }>()
         .then(({ voteInfo }) => {
@@ -97,8 +96,10 @@ export default function PromiseDetailPage({
         .finally(() => {
           setDisableButton(false);
         });
+    } else if (!userLoading) {
+      setDisableButton(false);
     }
-  }, [user, promiseItem._id, showAlert]);
+  }, [user, promiseItem._id, userLoading, showAlert]);
 
   const handleRecommend = useCallback(async () => {
     setLoading('true');
