@@ -2,7 +2,6 @@ import { serialize } from 'cookie';
 
 import { NextApiBuilder } from '@backend/api-wrapper';
 
-import { ApiError } from '@utils/api-error';
 import getUserInfo from '@utils/user/get-user-info';
 
 import { COOKIE_KEY_ACCESS_TOKEN, defaultCookieOptions } from '$src/define/cookie';
@@ -12,8 +11,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     const userToken = req.cookies[COOKIE_KEY_ACCESS_TOKEN];
-
-    if (!userToken) throw new ApiError('INTERNAL_SERVER_ERROR');
 
     const info = await getUserInfo(userToken, { _id: 0, info: 1, recentView: 1 });
 
