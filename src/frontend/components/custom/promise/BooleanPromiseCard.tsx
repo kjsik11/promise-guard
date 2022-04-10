@@ -37,7 +37,7 @@ export default function BooleanPromiseCard({ promiseItem, tagPrefix }: Props) {
   }, [promiseItem._id, handleIsView]);
 
   return (
-    <Link href={`/promise/${promiseItem._id}`}>
+    <Link href={`/promise/detail?promiseId=${promiseItem._id}`}>
       <a className="relative block rounded-lg bg-white py-3 px-2">
         <div className="space-x-[6px] text-sm font-semibold text-PC-600">
           {promiseItem.tags.map((tag, index) => (

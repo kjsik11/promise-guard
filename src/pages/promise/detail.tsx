@@ -1,10 +1,9 @@
 import { ShareIcon, XIcon } from '@heroicons/react/outline';
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
-import { ObjectId } from 'mongodb';
 import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
-import useSWR from 'swr';
 
 import { collection } from '@backend/collection';
 import type { PromiseTypeFront } from '@backend/model/promise';
@@ -21,7 +20,6 @@ import { tagWhiteList } from '@frontend/define/tag-white-list';
 import useIncreaseView from '@frontend/hooks/count/use-increase-view';
 import { useNoti } from '@frontend/hooks/use-noti';
 import useUser from '@frontend/hooks/use-user';
-import getRecommendCounts, { GetRecommendCount } from '@frontend/lib/count/get-recommend-counts';
 import increaseNotRecommendCount from '@frontend/lib/count/increase-not-recommend-count';
 import increaseRecommendCount from '@frontend/lib/count/increase-recommend-count';
 import { fetcher } from '@frontend/lib/fetcher';
@@ -31,25 +29,21 @@ import markdownToHtml from '@utils/markdownToHtml';
 import { removeDuplicatedTags } from '@utils/remove-duplicated-tags';
 import shareLogic from '@utils/share-logic';
 
-import { SWR_KEY } from '$src/define/swr-keys';
-
-import type { GetStaticPaths, GetStaticProps } from 'next';
+import type { GetStaticProps } from 'next';
 
 interface Props {
-  breadcrumbs: string[];
-  promiseItem: PromiseTypeFront & { body: string };
   pureTags: string[];
   booleanPromiseItems: PromiseTypeFront[];
   populatePromiseItems: PromiseTypeFront[];
 }
 
 export default function PromiseDetailPage({
-  breadcrumbs,
-  promiseItem,
   pureTags,
   booleanPromiseItems,
   populatePromiseItems,
 }: Props) {
+  const router = useRouter();
+
   // for seperate promise true or false button loading
   const [loading, setLoading] = useState<'true' | 'false' | ''>('');
   const [notiText, setNotiTest] = useState<{ title: string; content: string; url: string }>({
@@ -57,28 +51,43 @@ export default function PromiseDetailPage({
     content: '',
     url: '',
   });
+  const [initialLoading, setInitialLoading] = useState(false);
   const [showVoteNoti, setShowVoteNoti] = useState(false);
-  const [disableButton, setDisableButton] = useState(false);
+
   const [showModal, setShowModal] = useState(false);
+  const [userVoteFlag, setUserVoteFlag] = useState<'recommended' | 'notRecommended' | ''>('');
   const [isVote, setIsVote] = useState<'recommended' | 'notRecommended' | ''>('');
   const [showVoteModal, setShowVoteModal] = useState(false);
-
-  const { data, mutate } = useSWR<GetRecommendCount>(
-    SWR_KEY.GET_RECOMMEND_COUNTS,
-    () => getRecommendCounts(promiseItem._id as string),
-    {
-      fallbackData: {
-        recommendedCount: promiseItem.recommendedCount,
-        notRecommendedCount: promiseItem.notRecommendedCount,
-      },
-    },
+  const [promiseItem, setPromiseItem] = useState<null | (PromiseTypeFront & { body: string })>(
+    null,
   );
+  const [breadcrumbs, setBreadcrumbs] = useState<string[] | null>(null);
 
   const { user, handleSignin } = useUser();
 
   const { showAlert, showNoti } = useNoti();
 
-  useIncreaseView(promiseItem._id as string);
+  useEffect(() => {
+    const promiseId = router.query.promiseId;
+
+    if (promiseId && typeof promiseId === 'string') {
+      setInitialLoading(true);
+      fetcher(`/api/promise/detail/${promiseId}`)
+        .json<{
+          promiseItem: PromiseTypeFront & { body: string };
+          voteInfo: 'recommended' | 'notRecommended' | '';
+        }>()
+        .then(({ promiseItem, voteInfo }) => {
+          setPromiseItem(promiseItem);
+          setBreadcrumbs(buildBreadcrumbs(promiseItem.categories));
+          setIsVote(voteInfo);
+        })
+        .catch(showAlert)
+        .finally(() => setInitialLoading(false));
+    }
+  }, [router.query.promiseId, showAlert]);
+
+  useIncreaseView(promiseItem?._id as string);
 
   useEffect(() => {
     const showVoteModalFlag = window.localStorage.getItem(localVoteModalFlag);
@@ -88,22 +97,9 @@ export default function PromiseDetailPage({
     }
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      setDisableButton(true);
-      fetcher(`/api/user/vote-info?promiseId=${promiseItem._id}`)
-        .json<{ voteInfo: 'recommended' | 'notRecommended' | '' }>()
-        .then(({ voteInfo }) => {
-          setIsVote(voteInfo);
-        })
-        .catch(showAlert)
-        .finally(() => {
-          setDisableButton(false);
-        });
-    }
-  }, [user, promiseItem._id, showAlert]);
-
   const handleRecommend = useCallback(async () => {
+    if (!promiseItem) return;
+
     setLoading('true');
     if (!user) {
       setLoading('');
@@ -113,25 +109,27 @@ export default function PromiseDetailPage({
     await increaseRecommendCount(promiseItem._id as string)
       .then(async (status) => {
         if (status === 204) showNoti({ title: '이미 투표하였습니다.' });
-        await mutate();
       })
       .catch(showAlert)
       .finally(() => {
         setIsVote('recommended');
+        setUserVoteFlag('recommended');
         setShowVoteNoti(true);
-        setNotiTest({
-          url: `${window.location.origin}/promise/${promiseItem._id}`,
-          title: '지지 투표되었습니다.',
-          content: '지인들에게도 공약을 소개해주세요!',
-        });
+        if (promiseItem)
+          setNotiTest({
+            url: `${window.location.origin}/promise/${promiseItem._id}`,
+            title: '지지 투표되었습니다.',
+            content: '지인들에게도 공약을 소개해주세요!',
+          });
         setTimeout(() => {
           setShowVoteNoti(false);
         }, 10000);
         setLoading('');
       });
-  }, [user, showAlert, mutate, showNoti, promiseItem._id]);
+  }, [user, showAlert, showNoti, promiseItem]);
 
   const handleNotRecommend = useCallback(async () => {
+    if (!promiseItem) return;
     setLoading('false');
     if (!user) {
       setLoading('');
@@ -141,23 +139,72 @@ export default function PromiseDetailPage({
     await increaseNotRecommendCount(promiseItem._id as string)
       .then(async (status) => {
         if (status === 204) showNoti({ title: '이미 투표하였습니다.' });
-        await mutate();
       })
       .catch(showAlert)
       .finally(() => {
         setIsVote('notRecommended');
+        setUserVoteFlag('notRecommended');
         setShowVoteNoti(true);
-        setNotiTest({
-          url: `${window.location.origin}/promise/${promiseItem._id}`,
-          title: '반대 투표되었습니다.',
-          content: '지인들에게도 공약을 소개해주세요!',
-        });
+        if (promiseItem)
+          setNotiTest({
+            url: `${window.location.origin}/promise/${promiseItem._id}`,
+            title: '반대 투표되었습니다.',
+            content: '지인들에게도 공약을 소개해주세요!',
+          });
         setTimeout(() => {
           setShowVoteNoti(false);
         }, 10000);
         setLoading('');
       });
-  }, [user, showAlert, mutate, showNoti, promiseItem._id]);
+  }, [user, showAlert, showNoti, promiseItem]);
+
+  if (initialLoading || promiseItem === null || breadcrumbs === null)
+    return (
+      <div className="px-4 pt-10">
+        <section>
+          <div className="h-4 w-40 animate-pulse rounded-md bg-gray-300" />
+          <div className="mt-2 mb-4 h-10 w-full max-w-md animate-pulse rounded-md bg-gray-300" />
+          <div className="mt-4 h-6 w-60 animate-pulse rounded-md bg-gray-300" />
+        </section>
+        <section className="pt-12">
+          <div className="h-6 w-16 animate-pulse rounded-md bg-gray-300" />
+          <div className="ml-4">
+            <div className="mt-2 mb-4 h-6 w-full max-w-sm animate-pulse rounded-md bg-gray-300" />
+            <div className="mt-2 ml-4 mb-4 h-6 w-60 animate-pulse rounded-md bg-gray-300" />
+            <div className="mt-2 ml-4 mb-4 h-6 w-52 animate-pulse rounded-md bg-gray-300" />
+            <div className="mt-2 mb-4 h-6 w-full max-w-md animate-pulse rounded-md bg-gray-300" />
+            <div className="mt-2 mb-4 h-6 w-full max-w-md animate-pulse rounded-md bg-gray-300" />
+          </div>
+        </section>
+
+        <section className="pt-4 pb-8">
+          <div className="h-6 w-16 animate-pulse rounded-md bg-gray-300" />
+          <div className="ml-4">
+            <div className="mt-2 mb-4 h-6 w-full max-w-sm animate-pulse rounded-md bg-gray-300" />
+            <div className="mt-2 mb-4 h-6 w-60 animate-pulse rounded-md bg-gray-300" />
+            <div className="mt-2 mb-4 h-6 w-52 animate-pulse rounded-md bg-gray-300" />
+            <div className="mt-2 ml-4 mb-4 h-6 w-full max-w-md animate-pulse rounded-md bg-gray-300" />
+            <div className="mt-2 ml-4 mb-4 h-6 w-full max-w-md animate-pulse rounded-md bg-gray-300" />
+          </div>
+        </section>
+        <div className="mx-auto flex max-w-md items-center space-x-2 pb-12">
+          <div className="flex h-[52px] flex-1 animate-pulse items-center space-x-3 rounded-xl bg-gray-300 py-1.5 px-3 text-gray-100">
+            <EmptyCircle />
+            <div className="space-y-1">
+              <div className="h-[18px] w-10 rounded-sm bg-gray-100" />
+              <div className="h-[18px] w-12 rounded-sm bg-gray-100" />
+            </div>
+          </div>
+          <div className="flex h-[52px] flex-1 animate-pulse items-center space-x-3 rounded-xl bg-gray-300 py-1.5 px-3 text-gray-100">
+            <XIcon className="h-9 w-9" />
+            <div className="space-y-1">
+              <div className="h-[18px] w-10 rounded-sm bg-gray-100" />
+              <div className="h-[18px] w-12 rounded-sm bg-gray-100" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
 
   return (
     <>
@@ -215,72 +262,59 @@ export default function PromiseDetailPage({
               <ShareIcon className="h-6 w-6" />
               <p>공유</p>
             </button>
-            {disableButton ? (
-              <div className="flex h-[52px] flex-1 animate-pulse items-center space-x-3 rounded-xl bg-gray-300 py-1.5 px-3 text-gray-100">
-                <EmptyCircle />
-                <div className="space-y-1">
-                  <div className="h-[18px] w-10 rounded-sm bg-gray-100" />
-                  <div className="h-[18px] w-12 rounded-sm bg-gray-100" />
-                </div>
+
+            <button
+              disabled={Boolean(loading) || Boolean(isVote)}
+              onClick={() => {
+                if (user) handleRecommend();
+                else {
+                  setShowModal(true);
+                }
+              }}
+              className={clsx(
+                'flex flex-1 items-center space-x-3 rounded-xl py-1.5 px-3 text-sm font-bold',
+                { 'animate-pulse': loading === 'true' },
+                { 'bg-red-400 text-white': isVote === '' },
+                { 'bg-gray-300 text-gray-400': isVote === 'notRecommended' },
+                { 'bg-red-600 text-white': isVote === 'recommended' },
+              )}
+            >
+              <EmptyCircle />
+              <div className="text-left">
+                <p>
+                  {(
+                    promiseItem.recommendedCount + (userVoteFlag === 'recommended' ? 1 : 0)
+                  ).toLocaleString()}
+                </p>
+                <p>지지해요</p>
               </div>
-            ) : (
-              <button
-                disabled={Boolean(loading) || disableButton || Boolean(isVote)}
-                onClick={() => {
-                  if (user) handleRecommend();
-                  else {
-                    setShowModal(true);
-                  }
-                }}
-                className={clsx(
-                  'flex flex-1 items-center space-x-3 rounded-xl py-1.5 px-3 text-sm font-bold',
-                  { 'animate-pulse': loading === 'true' },
-                  { 'bg-red-400 text-white': isVote === '' },
-                  { 'bg-gray-300 text-gray-400': isVote === 'notRecommended' },
-                  { 'bg-red-600 text-white': isVote === 'recommended' },
-                )}
-              >
-                <EmptyCircle />
-                <div className="text-left">
-                  <p>{data?.recommendedCount ?? promiseItem.recommendedCount.toLocaleString()}</p>
-                  <p>지지해요</p>
-                </div>
-              </button>
-            )}
-            {disableButton ? (
-              <div className="flex h-[52px] flex-1 animate-pulse items-center space-x-3 rounded-xl bg-gray-300 py-1.5 px-3 text-gray-100">
-                <XIcon className="h-9 w-9" />
-                <div className="space-y-1">
-                  <div className="h-[18px] w-10 rounded-sm bg-gray-100" />
-                  <div className="h-[18px] w-12 rounded-sm bg-gray-100" />
-                </div>
+            </button>
+            <button
+              disabled={Boolean(loading) || Boolean(isVote)}
+              onClick={() => {
+                if (user) handleNotRecommend();
+                else {
+                  setShowModal(true);
+                }
+              }}
+              className={clsx(
+                'flex flex-1 items-center space-x-3 rounded-xl py-1.5 px-3 text-sm font-bold',
+                { 'animate-pulse': loading === 'false' },
+                { 'bg-blue-400 text-white': isVote === '' },
+                { 'bg-gray-300 text-gray-400': isVote === 'recommended' },
+                { 'bg-blue-600 text-white': isVote === 'notRecommended' },
+              )}
+            >
+              <XIcon className="h-9 w-9" />
+              <div className="text-left">
+                <p>
+                  {(
+                    promiseItem.notRecommendedCount + (userVoteFlag === 'notRecommended' ? 1 : 0)
+                  ).toLocaleString()}
+                </p>
+                <p>반대해요</p>
               </div>
-            ) : (
-              <button
-                disabled={Boolean(loading) || disableButton || Boolean(isVote)}
-                onClick={() => {
-                  if (user) handleNotRecommend();
-                  else {
-                    setShowModal(true);
-                  }
-                }}
-                className={clsx(
-                  'flex flex-1 items-center space-x-3 rounded-xl py-1.5 px-3 text-sm font-bold',
-                  { 'animate-pulse': loading === 'false' },
-                  { 'bg-blue-400 text-white': isVote === '' },
-                  { 'bg-gray-300 text-gray-400': isVote === 'recommended' },
-                  { 'bg-blue-600 text-white': isVote === 'notRecommended' },
-                )}
-              >
-                <XIcon className="h-9 w-9" />
-                <div className="text-left">
-                  <p>
-                    {data?.notRecommendedCount ?? promiseItem.notRecommendedCount.toLocaleString()}
-                  </p>
-                  <p>반대해요</p>
-                </div>
-              </button>
-            )}
+            </button>
           </div>
         </div>
         <section>
@@ -323,16 +357,8 @@ export default function PromiseDetailPage({
   );
 }
 
-export const getStaticPaths: GetStaticPaths = () => {
-  return { fallback: 'blocking', paths: [] };
-};
-
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   try {
-    if (!params || typeof params.promiseId !== 'string') throw new Error('No such page params');
-
-    const promiseId = new ObjectId(params.promiseId);
-
     const promiseCol = await collection.promise();
 
     const promiseItems = (await promiseCol
@@ -341,14 +367,6 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
       .toArray()) as PromiseTypeFront[];
 
     if (promiseItems.length === 0) throw new Error('[getStaticProps]: failed to fetch');
-
-    const promiseItem = await promiseCol.findOne(
-      { deletedAt: null, _id: promiseId },
-      { projection: { createdAt: 0, deletedAt: 0 } },
-    );
-    if (!promiseItem) throw new Error('[getStaticProps]: failed to fetch');
-
-    const breadcrumbs = buildBreadcrumbs(promiseItem.categories);
 
     const booleanPromiseItems = promiseItems
       .slice()
@@ -373,8 +391,6 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     return {
       props: JSON.parse(
         JSON.stringify({
-          breadcrumbs,
-          promiseItem,
           pureTags,
           populatePromiseItems: promiseItems.slice(0, 5),
           booleanPromiseItems,

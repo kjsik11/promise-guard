@@ -48,4 +48,6 @@ export default function buildBreadcrumbs(categories: string[]) {
     categories.forEach((val) => breadcrumbs.push(val));
     return breadcrumbs.slice(0, 3);
   }
+
+  return [];
 }
