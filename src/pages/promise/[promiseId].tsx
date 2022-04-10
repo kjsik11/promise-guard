@@ -177,7 +177,7 @@ export default function PromiseDetailPage({
           </div>
           <p className="pt-2 pb-4 text-3xl font-bold">{promiseItem.title}</p>
           {promiseItem.tags.length > 0 && (
-            <div className="flex space-x-1 text-sm font-semibold text-PC-400">
+            <div className="flex flex-wrap space-x-1 text-sm font-semibold text-PC-400">
               {promiseItem.tags.map((tag, idx) => (
                 <span key={`detail-tag-${tag}-${idx}`}>#{tag}</span>
               ))}
