@@ -10,10 +10,16 @@ import BooleanPromiseCard from './BooleanPromiseCard';
 interface Props {
   booleanPromiseItems: PromiseTypeFront[];
   isDetailPage?: boolean;
+  viewArray: string[];
   id?: string;
 }
 
-export default function BooleanPromise({ id, isDetailPage, booleanPromiseItems }: Props) {
+export default function BooleanPromise({
+  id,
+  isDetailPage,
+  viewArray,
+  booleanPromiseItems,
+}: Props) {
   return (
     <div id={id} className={clsx({ 'px-4': !isDetailPage })}>
       <div className="flex justify-between">
@@ -32,6 +38,7 @@ export default function BooleanPromise({ id, isDetailPage, booleanPromiseItems }
       <div className={clsx('space-y-4 pt-6', { 'mt-4 bg-gray-50 px-4 pb-4': isDetailPage })}>
         {booleanPromiseItems.map((item, idx) => (
           <BooleanPromiseCard
+            isView={viewArray.includes(item._id as string)}
             promiseItem={item}
             tagPrefix={`boolean-tag-${idx}`}
             key={`populate-promise-card-${idx}`}

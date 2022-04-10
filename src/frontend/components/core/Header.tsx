@@ -67,6 +67,7 @@ export default function Header() {
                 <Menu.Item>
                   <button
                     onClick={() => {
+                      console.log(handleSignin);
                       if (user) handleSignout();
                       else handleSignin();
                     }}

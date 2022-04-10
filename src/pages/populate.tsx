@@ -8,6 +8,7 @@ import type { PromiseTypeFront } from '@backend/model/promise';
 import DynamicLoading from '@frontend/components/core/DynamicLoading';
 import PopulatePromise from '@frontend/components/custom/promise/PopulatePromise.tsx';
 import { useNoti } from '@frontend/hooks/use-noti';
+import useUser from '@frontend/hooks/use-user';
 import { fetcher } from '@frontend/lib/fetcher';
 
 import type { GetStaticProps } from 'next';
@@ -24,6 +25,8 @@ export default function PopulatePromisePage({ promiseCount, populateItems }: Pro
   const [renderedPopulateItems, setRenderedPopulateItems] = useState<PromiseTypeFront[] | null>(
     null,
   );
+
+  const { viewArray } = useUser();
 
   const { showAlert } = useNoti();
 
@@ -60,7 +63,7 @@ export default function PopulatePromisePage({ promiseCount, populateItems }: Pro
         }}
       />
       <div className="pt-12">
-        <PopulatePromise isDetailPage populateItems={renderedPopulateItems} />
+        <PopulatePromise viewArray={viewArray} isDetailPage populateItems={renderedPopulateItems} />
         {loading ? (
           <DynamicLoading />
         ) : (

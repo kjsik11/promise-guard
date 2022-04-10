@@ -1,41 +1,18 @@
 import { EyeIcon, ThumbDownIcon, ThumbUpIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 import type { PromiseTypeFront } from '@backend/model/promise';
-
-import { viewArrayKey } from '@frontend/define/session-key';
-import useUser from '@frontend/hooks/use-user';
 
 import compressCategoryText from '@utils/compress-category-text';
 
 interface Props {
   promiseItem: PromiseTypeFront;
   tagPrefix: string;
+  isView: boolean;
 }
 
-export default function BooleanPromiseCard({ promiseItem, tagPrefix }: Props) {
-  const { handleIsView } = useUser();
-
-  const [isView, setIsView] = useState(false);
-
-  useEffect(() => {
-    const viewArray = JSON.parse(window.sessionStorage.getItem(viewArrayKey) ?? '[]') as string[];
-
-    let alreadyViewFlag = false;
-
-    alreadyViewFlag = viewArray.includes(promiseItem._id as string);
-
-    if (handleIsView(promiseItem._id as string)) setIsView(true);
-
-    handleIsView(promiseItem._id as string);
-
-    if (alreadyViewFlag) {
-      setIsView(true);
-    }
-  }, [promiseItem._id, handleIsView]);
-
+export default function BooleanPromiseCard({ promiseItem, isView, tagPrefix }: Props) {
   return (
     <Link href={`/promise/detail?promiseId=${promiseItem._id}`}>
       <a className="relative block rounded-lg bg-white py-3 px-2">

@@ -5,12 +5,15 @@ import type { PromiseTypeFront } from '@backend/model/promise';
 
 import PromiseCard from '@frontend/components/custom/promise/PromiseCard';
 import SkeletonPromiseCard from '@frontend/components/custom/promise/SkeletonPromiseCard';
+import useUser from '@frontend/hooks/use-user';
 import { fetcher } from '@frontend/lib/fetcher';
 
 export default function PromiseDetailPage() {
   const router = useRouter();
   const [promiseItems, setPromiseItems] = useState<PromiseTypeFront[] | null>(null);
   const [error, setError] = useState('');
+
+  const { viewArray } = useUser();
 
   useEffect(() => {
     const tagKey = router.query.tagKey;
@@ -53,6 +56,7 @@ export default function PromiseDetailPage() {
       <section className="mt-4 min-h-[500px] space-y-4 bg-gray-100 p-4">
         {promiseItems.map((item, idx) => (
           <PromiseCard
+            isView={viewArray.includes(item._id as string)}
             tagPrefix={`tagpromise-tag-${idx}`}
             promiseItem={item}
             key={`tagpromise-card-${idx}`}

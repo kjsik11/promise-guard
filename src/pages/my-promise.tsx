@@ -216,6 +216,7 @@ export default function MyPromisePage() {
           {myPromiseItems[selected].items.length
             ? myPromiseItems[selected].items.map((item, idx) => (
                 <PromiseCard
+                  isView={false}
                   tagPrefix={`my-promise-tags-${idx}`}
                   promiseItem={item}
                   key={`my-promise-${idx}`}

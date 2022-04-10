@@ -11,11 +11,17 @@ const flagColors = ['#082E59', '#094C99', '#3487E2', '#D1D5DB', '#D1D5DB'];
 
 interface Props {
   populateItems: PromiseTypeFront[];
+  viewArray: string[];
   isDetailPage?: boolean;
   id?: string;
 }
 
-export default function PopulatePromise({ id, populateItems, isDetailPage = false }: Props) {
+export default function PopulatePromise({
+  id,
+  populateItems,
+  viewArray,
+  isDetailPage = false,
+}: Props) {
   return (
     <div id={id} className={clsx({ 'px-4': !isDetailPage })}>
       <div className="flex justify-between">
@@ -32,6 +38,7 @@ export default function PopulatePromise({ id, populateItems, isDetailPage = fals
       <div className={clsx('space-y-4 pt-6', { 'mt-4 bg-gray-50 px-4 pb-4': isDetailPage })}>
         {populateItems.map((item, idx) => (
           <PromiseCard
+            isView={viewArray.includes(item._id as string)}
             isFlag={{ color: flagColors[idx], label: String(idx + 1) }}
             tagPrefix={`populatecard-tag-${idx}`}
             promiseItem={item}

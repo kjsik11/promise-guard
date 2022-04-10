@@ -15,9 +15,10 @@ import PromiseCard from './PromiseCard';
 
 interface Props {
   id?: string;
+  viewArray: string[];
 }
 
-export default function LifePromise({ id }: Props) {
+export default function LifePromise({ id, viewArray }: Props) {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [promiseItems, setPromiseItems] = useState<null | PromiseTypeFront[]>(null);
   const [loading, setLoading] = useState(false);
@@ -114,6 +115,7 @@ export default function LifePromise({ id }: Props) {
           <div className="mt-6 space-y-4">
             {promiseItems.map((item, idx) => (
               <PromiseCard
+                isView={viewArray.includes(item._id as string)}
                 tagPrefix={`life-promise-tag-${idx}`}
                 promiseItem={item}
                 key={`life-promise-card-${idx}`}

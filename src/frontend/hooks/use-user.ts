@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useSWRImmutable from 'swr/immutable';
 
+import { viewArrayKey } from '@frontend/define/session-key';
 import signout from '@frontend/lib/auth/signout';
 import getUserInfo from '@frontend/lib/user/get-user-info';
 
@@ -13,11 +14,24 @@ import { SWR_KEY } from '$src/define/swr-keys';
 import { useNoti } from './use-noti';
 
 export default function useUser() {
+  const [viewArray, setViewArray] = useState<string[]>([]);
+
   const router = useRouter();
 
   const { showAlert } = useNoti();
 
   const { data: user, error, mutate } = useSWRImmutable(SWR_KEY.USER_PROFILE, getUserInfo);
+
+  useEffect(() => {
+    const tempViewArray = JSON.parse(
+      window.sessionStorage.getItem(viewArrayKey) ?? '[]',
+    ) as string[];
+
+    if (user?.recentView) {
+      tempViewArray.concat(user?.recentView);
+    }
+    setViewArray(tempViewArray);
+  }, [user?.recentView]);
 
   const handleSignin = useCallback(
     async (ishome: boolean = false) => {
@@ -37,22 +51,13 @@ export default function useUser() {
       .catch(showAlert);
   }, [showAlert, mutate]);
 
-  const handleIsView = useCallback(
-    (promiseId: string) => {
-      if (user && user.recentView.includes(promiseId)) {
-        return true;
-      }
-    },
-    [user],
-  );
-
   return {
     handleSignin,
     handleSignout,
-    handleIsView,
     mutate,
     loading: !user && !error,
     user: error ? undefined : user?.info,
+    viewArray,
     error,
   };
 }

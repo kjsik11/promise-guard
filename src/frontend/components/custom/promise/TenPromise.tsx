@@ -16,9 +16,10 @@ import PromiseCard from './PromiseCard';
 
 interface Props {
   id?: string;
+  viewArray: string[];
 }
 
-export default function TenPromise({ id }: Props) {
+export default function TenPromise({ id, viewArray }: Props) {
   const [selectedPureCategory, setSelectedPureCategory] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [promiseItems, setPromiseItems] = useState<null | PromiseTypeFront[]>(null);
@@ -137,6 +138,7 @@ export default function TenPromise({ id }: Props) {
           <div className="space-y-4 px-4">
             {renderedPromiseItem.map((item, idx) => (
               <PromiseCard
+                isView={viewArray.includes(item._id as string)}
                 tagPrefix={`ten-promise-tag-${idx}`}
                 promiseItem={item}
                 key={`ten-promise-card-${idx}`}
