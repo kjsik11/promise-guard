@@ -41,7 +41,7 @@
 
 @layer components {
   .prose-custom-li > ul li ul li {
-    @apply marker:content-["👉"];
+    @apply marker:text-white/0 before:mr-2 before:content-["👉"];
   }
 
   .scrollbarNone {

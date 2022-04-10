@@ -191,7 +191,7 @@ export default function PromiseDetailPage({
                 'prose-h3:mt-8 prose-h3:text-xl prose-h3:font-bold prose-h3:text-black',
                 'prose-p:text-base prose-p:font-normal prose-p:text-gray-900',
                 'prose-li:my-0 prose-li:py-0 prose-li:text-base prose-li:font-normal prose-li:text-gray-900',
-                'prose-li:marker:text-xs prose-li:marker:text-black prose-li:marker:content-["📍"]',
+                'prose-li:marker:text-xs prose-li:marker:text-black prose-li:marker:text-white/0 prose-li:before:mr-2 prose-li:before:content-["📍"]',
                 'prose-ul:my-1',
                 'prose-custom-li',
                 'prose-img:w-full',
