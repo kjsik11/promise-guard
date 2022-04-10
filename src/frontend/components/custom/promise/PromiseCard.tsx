@@ -20,7 +20,7 @@ interface Props {
 
 export default function PromiseCard({ promiseItem, tagPrefix, isFlag, isView }: Props) {
   return (
-    <Link passHref href={`/promise/detail?promiseId=${promiseItem._id}`}>
+    <Link passHref href={`/promise/${promiseItem._id}`}>
       <a className="relative block rounded-lg bg-white py-3 px-2">
         <div className="space-x-[6px] text-sm font-semibold text-PC-600">
           {promiseItem.tags.map((tag, idx) => (
