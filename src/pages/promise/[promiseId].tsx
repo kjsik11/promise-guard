@@ -235,7 +235,7 @@ export default function PromiseDetailPage({
                 }}
                 className={clsx(
                   'flex flex-1 items-center space-x-3 rounded-xl py-1.5 px-3 text-sm font-bold',
-                  { 'animate-pulse': loading === 'true' },
+                  { 'animate-pulse-fast': loading === 'true' },
                   { 'bg-red-400 text-white': isVote === '' },
                   { 'bg-gray-300 text-gray-400': isVote === 'notRecommended' },
                   { 'bg-red-600 text-white': isVote === 'recommended' },
@@ -267,7 +267,7 @@ export default function PromiseDetailPage({
                 }}
                 className={clsx(
                   'flex flex-1 items-center space-x-3 rounded-xl py-1.5 px-3 text-sm font-bold',
-                  { 'animate-pulse': loading === 'false' },
+                  { 'animate-pulse-fast': loading === 'false' },
                   { 'bg-blue-400 text-white': isVote === '' },
                   { 'bg-gray-300 text-gray-400': isVote === 'recommended' },
                   { 'bg-blue-600 text-white': isVote === 'notRecommended' },
