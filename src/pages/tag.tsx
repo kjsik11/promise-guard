@@ -41,7 +41,7 @@ export default function PromiseDetailPage() {
   if (promiseItems === null)
     return (
       <div className="min-h-[500px] pt-12">
-        <div className="mb-4 h-10 w-40 animate-pulse rounded-md bg-gray-300 px-4" />
+        <div className="mx-4 mb-4 h-10 w-40 animate-pulse rounded-md bg-gray-300 px-4" />
         <div className="space-y-4 bg-gray-100 p-4 pb-12">
           {Array.from({ length: 5 }, (_, idx) => (
             <SkeletonPromiseCard key={`skeleton-${idx}`} />
