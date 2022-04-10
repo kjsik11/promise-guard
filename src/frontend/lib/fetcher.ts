@@ -1,5 +1,9 @@
 import ky from 'ky';
 
+export async function swrFetcher<T = any>(url: string, init?: RequestInit): Promise<T> {
+  return await fetcher(url, init).json();
+}
+
 export const fetcher = ky.extend({
   hooks: {
     afterResponse: [

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { ObjectId } from 'mongodb';
 import { NextSeo } from 'next-seo';
 import { useCallback, useEffect, useState } from 'react';
-import useSWRImmutable from 'swr/immutable';
+import useSWR from 'swr';
 
 import { collection } from '@backend/collection';
 import type { PromiseTypeFront } from '@backend/model/promise';
@@ -24,7 +24,7 @@ import useUser from '@frontend/hooks/use-user';
 import type { GetRecommendCount } from '@frontend/lib/count/get-recommend-counts';
 import increaseNotRecommendCount from '@frontend/lib/count/increase-not-recommend-count';
 import increaseRecommendCount from '@frontend/lib/count/increase-recommend-count';
-import { fetcher } from '@frontend/lib/fetcher';
+import { fetcher, swrFetcher } from '@frontend/lib/fetcher';
 
 import buildBreadcrumbs from '@utils/build-breadcrumbs';
 import markdownToHtml from '@utils/markdownToHtml';
@@ -61,9 +61,11 @@ export default function PromiseDetailPage({
   const [isVote, setIsVote] = useState<'recommended' | 'notRecommended' | ''>('');
   const [showVoteModal, setShowVoteModal] = useState(false);
 
-  const { data, mutate } = useSWRImmutable<GetRecommendCount>(
+  const { data, mutate } = useSWR<GetRecommendCount>(
     `/api/count?promiseId=${promiseItem._id}`,
+    swrFetcher,
     {
+      refreshInterval: 10000,
       fallbackData: {
         recommendedCount: promiseItem.recommendedCount,
         notRecommendedCount: promiseItem.notRecommendedCount,
@@ -110,8 +112,10 @@ export default function PromiseDetailPage({
 
     await increaseRecommendCount(promiseItem._id as string)
       .then(async (status) => {
-        if (status === 204) showNoti({ title: '이미 투표하였습니다.' });
-        await mutate();
+        if (status === 204) return showNoti({ title: '이미 투표하였습니다.' });
+        if (data) {
+          await mutate({ ...data, recommendedCount: data.recommendedCount + 1 });
+        }
       })
       .catch(showAlert)
       .finally(() => {
@@ -127,7 +131,7 @@ export default function PromiseDetailPage({
         }, 10000);
         setLoading('');
       });
-  }, [user, showAlert, mutate, showNoti, promiseItem._id]);
+  }, [user, showAlert, mutate, data, showNoti, promiseItem._id]);
 
   const handleNotRecommend = useCallback(async () => {
     setLoading('false');
@@ -138,8 +142,10 @@ export default function PromiseDetailPage({
 
     await increaseNotRecommendCount(promiseItem._id as string)
       .then(async (status) => {
-        if (status === 204) showNoti({ title: '이미 투표하였습니다.' });
-        await mutate();
+        if (status === 204) return showNoti({ title: '이미 투표하였습니다.' });
+        if (data) {
+          await mutate({ ...data, notRecommendedCount: data.notRecommendedCount + 1 });
+        }
       })
       .catch(showAlert)
       .finally(() => {
@@ -243,7 +249,7 @@ export default function PromiseDetailPage({
               >
                 <EmptyCircle />
                 <div className="text-left">
-                  <p>{data?.recommendedCount ?? promiseItem.recommendedCount.toLocaleString()}</p>
+                  {data?.recommendedCount.toLocaleString() ?? 0}
                   <p>지지해요</p>
                 </div>
               </button>
@@ -275,9 +281,7 @@ export default function PromiseDetailPage({
               >
                 <XIcon className="h-9 w-9" />
                 <div className="text-left">
-                  <p>
-                    {data?.notRecommendedCount ?? promiseItem.notRecommendedCount.toLocaleString()}
-                  </p>
+                  <p>{data?.notRecommendedCount.toLocaleString() ?? 0}</p>
                   <p>반대해요</p>
                 </div>
               </button>
