@@ -18,7 +18,7 @@ export default function useUser() {
 
   const router = useRouter();
 
-  const { showAlert } = useNoti();
+  const { showAlert, showNoti } = useNoti();
 
   const { data: user, error, mutate } = useSWRImmutable(SWR_KEY.USER_PROFILE, getUserInfo);
 
@@ -39,17 +39,23 @@ export default function useUser() {
 
       await router
         .push('/signin/kakao')
-        .then(() => mutate())
+        .then(() => {
+          showNoti({ title: '로그인 되었습니다.' });
+          mutate();
+        })
         .catch(showAlert);
     },
-    [showAlert, mutate, router],
+    [showNoti, showAlert, mutate, router],
   );
 
   const handleSignout = useCallback(async () => {
     await signout()
-      .then(() => mutate())
+      .then(() => {
+        showNoti({ title: '로그아웃 되었습니다.' });
+        mutate();
+      })
       .catch(showAlert);
-  }, [showAlert, mutate]);
+  }, [showNoti, showAlert, mutate]);
 
   return {
     handleSignin,
