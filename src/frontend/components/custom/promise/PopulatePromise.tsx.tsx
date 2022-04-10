@@ -38,7 +38,7 @@ export default function PopulatePromise({
           </Link>
         )}
       </div>
-      <div className={clsx('space-y-4 pt-6', { 'mt-4 bg-gray-50 px-4 pb-4': isDetailPage })}>
+      <div className={clsx('space-y-4 pt-6', { 'mt-4 bg-gray-100 px-4 pb-4': isDetailPage })}>
         {populateItems.map((item, idx) => (
           <PromiseCard
             isView={viewArray.includes(item._id as string)}

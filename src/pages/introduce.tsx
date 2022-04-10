@@ -41,7 +41,8 @@ export default function IntroducePage() {
           <p className="text-3xl font-bold text-PC-800">오월 십일</p>
           <p className="pt-2">
             오월 십일은 국민과의 약속을 어기는 것이 너무나 당연해진 현실을 바꾸기 위하여
-            시작되었습니다. 투표가 끝난 뒤에도 공약 이행에 대한 감시와 홍보의 역할을
+            시작되었습니다. 투표가 끝난 뒤에도
+            <span className="font-bold">공약 이행에 대한 감시와 홍보의 역할</span>을
             이어나가겠습니다.
           </p>
           <div className="mt-16 flex  justify-center">
@@ -55,7 +56,8 @@ export default function IntroducePage() {
             </div>
           </div>
           <p className="pt-16 pb-4">
-            오월 십일 카카오 채널을 통하여 관심 공약 뉴스를 알려드리겠습니다.
+            오월 십일 카카오 채널을 통하여
+            <span className="font-bold">관심 공약 뉴스</span>를 알려드리겠습니다.
           </p>
           <KakaoButton />
         </section>
