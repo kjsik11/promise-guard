@@ -1,7 +1,6 @@
 import { ShareIcon, XIcon } from '@heroicons/react/outline';
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
-import { ObjectId } from 'mongodb';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
@@ -30,18 +29,16 @@ import markdownToHtml from '@utils/markdownToHtml';
 import { removeDuplicatedTags } from '@utils/remove-duplicated-tags';
 import shareLogic from '@utils/share-logic';
 
-import type { GetStaticPaths, GetStaticProps } from 'next';
+import type { GetStaticProps } from 'next';
 
 interface Props {
   pureTags: string[];
   booleanPromiseItems: PromiseTypeFront[];
   populatePromiseItems: PromiseTypeFront[];
-  title: string;
 }
 
 export default function PromiseDetailPage({
   pureTags,
-  title,
   booleanPromiseItems,
   populatePromiseItems,
 }: Props) {
@@ -225,9 +222,9 @@ export default function PromiseDetailPage({
   return (
     <>
       <NextSeo
-        title={`${title}ㅣ오월 십일`}
+        title={`${promiseItem.title}ㅣ오월 십일`}
         openGraph={{
-          title: `${title}ㅣ오월 십일`,
+          title: `${promiseItem.title}ㅣ오월 십일`,
         }}
       />
       <div className="bg-gray-100">
@@ -373,23 +370,9 @@ export default function PromiseDetailPage({
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return { fallback: 'blocking', paths: [] };
-};
-
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   try {
-    let promiseId;
-    if (params && typeof params.promiseId === 'string') promiseId = params.promiseId;
-
-    if (!promiseId) throw new Error('No such params');
-
     const promiseCol = await collection.promise();
-
-    const promiseItem = await promiseCol.findOne(
-      { _id: new ObjectId(promiseId), deletedAt: null },
-      { projection: { title: 1 } },
-    );
 
     const promiseItems = (await promiseCol
       .find({ deletedAt: null }, { projection: { createdAt: 0, body: 0, deletedAt: 0 } })
@@ -417,14 +400,13 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
       .slice(0, 5);
 
     const pureTags = removeDuplicatedTags(promiseItems).filter((tag) => tagWhiteList.includes(tag));
-    console.log('h');
+
     return {
       props: JSON.parse(
         JSON.stringify({
           pureTags,
           populatePromiseItems: promiseItems.slice(0, 5),
           booleanPromiseItems,
-          title: promiseItem?.title ?? '',
         }),
       ),
       revalidate: 120,
