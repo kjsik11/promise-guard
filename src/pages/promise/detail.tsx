@@ -120,7 +120,7 @@ export default function PromiseDetailPage({
         setShowVoteNoti(true);
         if (promiseItem)
           setNotiTest({
-            url: `${window.location.origin}/promise/${promiseItem._id}`,
+            url: `${window.location.origin}/promise/detail?promiseId=${promiseItem._id}`,
             title: '지지 투표되었습니다.',
             content: '지인들에게도 공약을 소개해주세요!',
           });
@@ -150,7 +150,7 @@ export default function PromiseDetailPage({
         setShowVoteNoti(true);
         if (promiseItem)
           setNotiTest({
-            url: `${window.location.origin}/promise/${promiseItem._id}`,
+            url: `${window.location.origin}/promise/detail?promiseId=${promiseItem._id}`,
             title: '반대 투표되었습니다.',
             content: '지인들에게도 공약을 소개해주세요!',
           });
@@ -266,7 +266,7 @@ export default function PromiseDetailPage({
             <button
               onClick={() => {
                 const isShowNoti = shareLogic(
-                  `${window.location.origin}/promise/${promiseItem._id}`,
+                  `${window.location.origin}/promise/detail?promiseId=${promiseItem._id}`,
                 );
                 if (isShowNoti) showNoti({ title: '공유하기 URL이 복사되었습니다.' });
               }}
