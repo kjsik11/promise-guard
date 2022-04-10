@@ -3,6 +3,8 @@ import NextImage from 'next/image';
 
 import CheckBoardImage from '@assets/introduce/check-board.png';
 
+import useUser from '@frontend/hooks/use-user';
+
 import KakaoButton from './KakaoButton';
 
 interface Props {
@@ -10,6 +12,10 @@ interface Props {
 }
 
 export default function KakaoChannel({ className }: Props) {
+  const { user } = useUser();
+
+  if (!user) return null;
+
   return (
     <section className={clsx('space-y-4 py-3 px-4', className)}>
       <div className="flex items-center justify-center space-x-4">
