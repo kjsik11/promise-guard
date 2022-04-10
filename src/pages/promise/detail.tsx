@@ -62,6 +62,7 @@ export default function PromiseDetailPage({
     null,
   );
   const [breadcrumbs, setBreadcrumbs] = useState<string[] | null>(null);
+  const [error, setError] = useState('');
 
   const { user, handleSignin } = useUser();
 
@@ -82,7 +83,9 @@ export default function PromiseDetailPage({
           setBreadcrumbs(buildBreadcrumbs(promiseItem.categories));
           setIsVote(voteInfo);
         })
-        .catch(showAlert)
+        .catch((err) => {
+          setError(err.message);
+        })
         .finally(() => setInitialLoading(false));
     }
   }, [router.query.promiseId, showAlert]);
@@ -157,6 +160,16 @@ export default function PromiseDetailPage({
         setLoading('');
       });
   }, [user, showAlert, showNoti, promiseItem]);
+
+  if (error)
+    return (
+      <div className="py-20 text-center text-3xl font-bold">
+        <p>
+          페이지를 찾을 수 없거나 <br />
+          찾는 중 문제가 발생했습니다.
+        </p>
+      </div>
+    );
 
   if (initialLoading || promiseItem === null || breadcrumbs === null)
     return (
