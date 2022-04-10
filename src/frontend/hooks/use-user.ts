@@ -20,7 +20,15 @@ export default function useUser() {
 
   const { showAlert, showNoti } = useNoti();
 
-  const { data: user, error, mutate } = useSWRImmutable(SWR_KEY.USER_PROFILE, getUserInfo);
+  const {
+    data: user,
+    error,
+    mutate,
+  } = useSWRImmutable(SWR_KEY.USER_PROFILE, getUserInfo, {
+    onSuccess: () => {
+      showNoti({ title: '로그인 되었습니다.' });
+    },
+  });
 
   useEffect(() => {
     const tempViewArray = JSON.parse(
@@ -39,23 +47,22 @@ export default function useUser() {
 
       await router
         .push('/signin/kakao')
-        .then(() => {
-          showNoti({ title: '로그인 되었습니다.' });
-          mutate();
+        .then(async () => {
+          await mutate();
         })
         .catch(showAlert);
     },
-    [showNoti, showAlert, mutate, router],
+    [, showAlert, mutate, router],
   );
 
   const handleSignout = useCallback(async () => {
     await signout()
-      .then(() => {
+      .then(async () => {
+        await mutate(undefined);
         showNoti({ title: '로그아웃 되었습니다.' });
-        mutate();
       })
       .catch(showAlert);
-  }, [showNoti, showAlert, mutate]);
+  }, [showNoti, mutate, showAlert]);
 
   return {
     handleSignin,
