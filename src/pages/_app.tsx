@@ -3,6 +3,7 @@ import 'nprogress/nprogress.css';
 
 import { DefaultSeo } from 'next-seo';
 import useNProgress from 'next-use-nprogress';
+import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useEffect } from 'react';
 
@@ -18,6 +19,8 @@ import { GTM } from '@utils/tag-manager';
 import type { AppProps } from 'next/app';
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  const router = useRouter();
+
   const Layout = (Component as any).Layout || CommonLayout;
 
   useNProgress({
@@ -95,7 +98,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
         ]}
       />
       <Layout>
-        <Component {...pageProps} />
+        <Component {...pageProps} key={router.asPath} />
       </Layout>
       <Modal {...modal} close={closeModal} />
       <Notification {...noti} close={closeNoti} />

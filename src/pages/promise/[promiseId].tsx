@@ -80,6 +80,10 @@ export default function PromiseDetailPage({
   useIncreaseView(promiseItem._id as string);
 
   useEffect(() => {
+    setIsVote('');
+  }, []);
+
+  useEffect(() => {
     const showVoteModalFlag = window.localStorage.getItem(localVoteModalFlag);
 
     if (!showVoteModalFlag) {
@@ -101,7 +105,7 @@ export default function PromiseDetailPage({
     } else if (!userLoading) {
       setDisableButton(false);
     }
-  }, [user, promiseItem._id, userLoading, showAlert]);
+  }, [user, promiseItem._id, isVote, userLoading, showAlert]);
 
   const handleRecommend = useCallback(async () => {
     setLoading('true');
