@@ -328,8 +328,18 @@ export default function PromiseDetailPage({
   );
 }
 
-export const getStaticPaths: GetStaticPaths = () => {
-  return { fallback: 'blocking', paths: [] };
+export const getStaticPaths: GetStaticPaths = async () => {
+  const promiseCol = await collection.promise();
+
+  const paramArr = await (
+    await promiseCol.find({ deletedAt: null }, { projection: { _id: 1 } }).toArray()
+  ).map(({ _id }) => ({
+    params: {
+      promiseId: String(_id),
+    },
+  }));
+
+  return { fallback: false, paths: paramArr };
 };
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
