@@ -62,7 +62,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
           description: '앞으로 5년, 윤석열 정부가 꼭 지켜야 하는 공약에 투표해주세요',
           images: [
             {
-              url: '/assets/open_graph.jpg',
+              url: '/assets/may10_open_graph.jpg',
               width: 1200,
               height: 630,
               alt: 'May10 open-graph image',
