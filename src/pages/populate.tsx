@@ -17,7 +17,7 @@ interface Props {
   promiseCount: number;
 }
 
-export const PopulatePageNumber = 10;
+export const PopulatePageNumber = 20;
 
 export default function PopulatePromisePage({ promiseCount, populateItems }: Props) {
   const [loading, setLoading] = useState(false);
@@ -89,10 +89,10 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     const promiseItems = (await promiseCol
       .find({ deletedAt: null }, { projection: { createdAt: 0, body: 0, deletedAt: 0 } })
       .sort({ viewCount: -1 })
-      .limit(10)
+      .limit(PopulatePageNumber)
       .toArray()) as PromiseTypeFront[];
 
-    const promiseCount = await promiseCol.find({ deletedAt: null }).count();
+    const promiseCount = await promiseCol.countDocuments({ deletedAt: null });
 
     if (promiseItems.length === 0 || !promiseCount)
       throw new Error('[getStaticProps]: failed to fetch');

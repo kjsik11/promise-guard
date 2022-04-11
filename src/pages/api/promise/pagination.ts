@@ -17,12 +17,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     const validator = Joi.object({
       variant: Joi.string().valid('populate', 'boolean').required(),
-      page: Joi.number().min(0).max(4).required(),
+      page: Joi.number().min(0).required(),
     }).required();
     const { page, variant } = (await validator.validateAsync(req.query)) as {
       page: number;
       variant: SelectedVariant;
     };
+
+    if (variant === 'boolean' && page > 4) return res.json([]);
 
     const promiseCol = await collection.promise();
 
