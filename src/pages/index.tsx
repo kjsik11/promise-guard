@@ -17,18 +17,14 @@ import MainLayout from '@frontend/components/layout/MainLayout';
 import { categoryCircleItems } from '@frontend/define/category-circle-arr';
 import { tagWhiteList } from '@frontend/define/tag-white-list';
 
-import { removeDuplicatedTags } from '@utils/remove-duplicated-tags';
-
 import type { GetStaticProps } from 'next';
 
 export default function IndexPage({
   booleanPromiseItems,
   populatePromiseItems,
-  pureTags,
 }: {
   booleanPromiseItems: PromiseTypeFront[];
   populatePromiseItems: PromiseTypeFront[];
-  pureTags: string[];
 }) {
   return (
     <>
@@ -72,7 +68,7 @@ export default function IndexPage({
         </section>
         <section>
           <div className="mb-12 overflow-x-hidden bg-white text-center">
-            <TagSlider tags={pureTags} />
+            <TagSlider tags={tagWhiteList} />
           </div>
         </section>
         <section>
@@ -116,14 +112,11 @@ export const getStaticProps: GetStaticProps<PromiseProps> = async () => {
       })
       .slice(0, 5);
 
-    const pureTags = removeDuplicatedTags(promiseItems).filter((tag) => tagWhiteList.includes(tag));
-
     return {
       props: JSON.parse(
         JSON.stringify({
           populatePromiseItems: promiseItems.slice(0, 5),
           booleanPromiseItems,
-          pureTags,
         }),
       ),
       revalidate: 120,

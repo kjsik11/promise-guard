@@ -28,7 +28,6 @@ import { fetcher, swrFetcher } from '@frontend/lib/fetcher';
 
 import buildBreadcrumbs from '@utils/build-breadcrumbs';
 import markdownToHtml from '@utils/markdownToHtml';
-import { removeDuplicatedTags } from '@utils/remove-duplicated-tags';
 import shareLogic from '@utils/share-logic';
 
 import type { GetStaticPaths, GetStaticProps } from 'next';
@@ -36,7 +35,6 @@ import type { GetStaticPaths, GetStaticProps } from 'next';
 interface Props {
   breadcrumbs: string[];
   promiseItem: PromiseTypeFront & { body: string };
-  pureTags: string[];
   booleanPromiseItems: PromiseTypeFront[];
   populatePromiseItems: PromiseTypeFront[];
 }
@@ -44,7 +42,6 @@ interface Props {
 export default function PromiseDetailPage({
   breadcrumbs,
   promiseItem,
-  pureTags,
   booleanPromiseItems,
   populatePromiseItems,
 }: Props) {
@@ -297,7 +294,7 @@ export default function PromiseDetailPage({
         </section>
         <section className="bg-white">
           <div className="overflow-x-hidden py-10 text-center">
-            <TagSlider tags={pureTags} />
+            <TagSlider tags={tagWhiteList} />
           </div>
         </section>
         <section>
@@ -387,14 +384,11 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
       })
       .slice(0, 5);
 
-    const pureTags = removeDuplicatedTags(promiseItems).filter((tag) => tagWhiteList.includes(tag));
-
     return {
       props: JSON.parse(
         JSON.stringify({
           breadcrumbs,
           promiseItem,
-          pureTags,
           populatePromiseItems: promiseItems.slice(0, 5),
           booleanPromiseItems,
         }),
