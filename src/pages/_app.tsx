@@ -40,6 +40,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   }, []);
 
   useEffect(() => {
+    //TODO: Update init logic
     if (window.Kakao) {
       window.Kakao.init(PUBLIC_ENV.NEXT_PUBLIC_KAKAO_JS_KEY);
     }
