@@ -57,6 +57,7 @@ export default function PromiseDetailPage({
   const [showModal, setShowModal] = useState(false);
   const [isVote, setIsVote] = useState<'recommended' | 'notRecommended' | ''>('');
   const [showVoteModal, setShowVoteModal] = useState(false);
+  const [signinLoading, setSigninLoading] = useState(false);
 
   const { data, mutate } = useSWR<GetRecommendCount>(
     `/api/count?promiseId=${promiseItem._id}`,
@@ -233,7 +234,7 @@ export default function PromiseDetailPage({
               </div>
             ) : (
               <button
-                disabled={Boolean(loading) || disableButton || Boolean(isVote)}
+                disabled={Boolean(loading) || disableButton || Boolean(isVote) || signinLoading}
                 onClick={() => {
                   if (user) handleRecommend();
                   else {
@@ -265,7 +266,7 @@ export default function PromiseDetailPage({
               </div>
             ) : (
               <button
-                disabled={Boolean(loading) || disableButton || Boolean(isVote)}
+                disabled={Boolean(loading) || disableButton || Boolean(isVote) || signinLoading}
                 onClick={() => {
                   if (user) handleNotRecommend();
                   else {
@@ -307,7 +308,10 @@ export default function PromiseDetailPage({
           show={showModal}
           close={() => setShowModal(false)}
           action={async () => {
-            await handleSignin().finally(() => setShowModal(false));
+            setSigninLoading(true);
+            await handleSignin().finally(() => {
+              setShowModal(false);
+            });
           }}
         />
       </div>
