@@ -20,7 +20,13 @@ export default function useUser() {
 
   const { showAlert, showNoti } = useNoti();
 
-  const { data: user, error, mutate } = useSWRImmutable(SWR_KEY.USER_PROFILE, getUserInfo);
+  const {
+    data: user,
+    error,
+    mutate,
+  } = useSWRImmutable(SWR_KEY.USER_PROFILE, getUserInfo, {
+    shouldRetryOnError: false,
+  });
 
   useEffect(() => {
     const tempViewArray = JSON.parse(
