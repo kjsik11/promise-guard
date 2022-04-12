@@ -62,7 +62,7 @@ export default function PromiseDetailPage({
     `/api/count?promiseId=${promiseItem._id}`,
     swrFetcher,
     {
-      refreshInterval: 10000,
+      refreshInterval: 3000,
       fallbackData: {
         recommendedCount: promiseItem.recommendedCount,
         notRecommendedCount: promiseItem.notRecommendedCount,
@@ -393,7 +393,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
           booleanPromiseItems,
         }),
       ),
-      revalidate: 120,
+      revalidate: 10,
     };
   } catch (err) {
     console.log('[promise detail page]', (err as any).message);

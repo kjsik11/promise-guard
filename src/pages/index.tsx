@@ -119,7 +119,7 @@ export const getStaticProps: GetStaticProps<PromiseProps> = async () => {
           booleanPromiseItems,
         }),
       ),
-      revalidate: 120,
+      revalidate: 10,
     };
   } catch (err) {
     console.log('[index page]', (err as any).message);
