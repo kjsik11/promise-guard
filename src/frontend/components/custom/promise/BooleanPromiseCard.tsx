@@ -14,7 +14,7 @@ interface Props {
 
 export default function BooleanPromiseCard({ promiseItem, isView, tagPrefix }: Props) {
   return (
-    <Link href={`/promise/${promiseItem._id}`}>
+    <Link prefetch={false} href={`/promise/${promiseItem._id}`}>
       <a className="relative block rounded-lg bg-white py-3 px-2">
         <div className="space-x-[6px] text-sm font-semibold text-PC-600">
           {promiseItem.tags.map((tag, index) => (

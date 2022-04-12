@@ -121,7 +121,7 @@ export default function PromiseListCard({ loading, setLoading, data, refetch }: 
       </div>
 
       <div className="flex w-72 shrink-0 justify-end space-x-2">
-        <Link href={`/upload-promise/upload?id=${data._id}`} passHref>
+        <Link prefetch={false} href={`/upload-promise/upload?id=${data._id}`} passHref>
           <Button disabled={loading} size="sm">
             수정하기
           </Button>
