@@ -43,7 +43,7 @@ export default function IntroducePage() {
             결과는&nbsp;
             <span className="font-bold">실시간 공개</span>
             되고&nbsp;
-            <span className="font-bold">새로운 정부에 직접 전달</span>&nbsp; 됩니다.
+            <span className="font-bold">새로운 정부에 직접 전달</span>&nbsp;됩니다.
           </p>
         </section>
         <section className="px-4 pt-10 pb-16">
