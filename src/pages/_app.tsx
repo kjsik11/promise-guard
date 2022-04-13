@@ -60,10 +60,10 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
         openGraph={{
           type: 'website',
           title: '오월 십일, 대국민 공약 투표',
-          description: '앞으로 5년, 윤석열 정부가 꼭 지켜야 하는 공약에 투표해주세요',
+          description: '반드시 지켜져야할, 절대로 지켜지지 말아야할 공약은?',
           images: [
             {
-              url: '/assets/may10_open_graph.jpg',
+              url: '/assets/open_graph.jpg',
               width: 1200,
               height: 630,
               alt: 'May10 open-graph image',

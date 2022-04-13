@@ -23,8 +23,12 @@ export default function IntroducePage() {
         <section className="px-4 pb-16">
           <p className="text-3xl font-bold text-PC-800">대국민 공약 투표</p>
           <p className="pt-2">
-            새로운 정부가 꼭 지켜야 하는 공약에 투표해주세요. 투표는 윤석열 대통령의 임기 시작인{' '}
-            <span className="font-bold">5월 10일 오전 0시</span>에 마무리됩니다.
+            새로운 정부에서&nbsp;
+            <span className="font-bold">반드시 지켜야 할 공약은? 절대로 지켜지면 안될 공약은?</span>
+            &nbsp; 오월십일 대국민 공약 투표에서 여러분의 의견을 들려주세요. 투표는 윤석열 대통령의
+            공식적 임기 시작 시간인&nbsp;
+            <span className="font-bold">5월 10일 오전 0시에 마감됩</span>
+            니다.
           </p>
           <div className="mt-16 flex  justify-center">
             <div className="h-[257px] w-[208px]">
@@ -32,17 +36,21 @@ export default function IntroducePage() {
             </div>
           </div>
           <p className="mt-16">
-            누구나 꼭 지켜졌으면 하는 공약 하나 쯤은 마음 속에 담고 있습니다. 국민과 한 약속을
-            가볍게 여기지 않도록 무게를 실어주세요. 투표 결과는 실시간 공개되고{' '}
-            <span className="font-bold">새로운 정부에 직접 전달</span>됩니다.
+            윤석열 당선인은 대통령 선거 동안에 10대 공약, 지역 공약, 생활 공약이라는 이름으로
+            국민들에게 수백여 가지의 약속을 했습니다. 국민과의 약속을 무겁게 생각하고 성실히
+            지켜나가야 하겠지만, 어떤 약속은 지켜지지 말아야 하는 것도 있을 것입니다. 새로운 정부의
+            시작에 앞서 어떤 약속을 했는지 다시 살펴보고 목소리를 내야 할 때입니다. 투표
+            결과는&nbsp;
+            <span className="font-bold">실시간 공개</span>
+            되고&nbsp;
+            <span className="font-bold">새로운 정부에 직접 전달</span>&nbsp; 됩니다.
           </p>
         </section>
         <section className="px-4 pt-10 pb-16">
           <p className="text-3xl font-bold text-PC-800">오월 십일</p>
           <p className="pt-2">
             오월 십일은 국민과의 약속을 어기는 것이 너무나 당연해진 현실을 바꾸기 위하여
-            시작되었습니다. 투표가 끝난 뒤에도
-            <span className="font-bold">공약 이행에 대한 감시와 홍보의 역할</span>을
+            시작되었습니다. 투표가 끝난 뒤에도 공약 이행에 대한 감시와 홍보의 역할을
             이어나가겠습니다.
           </p>
           <div className="mt-16 flex  justify-center">
@@ -56,8 +64,9 @@ export default function IntroducePage() {
             </div>
           </div>
           <p className="pt-16 pb-4">
-            오월 십일 카카오 채널을 통하여
-            <span className="font-bold">관심 공약 뉴스</span>를 알려드리겠습니다.
+            끝없이 쏟아지는 다른 이슈들에 묻혀 공약 소식들이 잊혀지지 않도록&nbsp;
+            <span className="font-bold">맞춤형 뉴스 알림</span>을 운영합니다. 오월십일 카카오 채널을
+            통해 관심있는 공약에 대한 뉴스 알림을 받아보실 수 있습니다.
           </p>
           <KakaoButton />
         </section>

@@ -43,8 +43,9 @@ export default function IndexPage({
             어떤 공약을 지지하시나요?
           </p>
           <p className="relative">
-            앞으로 5년, 윤석열 정부가
-            <br />꼭 지켜야 하는 공약에 투표해주세요
+            반드시 지켜져야 할 공약은?
+            <br />
+            절대 지켜지지 말아야 할 공약은?
           </p>
           <Link href="/introduce">
             <a className="relative flex items-center text-sm font-semibold text-blue-200">
