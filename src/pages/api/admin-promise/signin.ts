@@ -24,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (adminKey !== ADMIN_KEY) throw new Error('잘못된 키 입력');
 
-    const accessToken = signToken({ adminKey });
+    const accessToken = signToken({ adminKey }, { expiresIn: '365d' });
 
     res.setHeader('Set-Cookie', [
       serialize(COOKIE_ADMIN_ACESS_TOKEN, accessToken, {
