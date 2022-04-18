@@ -17,7 +17,7 @@ export default function BooleanPromiseCard({ promiseItem, isView, tagPrefix }: P
     <Link prefetch={false} href={`/promise/${promiseItem._id}`}>
       <a className="relative block rounded-lg bg-white py-3 px-2">
         <div className="space-x-[6px] text-sm font-semibold text-PC-600">
-          {promiseItem.tags.map((tag, index) => (
+          {promiseItem.tags.slice(0, 3).map((tag, index) => (
             <span key={`boolean-promise-${tagPrefix}-${index}`}>#{tag}</span>
           ))}
         </div>
