@@ -26,7 +26,7 @@ import {
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const expiresIn = '7D';
+const expiresIn = '365D';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
