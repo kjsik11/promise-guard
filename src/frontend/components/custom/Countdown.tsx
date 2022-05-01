@@ -16,7 +16,7 @@ const renderer = ({ days, hours, minutes, seconds, completed }: CountdownParams)
   if (completed) {
     // Render a completed state
     //TODO: Apply design
-    return <div>good</div>;
+    return null;
   }
   // Render a countdown
   return (
@@ -40,7 +40,7 @@ const mainRenderer = ({ days, hours, minutes, seconds, completed }: CountdownPar
   if (completed) {
     // Render a completed state
     //TODO: Apply design
-    return <div>good</div>;
+    return null;
   }
   // Render a countdown
   return (
